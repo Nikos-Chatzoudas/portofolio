@@ -1,0 +1,26 @@
+.hero {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+  margin-top: 12rem;
+}
+
+.hero__img {
+  border-radius: 50%;
+  width: 20rem;
+  height: 20rem;
+  border: 7px solid var(--clr-blue);
+  padding: 10px;
+}
+
+.hero__title {
+  color: var(--clr-light);
+  font-size: var(--size-6xl);
+  line-height: 0.9;
+  
+}
+.hero__subtitle{
+  color: var( --clr-slate400);
+}

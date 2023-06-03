@@ -1,0 +1,22 @@
+.about {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+    margin-top: 25rem;
+}
+
+.about__title {
+    margin-top: 18rem;
+    font-size: var(--size-5xl);
+
+}
+
+.about__description {
+    font-size: var(--size-2xl);
+    padding-left:15rem ;
+    padding-right: 15rem;
+}
+
