@@ -60,8 +60,6 @@
     height: var(--size-base);
   }
 
-
-
   .header__bars {
     display: none;
   }
@@ -77,8 +75,6 @@
     width: var(--size-xl);
     height: var(--size-xl);
   }
-
-  
 }
 
 /* xl */
@@ -86,4 +82,3 @@
 
 /* 2xl */
 /* @media (min-width: 1536px) {} */
-

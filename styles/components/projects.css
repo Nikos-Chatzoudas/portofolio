@@ -16,7 +16,7 @@
     width: 25rem;
     height: 16rem;
     background-color: var(--clr-slate600);
-    border-radius: 10px;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
 }
@@ -29,15 +29,21 @@
     box-shadow: var(--clr-blue) 0px 7px 29px 0px;
 }
 .project__image{
-    margin-left: 1rem;
-    margin-top: 1rem;
-    width: 23rem;
+    margin-left: 0.5rem;
+    margin-top: 0.5rem;
+    width: 24rem;
     height: 12rem;
     background-color: var(--clr-slate600);
-    border-radius: 10px;
-}
+    border-radius: 5px;
+ }
 .project__dis{
     margin-top: 0.5rem;
     color: #f1f5f9;
     font-size: var(--size-xl);
+}
+.project:nth-child(2){
+    transition-delay: 100ms;
+}
+.project:nth-of-type(3){
+    transition-delay: 200ms;
 }

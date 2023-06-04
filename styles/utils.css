@@ -32,7 +32,6 @@
 
 .btn:hover {
   transform: translateY(-3px);
-  
 }
 
 .container {
@@ -41,7 +40,6 @@
   margin-right: auto;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-
 }
 
 .section {
