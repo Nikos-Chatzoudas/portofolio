@@ -1,251 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="/image1.png" href="image1.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,400,700&display=swap"
-      rel="stylesheet"
-    />
-    <meta name="description" content="Nick Chatzoudas" />
-    <meta name="keywords" content="web design, html, css, js" />
-    <title>Chatzoudas</title>
-  </head>
 
-  <body>
-    <script
-      src="https://kit.fontawesome.com/f1d4922354.js"
-      crossorigin="anonymous"
-    ></script>
-    <header class="header container">
-      <nav>
-        <ul class="header__menu">
-          <li>
-            <a
-              class="header__link"
-              href="https://github.com/Nikos-Chatzoudas"
-              target="_blank"
-            >
-              <i class="fab fa-github fa-2x"></i>
-            </a>
-          </li>
-          <li>
-            <a
-              class="header__link"
-              href="https://www.linkedin.com/in/nick-chatzoudas-288566278/"
-              target="_blank"
-            >
-              <i class="fab fa-linkedin fa-2x"></i>
-            </a>
-          </li>
-          <li>
-            <a
-              class="header__link"
-              href="https://www.google.com"
-              target="_blank"
-            >
-              <i class="fab fa-twitter fa-2x"></i>
-            </a>
-          </li>
-          <li class="header__line"></li>
-          <li>
-            <button
-              aria-label="theme-toggle btn"
-              id="theme-toggle"
-              class="header__sun"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path
-                d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
-                />
-              </svg>
-            </button>
-          </li>
-        </ul>
-        <button aria-label="mobile nav button" class="header__bars">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </button>
-      </nav>
-    </header>
-    <!-- Mobile Navigation -->
-    <div class="mobile-nav">
-      <nav>
-        <ul class="mobile-nav__menu">
-          <li>
-            <a class="mobile-nav__link" href="#about">About</a>
-          </li>
-          <li>
-            <a class="mobile-nav__link" href="#featured">Work</a>
-          </li>
-          <li>
-            <a class="mobile-nav__link" href="#contact">Contact</a>
-          </li>
-          <li class="mobile-nav__link-line"></li>
-          <li>
-            <button
-              aria-label="theme-toggle btn"
-              id="theme-toggle"
-              class="mobile-nav__sun"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path
-                  d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"
-                />
-              </svg>
-            </button>
-          </li>
-        </ul>
-      </nav>
-    </div>
-    <!-- End of Mobile Navigation -->
-    <main>
-      <section class="hero container">
-        <div>
-          <h1 class="hero__title">Hello there,<br />I'm Nick Chatzoudas</h1>
-          <h2 class="hero__subtitle">CS STUDENT</h2>
-        </div>
-        <img class="hero__img" src="/hero.png" alt="Profile picture" />
-      </section>
-      <section id="about" class="about container section">
-        <h1 class="about__title hidden">About Me</h1>
-        <p class="about__description hidden">
-          I am a passionate CS student at Thessaly University, driven by a deep
-          love for computer science. My knowledge encompasses a wide range of
-          programming languages, including Python, HTML, CSS, Java, and C.
-          Through engaging in numerous hands-on projects, I have honed my skills
-          in various domains such as web development, software solutions, and
-          problem-solving.
-        </p>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="/image1.png" href="image1.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,400,700&display=swap" rel="stylesheet" />
+  <meta name="description" content="Nick Chatzoudas" />
+  <meta name="keywords" content="web design, html, css, js" />
+  <title>Chatzoudas</title>
+</head>
 
-        <p class="about__description hidden">
-          I am constantly motivated to stay at the forefront of emerging
-          technologies and industry trends. By keeping a keen eye on the
-          ever-evolving landscape of computer science, I ensure that my skills
-          remain relevant and adaptable. This dedication enables me to approach
-          complex projects with confidence and enthusiasm.
-        </p>
+<body>
+  <script src="https://kit.fontawesome.com/f1d4922354.js" crossorigin="anonymous"></script>
+  <header class="header container">
+    <nav>
+      <ul class="header__menu">
+        <li>
+          <a class="header__link" href="https://github.com/Nikos-Chatzoudas" target="_blank">
+            <i class="fab fa-github fa-2x"></i>
+          </a>
+        </li>
+        <li>
+          <a class="header__link" href="https://www.linkedin.com/in/nick-chatzoudas-288566278/" target="_blank">
+            <i class="fab fa-linkedin fa-2x"></i>
+          </a>
+        </li>
+        <li>
+          <a class="header__link" href="https://www.google.com" target="_blank">
+            <i class="fab fa-twitter fa-2x"></i>
+          </a>
+        </li>
+        <li class="header__line"></li>
+        <li>
+          <button aria-label="theme-toggle btn" id="theme-toggle" class="header__sun">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+            </svg>
+          </button>
+        </li>
+      </ul>
+      <button aria-label="mobile nav button" class="header__bars">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path fill-rule="evenodd"
+            d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
+            clip-rule="evenodd" />
+        </svg>
+      </button>
+    </nav>
+  </header>
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav">
+    <nav>
+      <ul class="mobile-nav__menu">
+        <li>
+          <a class="mobile-nav__link" href="#about">About</a>
+        </li>
+        <li>
+          <a class="mobile-nav__link" href="#featured">Work</a>
+        </li>
+        <li>
+          <a class="mobile-nav__link" href="#contact">Contact</a>
+        </li>
+        <li class="mobile-nav__link-line"></li>
+        <li>
+          <button aria-label="theme-toggle btn" id="theme-toggle" class="mobile-nav__sun">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
+            </svg>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <!-- End of Mobile Navigation -->
+  <main>
+    <section class="hero container">
+      <div>
+        <h1 class="hero__title">Hello there,<br />I'm Nick Chatzoudas</h1>
+        <h2 class="hero__subtitle">CS STUDENT</h2>
+      </div>
+      <img class="hero__img" src="/hero.png" alt="Profile picture" />
+    </section>
+    <section id="about" class="about container section">
+      <h1 class="about__title hidden">About Me</h1>
+      <p class="about__description hidden">
+        I am a passionate CS student at Thessaly University, driven by a deep
+        love for computer science. My knowledge encompasses a wide range of
+        programming languages, including Python, HTML, CSS, Java, and C.
+        Through engaging in numerous hands-on projects, I have honed my skills
+        in various domains such as web development, software solutions, and
+        problem-solving.
+      </p>
 
-        <p class="about__description hidden">
-          My primary focus is on producing clean and efficient code. I believe
-          that well-structured and readable code not only enhances the overall
-          functionality of a software solution but also contributes to its
-          long-term maintainability. I strive to write code that is not only
-          functional but also elegant and easily understandable.
-        </p>
+      <p class="about__description hidden">
+        I am constantly motivated to stay at the forefront of emerging
+        technologies and industry trends. By keeping a keen eye on the
+        ever-evolving landscape of computer science, I ensure that my skills
+        remain relevant and adaptable. This dedication enables me to approach
+        complex projects with confidence and enthusiasm.
+      </p>
 
-        <p class="about__description hidden">
-          With a deep understanding of computer science principles and a passion
-          for tackling challenging problems, I am eager to make meaningful
-          contributions to the field. Whether it involves developing innovative
-          applications, optimizing existing systems, or exploring new frontiers,
-          I am committed to pushing the boundaries of what is possible in
-          computer science.
-        </p>
-      </section>
-      <section id="projects" class="projects container section">
-        <h1 class="projects__title hidden">Projects</h1>
-        <div class="wrapper">
-          <a class="project hidden" href="http://resq.invest-alliance.eu/">
-            <div >
-              <img
-                class="project__image"
-                src="/download.jpg"
-                alt="project image"
-              />
-              <h1 class="project__dis">INVESTA RES-Q</h1>
-            </div>
-          </a>
-          <a  class=" project hidden" href="https://www.google.com">
-            <div>
-              <img class="project__image" src="/bg.png" alt="project image" />
-              <h1 class="project__dis">EMPTY</h1>
-            </div>
-          </a>
-          <a  class=" project hidden" href="https://www.google.com">
-            <div>
-              <img class="project__image" src="/bg.png" alt="project image" />
-              <h1 class="project__dis">EMPTY</h1>
-            </div>
-          </a>
-        </div>
-        <div class="wrapper">
-          <a  class=" project hidden" href="https://www.google.com">
-            <div>
-              <img class="project__image" src="/bg.png" alt="project image" />
-              <h1 class="project__dis">EMPTY</h1>
-            </div>
-          </a>
-          <a  class=" project hidden" href="https://www.google.com">
-            <div>
-              <img class="project__image" src="/bg.png" alt="project image" />
-              <h1 class="project__dis">EMPTY</h1>
-            </div>
-          </a>
-          <a  class=" project hidden" href="https://www.google.com">
-            <div>
-              <img class="project__image" src="/bg.png" alt="project image" />
-              <h1 class="project__dis">EMPTY</h1>
-            </div>
-          </a>
-        </div>
-      </section>
+      <p class="about__description hidden">
+        My primary focus is on producing clean and efficient code. I believe
+        that well-structured and readable code not only enhances the overall
+        functionality of a software solution but also contributes to its
+        long-term maintainability. I strive to write code that is not only
+        functional but also elegant and easily understandable.
+      </p>
 
-      <section id="contact" class="contact container section hidden">
-        <form class="contact__form">
-          <h1 class="contact__title">CONTACT ME</h1>
-          <input
-            type="text"
-            class="contact__name"
-            placeholder="Your name"
-            required
-          />
-          <input
-            type="email"
-            class="contact__email"
-            placeholder="Email"
-            required
-          />
-          <textarea
-            class="contact__textarea"
-            name="message"
-            rows="4"
-            placeholder="Text Area"
-          ></textarea>
-          <a class="contact__btn btn">Send</a>
-        </form>
-      </section>
-    </main>
-    <footer class="footer container section">
-      <h3 class="footer__title">~ © Copyright 2023 by Nick Chatzoudas ~</h3>
-      <h3 class="footer__title">~ END OF THE LINE ~</h3>
-    </footer>
-    <script type="module" src="./src/main.js"></script>
-    <script
-      type="module"
-      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
-    ></script>
-    <script
-      nomodule
-      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
-    ></script>
-  </body>
+      <p class="about__description hidden">
+        With a deep understanding of computer science principles and a passion
+        for tackling challenging problems, I am eager to make meaningful
+        contributions to the field. Whether it involves developing innovative
+        applications, optimizing existing systems, or exploring new frontiers,
+        I am committed to pushing the boundaries of what is possible in
+        computer science.
+      </p>
+    </section>
+    <section id="projects" class="projects container section">
+      <h1 class="projects__title hidden">Projects</h1>
+      <div class="wrapper">
+        <a class="project hidden" href="http://resq.invest-alliance.eu/">
+          <article class="article-wrapper">
+            <img class="rounded-lg container-project" src="/public/bg.png" alt="project picture">
+            <div class="project-info">
+              <div class="flex-pr">
+                <div class="project-title text-nowrap">none</div>
+              </div>
+              <div class="types">
+              </div>
+            </div>
+          </article>
+        </a>
+        <a class="project hidden" href="http://resq.invest-alliance.eu/">
+          <article class="article-wrapper">
+            <img class="rounded-lg container-project" src="/public/bg.png" alt="project picture">
+            <div class="project-info">
+              <div class="flex-pr">
+                <div class="project-title text-nowrap">none</div>
+              </div>
+              <div class="types">
+              </div>
+            </div>
+          </article>
+        </a>
+        <a class="project hidden" href="http://resq.invest-alliance.eu/">
+          <article class="article-wrapper">
+            <img class="rounded-lg container-project" src="/public/bg.png" alt="project picture">
+            <div class="project-info">
+              <div class="flex-pr">
+                <div class="project-title text-nowrap">none</div>
+              </div>
+              <div class="types">
+              </div>
+            </div>
+          </article>
+        </a>
+      </div>
+    </section>
+
+    <section id="contact" class="contact container section hidden">
+      <form class="contact__form">
+        <h1 class="contact__title">CONTACT ME</h1>
+        <input type="text" class="contact__name" placeholder="Your name" required />
+        <input type="email" class="contact__email" placeholder="Email" required />
+        <textarea class="contact__textarea" name="message" rows="4" placeholder="Text Area"></textarea>
+        <a class="contact__btn btn">Send</a>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer container section footer_wrapper">
+
+    <h3 class="footer__title">~ © Copyright 2023 by Nick Chatzoudas ~</h3>
+    <h3 class="footer__title">~ END OF THE LINE ~</h3>
+
+  </footer>
+  <script type="module" src="./src/main.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+
 </html>
