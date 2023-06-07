@@ -8,24 +8,17 @@
     margin-top: 18rem;
 }
 
-.projects__title {
+.project__title {
     color: var(--clr-light);
     font-size: var(--size-6xl);
 
 }
 
 
-.wrapper {
+.project__wrapper {
     display: flex;
     flex-direction: row;
     gap: 5rem;
-}
-
-
-.project__dis {
-    margin-top: 0.5rem;
-    color: #f1f5f9;
-    font-size: var(--size-xl);
 }
 
 .project:nth-child(2) {
@@ -37,7 +30,7 @@
 }
 
 .article-wrapper {
-    width: 250px;
+    width: 17rem;
     height: 17rem;
     -webkit-transition: 0.15s all ease-in-out;
     transition: 0.15s all ease-in-out;
