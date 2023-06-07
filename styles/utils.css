@@ -42,6 +42,13 @@
   }
 }
 
+/* xs */
+@media (min-width: 475px) {
+  .container {
+    max-width: 475px;
+  }
+}
+
 /* sm */
 @media (min-width: 640px) {
   .container {
