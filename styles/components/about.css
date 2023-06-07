@@ -16,7 +16,6 @@
 
 .about__description {
     font-size: var(--size-2xl);
-    padding-left:15rem ;
+    padding-left: 15rem;
     padding-right: 15rem;
 }
-
