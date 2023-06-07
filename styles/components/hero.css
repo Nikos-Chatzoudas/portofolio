@@ -31,6 +31,20 @@
   color: var(--clr-slate400);
 }
 
+@media (min-width: 320px) {
+  .hero__img {
+    width: 5rem;
+    height: 5rem;
+  }
+}
+
+@media (min-width: 375px) {
+  .hero__img {
+    width: 6rem;
+    height: 6rem;
+  }
+}
+
 @media (min-width: 425px) {
   .hero {
     gap: 1.5rem;
