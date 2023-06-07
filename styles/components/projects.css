@@ -139,7 +139,7 @@
     transition: all 0.3s ease;
 }
 
-.container-project {
+.project__img {
     width: 100%;
     height: 70%;
     background: var(--clr-cyan);
