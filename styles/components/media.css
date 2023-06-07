@@ -51,6 +51,7 @@
 
 @media (max-width: 425px) {
     .hero__img {
+        margin-top: -10rem;
         width: 17rem;
         height: 17rem;
     }
