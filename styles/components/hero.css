@@ -31,6 +31,22 @@
   color: var(--clr-slate400);
 }
 
+@media (min-width: 425px) {
+  .hero {
+    gap: 1.5rem;
+  }
+
+  .hero__img {
+    width: 7rem;
+    height: 7rem;
+  }
+
+  .hero__title {
+    font-size: var(--size-4xl);
+  }
+
+}
+
 /* xs */
 @media (min-width: 475px) {
   .hero {
