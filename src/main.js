@@ -14,6 +14,6 @@ import '../styles/utils.css';
 
 import mobileNav from './utils/mobile-nav';
 import scroll from './utils/scroll';
+
 mobileNav();
-lazyLoading();
 scroll();
