@@ -10,5 +10,8 @@
   },
   "devDependencies": {
     "vite": "^4.3.9"
+  },
+  "dependencies": {
+    "tsparticles-engine": "^2.10.1"
   }
 }

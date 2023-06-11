@@ -104,3 +104,9 @@ body::-webkit-scrollbar-thumb {
   filter: blur(0);
   transform: translateX(0%);
 }
+
+#tsparticles {
+  position: absolute;
+  z-index: -1;
+  /* Set a negative z-index to place it behind other elements */
+}
