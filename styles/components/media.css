@@ -1,4 +1,9 @@
 @media (max-width: 768px) {
+    .form {
+        width: 20rem;
+        margin-top: -10rem;
+    }
+
     .hero__img {
         width: 17rem;
         height: 17rem;
