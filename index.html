@@ -142,22 +142,24 @@
         </div>
       </section>
 
-      <section id="contact" class="contact container section hidden">
-        <form class="form">
+      <sectionid="contact" class="contact container section hidden">
+        <form id="contact__form" class="form" method="POST" action="https://formspree.io/f/mnqyebje">
           <div class="title">Contact me</div>
-          <input type="text" placeholder="Name" name="email" class="input">
-          <input type="email" placeholder="Email" name="email" class="input">
-          <textarea class="contact__textarea" name="message" rows="4" placeholder="Message"></textarea>
+          <input type="text" placeholder="Name" name="name" class="input" autocomplete="off" required>
+          <input type="email" placeholder="Email" name="email" class="input" autocomplete="on" required>
+          <textarea class="contact__textarea" name="message" rows="4" placeholder="Message" autocomplete="off"
+            required></textarea>
+          <div id="recaptcha-container"></div>
 
-          <button class="button-confirm">Send</button>
+          <button type="submit" class="button-confirm">Send</button>
         </form>
-      </section>
+        </section>
     </main>
     <footer class="footer">
-      <h3 class="footer__title">~ © Copyright 2023 by Nick Chatzoudas ~</h3>
       <h3 class="footer__title">~ END OF THE LINE ~</h3>
     </footer>
   </div>
+
   <script type="module" src="./src/main.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
