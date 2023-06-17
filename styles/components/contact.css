@@ -11,9 +11,7 @@
 .form {
     --input-focus: #2d8cf0;
     --font-color: #323232;
-    --font-color-sub: #666;
     --bg-color: #fff;
-    --main-color: #323232;
     padding: 1rem;
     background: var(--clr-light);
     display: flex;
@@ -23,8 +21,8 @@
     justify-content: center;
     gap: 1rem;
     border-radius: 15px;
-    border: 2px solid var(--main-color);
-    box-shadow: 4px 4px var(--main-color);
+    border: 2px solid var(--clr-slate1000);
+    box-shadow: 4px 4px var(--clr-slate1000);
     margin-bottom: 10rem;
     margin-top: 5rem;
 }
@@ -40,9 +38,9 @@
     width: 16rem;
     height: 2.5rem;
     border-radius: 5px;
-    border: 2px solid var(--main-color);
+    border: 2px solid var(--clr-slate1000);
     background-color: var(--bg-color);
-    box-shadow: 4px 4px var(--main-color);
+    box-shadow: 4px 4px var(--clr-slate1000);
     font-size: 15px;
     font-weight: 600;
     color: var(--font-color);
@@ -54,9 +52,9 @@
     width: 16rem;
     height: 10rem;
     border-radius: 5px;
-    border: 2px solid var(--main-color);
+    border: 2px solid var(--clr-slate1000);
     background-color: var(--bg-color);
-    box-shadow: 4px 4px var(--main-color);
+    box-shadow: 4px 4px var(--clr-slate1000);
     font-size: 15px;
     font-weight: 600;
     color: var(--font-color);
@@ -83,9 +81,9 @@
     width: 20rem;
     height: 20rem;
     border-radius: 100%;
-    border: 2px solid var(--main-color);
+    border: 2px solid var(--clr-slate1000);
     background-color: var(--bg-color);
-    box-shadow: 4px 4px var(--main-color);
+    box-shadow: 4px 4px var(--clr-slate1000);
     color: var(--font-color);
     font-size: 25px;
     display: flex;
@@ -93,15 +91,10 @@
     align-items: center;
 }
 
-.icon {
-    width: 24px;
-    height: 24px;
-    fill: var(--main-color);
-}
 
 .button-log:active,
 .button-confirm:active {
-    box-shadow: 0px 0px var(--main-color);
+    box-shadow: 0px 0px var(--clr-slate1000);
     transform: translate(3px, 3px);
 }
 
@@ -110,9 +103,9 @@
     width: 10rem;
     height: 2.5rem;
     border-radius: 5px;
-    border: 2px solid var(--main-color);
+    border: 2px solid var(--clr-slate1000);
     background-color: var(--bg-color);
-    box-shadow: 4px 4px var(--main-color);
+    box-shadow: 4px 4px var(--clr-slate1000);
     font-size: 17px;
     font-weight: 600;
     color: var(--font-color);

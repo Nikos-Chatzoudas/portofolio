@@ -39,8 +39,8 @@
     border: 4px solid transparent;
     cursor: pointer;
     background-color: var(--clr-light);
-    border: 2px solid #323232;
-    box-shadow: 4px 4px #323232;
+    border: 2px solid var(--clr-slate1000);
+    box-shadow: 4px 4px var(--clr-slate1000);
 }
 
 .article-wrapper:hover {
@@ -126,6 +126,6 @@
     height: 70%;
     background: var(--clr-cyan);
     border-radius: 15px;
-    border: 2px solid #323232;
-    box-shadow: 4px 4px #323232;
+    border: 2px solid var(--clr-slate1000);
+    box-shadow: 4px 4px var(--clr-slate1000);
 }
