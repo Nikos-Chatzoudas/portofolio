@@ -84,7 +84,6 @@ body::-webkit-scrollbar-track {
 body::-webkit-scrollbar-thumb {
   background-color: var(--clr-blue);
   outline: 1px solid var(--clr-blue);
-  border-radius: 5px;
 }
 
 .hidden {
