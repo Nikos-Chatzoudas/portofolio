@@ -36,13 +36,6 @@ html {
   scroll-behavior: smooth;
 }
 
-.light-mode {
-  --clr-light: #070a13;
-  --clr-dark: #f1f5f9;
-  --clr-slate400: #1e293b;
-  --clr-slate600: #1e293b;
-  --clr-slate800: #1e293b;
-}
 
 body {
   font-family: 'General Sans', sans-serif;
@@ -91,6 +84,7 @@ body::-webkit-scrollbar-track {
 body::-webkit-scrollbar-thumb {
   background-color: var(--clr-blue);
   outline: 1px solid var(--clr-blue);
+  border-radius: 5px;
 }
 
 .hidden {
