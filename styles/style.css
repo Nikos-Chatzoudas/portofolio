@@ -84,10 +84,10 @@ body::-webkit-scrollbar-track {
 }
 
 body::-webkit-scrollbar-thumb {
-  background-color: var(--clr-blue);
-  outline: 1px solid var(--clr-blue);
+  background: linear-gradient(to top, var(--clr-lightblue), var(--clr-blue));
   border-radius: 10px;
 }
+
 
 .hidden {
   opacity: 0;

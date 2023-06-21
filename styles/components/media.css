@@ -1,4 +1,4 @@
-@media (max-width: 768px) {
+@media (max-width: 35em) {
     .footer__title {
         font-size: var(--size-base);
     }
@@ -6,6 +6,11 @@
     .form {
         width: 20rem;
         margin-top: -10rem;
+    }
+
+    .projects__wrapper {
+        flex-direction: column-reverse;
+        gap: 6.5rem;
     }
 
     .hero__img {
@@ -156,17 +161,5 @@
 
     .header__bars {
         display: none;
-    }
-}
-
-/* lg */
-@media (min-width: 1024px) {
-    .header__link {
-        font-size: var(--size-sm);
-    }
-
-    .header__sun {
-        width: var(--size-xl);
-        height: var(--size-xl);
     }
 }
