@@ -140,13 +140,13 @@
         font-size: var(--size-xs);
         text-decoration: none;
         font-weight: 600;
-        color: var(--clr-slate600);
+        color: var(--clr-blue);
         letter-spacing: -0.05em;
         transition: color 0.3s;
     }
 
     .header__link:hover {
-        color: var(--clr-blue);
+        color: var(--clr-slate600);
     }
 
     .header__line {
