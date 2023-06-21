@@ -37,7 +37,7 @@
     height: 2.5rem;
     border-radius: 5px;
     border: 2px solid var(--clr-blue);
-    background: var(--clr-slate900);
+    background: var(--clr-slate800);
     font-size: 15px;
     font-weight: 600;
     color: var(--clr-light);
@@ -50,7 +50,7 @@
     height: 10rem;
     border-radius: 5px;
     border: 2px solid var(--clr-blue);
-    background: var(--clr-slate900);
+    background: var(--clr-slate800);
     font-size: 15px;
     font-weight: 600;
     color: var(--clr-light);
