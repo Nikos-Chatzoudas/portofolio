@@ -100,9 +100,19 @@
     font-weight: 600;
     color: var(--clr-light);
     cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: 0.5s ease;
+    user-select: none;
 }
 
 .button-confirm:hover {
-    transform: translateY(-3px);
+    color: #ffffff;
+    background: var(--clr-lightblue);
+    border: 1px solid var(--clr-lightblue);
+    text-shadow: 0 0 5px #ffffff,
+        0 0 10px #ffffff,
+        0 0 20px #ffffff;
+    box-shadow: 0 0 5px var(--clr-lightblue),
+        0 0 20px var(--clr-lightblue),
+        0 0 50px var(--clr-lightblue),
+        0 0 100px var(--clr-lightblue);
 }
