@@ -9,11 +9,9 @@
 }
 
 .form {
-    --input-focus: #2d8cf0;
-    --font-color: #323232;
-    --bg-color: #fff;
+
     padding: 1rem;
-    background: var(--clr-light);
+    background: var(--clr-slate900);
     display: flex;
     width: 25rem;
     flex-direction: column;
@@ -21,14 +19,14 @@
     justify-content: center;
     gap: 1rem;
     border-radius: 15px;
-    border: 2px solid var(--clr-slate1000);
-    box-shadow: 4px 4px var(--clr-slate1000);
+    border: 2px solid var(--clr-blue);
+
     margin-bottom: 10rem;
     margin-top: 5rem;
 }
 
 .title {
-    color: var(--font-color);
+    color: var(--clr-light);
     font-weight: 900;
     font-size: var(--size-3xl);
     margin-bottom: 25px;
@@ -38,12 +36,11 @@
     width: 16rem;
     height: 2.5rem;
     border-radius: 5px;
-    border: 2px solid var(--clr-slate1000);
-    background-color: var(--bg-color);
-    box-shadow: 4px 4px var(--clr-slate1000);
+    border: 2px solid var(--clr-blue);
+    background: var(--clr-slate900);
     font-size: 15px;
     font-weight: 600;
-    color: var(--font-color);
+    color: var(--clr-light);
     padding: 5px 10px;
     outline: none;
 }
@@ -52,14 +49,14 @@
     width: 16rem;
     height: 10rem;
     border-radius: 5px;
-    border: 2px solid var(--clr-slate1000);
-    background-color: var(--bg-color);
-    box-shadow: 4px 4px var(--clr-slate1000);
+    border: 2px solid var(--clr-blue);
+    background: var(--clr-slate900);
     font-size: 15px;
     font-weight: 600;
-    color: var(--font-color);
+    color: var(--clr-light);
     padding: 5px 10px;
     outline: none;
+    resize: none;
 }
 
 .input::placeholder {
@@ -67,8 +64,17 @@
     opacity: 0.8;
 }
 
+.contact__textarea::placeholder {
+    color: var(--font-color-sub);
+    opacity: 0.8;
+}
+
+.contact__textarea:focus {
+    border: 2px solid var(--clr-lightblue);
+}
+
 .input:focus {
-    border: 2px solid var(--input-focus);
+    border: 2px solid var(--clr-lightblue);
 }
 
 .login-with {
@@ -76,25 +82,10 @@
     gap: 20px;
 }
 
-.button-log {
-    cursor: pointer;
-    width: 20rem;
-    height: 20rem;
-    border-radius: 100%;
-    border: 2px solid var(--clr-slate1000);
-    background-color: var(--bg-color);
-    box-shadow: 4px 4px var(--clr-slate1000);
-    color: var(--font-color);
-    font-size: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 
 .button-log:active,
 .button-confirm:active {
-    box-shadow: 0px 0px var(--clr-slate1000);
     transform: translate(3px, 3px);
 }
 
@@ -103,11 +94,15 @@
     width: 10rem;
     height: 2.5rem;
     border-radius: 5px;
-    border: 2px solid var(--clr-slate1000);
-    background-color: var(--bg-color);
-    box-shadow: 4px 4px var(--clr-slate1000);
+    border: 2px solid var(--clr-blue);
+    background: var(--clr-slate900);
     font-size: 17px;
     font-weight: 600;
-    color: var(--font-color);
+    color: var(--clr-light);
     cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.button-confirm:hover {
+    transform: translateY(-3px);
 }

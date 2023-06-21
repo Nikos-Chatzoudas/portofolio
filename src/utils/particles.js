@@ -1,7 +1,7 @@
 tsParticles.load("tsparticles", {
     autoPlay: true,
     background: {
-        color: { value: "#070a13" },
+        color: { value: "#09090b" },
         position: "50% 50%",
         repeat: "no-repeat",
         size: "20%",

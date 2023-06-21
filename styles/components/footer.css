@@ -12,4 +12,10 @@
   text-transform: uppercase;
   letter-spacing: 0.2em;
   user-select: none;
+  background: linear-gradient(to right, #1d4ed8, #4062bd, #1d4ed8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200%;
+  animation: bgpan 3s linear infinite;
+
 }

@@ -21,7 +21,7 @@
 }
 
 .about__shine {
-    background: linear-gradient(to right, #1d4ed8, #4062bd, #54648f, #1d4ed8);
+    background: linear-gradient(to right, #1d4ed8, #4062bd, #1d4ed8);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-size: 200%;

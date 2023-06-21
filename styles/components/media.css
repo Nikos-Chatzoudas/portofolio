@@ -150,15 +150,8 @@
     }
 
     .header__line {
-        border: 1px solid var(--clr-slate800);
+        border: 1px solid var(--clr-slate900);
         padding-top: 1.5em;
-    }
-
-    .header__sun {
-        display: block;
-        color: var(--clr-slate600);
-        width: var(--size-base);
-        height: var(--size-base);
     }
 
     .header__bars {
