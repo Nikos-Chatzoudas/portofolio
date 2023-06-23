@@ -5,6 +5,7 @@
   align-items: center;
   gap: 5rem;
   margin-top: 12rem;
+
 }
 
 .hero__wrapper {
@@ -12,13 +13,20 @@
   flex-direction: row;
 }
 
-.hero__img {
+.hero__img-wrapper {
+  display: inline-block;
   border-radius: 50%;
+  padding: 7px;
+  background: linear-gradient(to top, var(--clr-blue), var(--clr-lightblue));
+}
+
+.hero__img {
+  display: block;
   width: 20rem;
   height: 20rem;
-  padding: 4px;
-  border: 5px solid var(--clr-blue);
+  border-radius: 50%;
 }
+
 
 .hero__title {
   color: var(--clr-light);

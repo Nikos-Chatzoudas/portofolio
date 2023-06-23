@@ -13,7 +13,7 @@
 .projects__wrapper {
     display: flex;
     flex-direction: row;
-    gap: 5rem;
+    gap: 3rem;
 }
 
 .project:nth-child(2) {
@@ -31,7 +31,7 @@
 }
 
 .article-wrapper {
-    width: 17rem;
+    width: 19rem;
     height: 17rem;
     -webkit-transition: 0.15s all ease-in-out;
     transition: 0.15s all ease-in-out;
@@ -59,7 +59,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: var(--clr-light);
+    color: #f1f5f9;
 }
 
 .article-wrapper:hover {

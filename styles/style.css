@@ -1,5 +1,5 @@
 :root {
-  --clr-dark: #070a13;
+  --clr-dark: #09090b;
   --clr-light: #f1f5f9;
   --clr-slate400: #94a3b8;
   --clr-slate600: #475569;
@@ -7,8 +7,18 @@
   --clr-slate900: #0f172a;
   --clr-lightblue: #2d8cf0;
   --clr-blue: #1d4ed8;
-  --clr-cyan: #0e7490;
+  --clr-toggle: #f1f5f9;
 
+  .light-mode {
+    --clr-light: #09090b;
+    --clr-dark: #f1f5f9;
+    --clr-slate400: #1e293b;
+    --clr-slate600: #1e293b;
+    --clr-slate800: #1e293b;
+    --clr-slate900: #0f172a;
+    --clr-toggle: #1e293b;
+
+  }
 
   /* sizes */
   --size-xxs: 0.5rem;

@@ -2,77 +2,75 @@
 <html lang="en">
 
 <head>
+  <script src="https://kit.fontawesome.com/f1d4922354.js" crossorigin="anonymous"></script>
   <meta charset="UTF-8" />
   <link rel="icon" type="/image1.png" href="icon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,400,700&display=swap" rel="stylesheet" />
   <meta name="description" content="hey, I'm Nick Chatzoudas and this is my portofolio " />
   <meta name="keywords" content="web design, portofolio, html, css, js" />
-  <title>Portofolio</title>
+  <title>Portofolio | Chatzoudas</title>
 </head>
 
 <body>
-  <script src="https://kit.fontawesome.com/f1d4922354.js" crossorigin="anonymous"></script>
+
   <div id="particles">
     <header class="header container">
-      <nav>
-        <ul class="header__menu">
-          <li>
-            <a class="header__link" href="https://github.com/Nikos-Chatzoudas" target="_blank">
-              <i class="fab fa-github fa-2x"></i>
-            </a>
-          </li>
-          <li>
-            <a class="header__link" href="https://www.linkedin.com/in/nick-chatzoudas-288566278/" target="_blank">
-              <i class="fab fa-linkedin fa-2x"></i>
-            </a>
-          </li>
-          <li>
-            <a class="header__link" href="https://twitter.com/chatzoudakos" target="_blank">
-              <i class="fab fa-twitter fa-2x"></i>
-            </a>
-          </li>
+      <nav class="nav__container">
+        <div class="header__left">
+          <a class="header__logo" href="">
+            <h1>Nick.</h1>
+          </a>
+        </div>
+        <div class=" header__right">
+          <ul class="header__menu">
+            <li>
+              <a class="header__link" href="https://github.com/Nikos-Chatzoudas" target="_blank">
+                <i class="fa-brands fa-github fa-2xl"></i>
+              </a>
+            </li>
+            <li>
+              <a class="header__link" href="https://www.linkedin.com/in/nick-chatzoudas-288566278/" target="_blank">
+                <i class="fa-brands fa-linkedin fa-2xl"></i>
+              </a>
+            </li>
+            <li>
+              <a class="header__link" href="https://twitter.com/chatzoudakos" target="_blank">
+                <i class="fa-brands fa-twitter fa-2xl"></i>
+              </a>
+            </li>
 
-        </ul>
-        <button aria-label="mobile nav button" class="header__bars">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path fill-rule="evenodd"
-              d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
-              clip-rule="evenodd" />
-          </svg>
-        </button>
+            <li>
+              <label class="switch">
+                <input type="checkbox" id="toggleSwitch">
+                <span class="slider"></span>
+                <svg class="header__moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                  stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                </svg>
+                <svg class="header__sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                  stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                </svg>
+              </label>
+
+            </li>
+          </ul>
+        </div>
       </nav>
     </header>
-    <!-- Mobile Navigation -->
-    <div class="mobile-nav">
-      <nav>
-        <ul class="mobile-nav__menu">
-          <li>
-            <a class="header__link" href="https://github.com/Nikos-Chatzoudas" target="_blank">
-              <i style="color: var(--clr-blue)" class="fab fa-github fa-2x"></i>
-            </a>
-          </li>
-          <li>
-            <a class="header__link" href="https://www.linkedin.com/in/nick-chatzoudas-288566278/" target="_blank">
-              <i style="color: var(--clr-blue)" class="fab fa-linkedin fa-2x"></i>
-            </a>
-          </li>
-          <li>
-            <a class="header__link" href="https://twitter.com/chatzoudakos" target="_blank">
-              <i style="color: var(--clr-blue)" class="fab fa-twitter fa-2x"></i>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-    <!-- End of Mobile Navigation -->
     <main>
       <section class="hero container hero__wrapper">
         <div>
           <h1 class="hero__title">Hello there,<br />I'm Nick Chatzoudas</h1>
           <h2 class="hero__subtitle">DS STUDENT</h2>
         </div>
-        <img class="hero__img" src="/hero.png" alt="Profile picture" />
+        <div class="hero__img-wrapper">
+          <img class="hero__img" src="/hero.png" alt="Profile picture" />
+        </div>
+
       </section>
       <section id="about" class="about container section">
         <h1 class="about__title hidden">About Me</h1>
@@ -108,7 +106,7 @@
               <img class="rounded-lg project__img" src="/public/bg.png" alt="project picture">
               <div class="project-info">
                 <div class="flex-pr">
-                  <div class="project-title text-nowrap">Empty</div>
+                  <div class="project-title text-nowrap">Work In Progress</div>
                 </div>
                 <div class="types">
                 </div>
@@ -117,10 +115,10 @@
           </a>
           <a class="project hidden" href="http://resq.invest-alliance.eu/">
             <article class="article-wrapper">
-              <img class="rounded-lg project__img" src="/public/resq.jpg" alt="project picture">
+              <img class="rounded-lg project__img" src="/public/resq_logo.png" alt="project picture">
               <div class="project-info">
                 <div class="flex-pr">
-                  <div class="project-title text-nowrap">Invest Resq</div>
+                  <div class="project-title text-nowrap">Invest RES-Q</div>
                 </div>
                 <div class="types">
                 </div>
@@ -132,7 +130,7 @@
               <img class="rounded-lg project__img" src="/public/bg.png" alt="project picture">
               <div class="project-info">
                 <div class="flex-pr">
-                  <div class="project-title text-nowrap">Empty</div>
+                  <div class="project-title text-nowrap">Work In Progress</div>
                 </div>
                 <div class="types">
                 </div>
@@ -156,7 +154,7 @@
         </section>
     </main>
     <footer class="footer">
-      <h3 class="footer__title">~ END OF THE LINE ~</h3>
+      <h3 class="footer__title">~ Nick Chatzoudas ~</h3>
     </footer>
   </div>
 
@@ -165,6 +163,7 @@
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.10.1/tsparticles.bundle.min.js"></script>
   <script type="module" src="src/utils/particles.js"></script>
+  <script type="module" src="src/utils/lightmode.js"></script>
 </body>
 
 </html>

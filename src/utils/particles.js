@@ -1,7 +1,7 @@
 tsParticles.load("tsparticles", {
     autoPlay: true,
     background: {
-        color: { value: "#09090b" },
+        color: { value: "var(--clr-dark)" },
         position: "50% 50%",
         repeat: "no-repeat",
         size: "20%",
@@ -101,7 +101,7 @@ tsParticles.load("tsparticles", {
             overlap: { enable: true, retries: 0 }
         },
         color: {
-            value: "#ffffff",
+            value: "#1d4ed8",
             animation: {
                 h: {
                     count: 0,
