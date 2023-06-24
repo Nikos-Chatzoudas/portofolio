@@ -291,10 +291,10 @@ tsParticles.load("tsparticles", {
         },
         links: {
             blink: false,
-            color: { value: "#ffffff" },
+            color: { value: "#1d4ed8" },
             consent: false,
             distance: 150,
-            enable: false,
+            enable: true,
             frequency: 1,
             opacity: 0.4,
             shadow: { blur: 5, color: { value: "#000" }, enable: false },
