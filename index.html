@@ -61,97 +61,113 @@
 
       </section>
       <section id="about" class="about container section">
-        <h1 class="about__title hidden">About Me</h1>
-        <p class="about__description hidden">
-          I am a passionate Digital Systems student at Thessaly University, driven by a deep
-          love for computer science. My knowledge encompasses a wide range of
-          programming languages, including <span class="about__shine">Python, HTML, CSS, Java,</span> and <span
-            class="about__shine">C</span>.
-          Through engaging in numerous hands-on projects, I have honed my skills
-          in various domains such as web development, software solutions, and
-          problem-solving.
-        </p>
-
-        <p class="about__description hidden">
-          My primary focus is on producing clean and efficient code. I believe that well-structured and readable code
-          not only enhances the overall functionality of a software solution but also contributes to its long-term
-          maintainability. I strive to write code that is not only functional but also elegant and easily
-          understandable.
-        </p>
-
-        <p class="about__description hidden">
-          With a deep understanding of computer science principles and a passion for tackling challenging problems, I am
-          eager to make meaningful contributions to the field. Whether it involves developing innovative applications,
-          optimizing existing systems, or exploring new frontiers, I am committed to pushing the boundaries of what is
-          possible in computer science.
-        </p>
-      </section>
-      <section id="projects" class="projects container section">
-        <h1 class="project__title hidden">Projects</h1>
-        <div class="projects__wrapper">
-          <a class="project hidden" href="">
-            <article class="article-wrapper">
-              <img class="rounded-lg project__img" src="/public/bg.png" alt="project picture">
-              <div class="project-info">
-                <div class="flex-pr">
-                  <div class="project-title text-nowrap">Work In Progress</div>
-                </div>
-                <div class="types">
-                </div>
+        <div class="about">
+          <div class="about__content">
+            <h1 class="about__title hidden">About Me</h1>
+            <p class="about__description hidden">
+              I am a passionate Digital Systems student at Thessaly University in Greece, driven by a deep
+              love for computer science. My knowledge encompasses a wide range of
+              programming languages.Through engaging in numerous hands-on projects, I have honed my skills
+              in various domains such as web development, software solutions, and
+              problem-solving.
+            </p>
+          </div>
+          <div class="about__skills">
+            <h3 class="about__subtitle hidden">Skills</h3>
+            <div class="ball_container">
+              <div class="ball html">
+                <i class="fa-brands fa-html5 fa-3x"></i>
               </div>
-            </article>
-          </a>
-          <a class="project hidden" href="http://resq.invest-alliance.eu/">
-            <article class="article-wrapper">
-              <img class="rounded-lg project__img" src="/public/resq_logo.png" alt="project picture">
-              <div class="project-info">
-                <div class="flex-pr">
-                  <div class="project-title text-nowrap">Invest RES-Q</div>
-                </div>
-                <div class="types">
-                </div>
+              <div class="ball css">
+                <i class="fa-brands fa-css3-alt fa-3x"></i>
               </div>
-            </article>
-          </a>
-          <a class="project hidden" href="">
-            <article class="article-wrapper">
-              <img class="rounded-lg project__img" src="/public/bg.png" alt="project picture">
-              <div class="project-info">
-                <div class="flex-pr">
-                  <div class="project-title text-nowrap">Work In Progress</div>
-                </div>
-                <div class="types">
-                </div>
+              <div class="ball javascript">
+                <i class="fa-brands fa-square-js fa-3x"></i>
               </div>
-            </article>
-          </a>
+              <div class="ball python">
+                <i class="fa-brands fa-python fa-3x"></i>
+              </div>
+              <div class="ball c">
+                <span class="small-c">C</span>
+              </div>
+              <div class="ball java">
+                <i class="fa-brands fa-java fa-3x"></i>
+              </div>
+            </div>
+          </div>
         </div>
-      </section>
 
-      <sectionid="contact" class="contact container section hidden">
-        <form id="contact__form" class="form" method="POST" action="https://formspree.io/f/mnqyebje">
-          <div class="title">Contact me</div>
-          <input type="text" placeholder="Name" name="name" class="input" autocomplete="off" required>
-          <input type="email" placeholder="Email" name="email" class="input" autocomplete="on" required>
-          <textarea class="contact__textarea" name="message" rows="4" placeholder="Message" autocomplete="off"
-            required></textarea>
-          <div id="recaptcha-container"></div>
 
-          <button type="submit" class="button-confirm">Send</button>
-        </form>
-        </section>
+
+  </div>
+  </div>
+  </section>
+  <section id="projects" class="projects container section">
+    <h1 class="project__title hidden">Projects</h1>
+    <div class="projects__wrapper">
+      <a class="project hidden" href="">
+        <article class="article-wrapper">
+          <img class="rounded-lg project__img" src="/public/bg.png" alt="project picture">
+          <div class="project-info">
+            <div class="flex-pr">
+              <div class="project-title text-nowrap">Work In Progress</div>
+            </div>
+            <div class="types">
+            </div>
+          </div>
+        </article>
+      </a>
+      <a class="project hidden" href="http://resq.invest-alliance.eu/">
+        <article class="article-wrapper">
+          <img class="rounded-lg project__img" src="/public/resq_logo.png" alt="project picture">
+          <div class="project-info">
+            <div class="flex-pr">
+              <div class="project-title text-nowrap">Invest RES-Q</div>
+            </div>
+            <div class="types">
+            </div>
+          </div>
+        </article>
+      </a>
+      <a class="project hidden" href="">
+        <article class="article-wrapper">
+          <img class="rounded-lg project__img" src="/public/bg.png" alt="project picture">
+          <div class="project-info">
+            <div class="flex-pr">
+              <div class="project-title text-nowrap">Work In Progress</div>
+            </div>
+            <div class="types">
+            </div>
+          </div>
+        </article>
+      </a>
+    </div>
+  </section>
+
+  <sectionid="contact" class="contact container section hidden">
+    <form id="contact__form" class="form" method="POST" action="https://formspree.io/f/mnqyebje">
+      <div class="title">Contact me</div>
+      <input type="text" placeholder="Name" name="name" class="input" autocomplete="off" required>
+      <input type="email" placeholder="Email" name="email" class="input" autocomplete="on" required>
+      <textarea class="contact__textarea" name="message" rows="4" placeholder="Message" autocomplete="off"
+        required></textarea>
+      <div id="recaptcha-container"></div>
+
+      <button type="submit" class="button-confirm">Send</button>
+    </form>
+    </section>
     </main>
     <footer class="footer">
       <h3 class="footer__title">~ Nick Chatzoudas ~</h3>
     </footer>
-  </div>
+    </div>
 
-  <script type="module" src="./src/main.js"></script>
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.10.1/tsparticles.bundle.min.js"></script>
-  <script type="module" src="src/utils/particles.js"></script>
-  <script type="module" src="src/utils/lightmode.js"></script>
+    <script type="module" src="./src/main.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.10.1/tsparticles.bundle.min.js"></script>
+    <script type="module" src="src/utils/particles.js"></script>
+    <script type="module" src="src/utils/lightmode.js"></script>
 </body>
 
 </html>

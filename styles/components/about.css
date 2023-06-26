@@ -5,13 +5,17 @@
     justify-content: center;
     align-items: center;
     gap: 5rem;
-    margin-top: 25rem;
+    margin-top: 2rem;
 }
 
 .about__title {
     margin-top: 18rem;
     font-size: var(--size-5xl);
 
+}
+
+.about__subtitle {
+    font-size: var(--size-3xl);
 }
 
 .about__description {
@@ -27,6 +31,42 @@
     background-size: 200%;
     animation: bgpan 3s linear infinite;
 
+}
+
+p {
+    margin-top: 2rem;
+}
+
+.ball_container {
+    display: flex;
+    justify-content: center;
+}
+
+.ball_container {
+    display: flex;
+    justify-content: center;
+}
+
+.ball {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    margin: 1rem;
+    background-color: var(--clr-slate800);
+    color: var(--clr-lightblue);
+    border: 2px solid var(--clr-blue);
+}
+
+.small-c {
+    font-size: var(--size-3xl);
+    font-weight: bold;
+}
+
+.ball i {
+    font-size: 30px;
 }
 
 @keyframes bgpan {

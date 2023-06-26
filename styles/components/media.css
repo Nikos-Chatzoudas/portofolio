@@ -1,6 +1,19 @@
 /*new start here*/
 /* xs */
 @media (min-width: 0px) and (max-width: 474px) {
+    .ball {
+        margin: 5px;
+    }
+
+    .ball i,
+    .ball span {
+        font-size: 2rem;
+    }
+
+    .ball_container {
+        flex-wrap: wrap;
+    }
+
     .hero__wrapper {
         flex-direction: column-reverse;
     }
@@ -24,6 +37,19 @@
 
 /* sm */
 @media (min-width: 475px) and (max-width: 639px) {
+    .ball {
+        margin: 5px;
+    }
+
+    .ball i,
+    .ball span {
+        font-size: 2rem;
+    }
+
+    .ball_container {
+        flex-wrap: wrap;
+    }
+
     .hero__wrapper {
         flex-direction: column-reverse;
     }
@@ -48,6 +74,10 @@
 
 /* md */
 @media (min-width: 640px) and (max-width: 767px) {
+    .ball_container {
+        flex-wrap: wrap;
+    }
+
     .hero__wrapper {
         flex-direction: column-reverse;
     }
