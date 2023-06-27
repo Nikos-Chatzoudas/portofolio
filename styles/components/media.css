@@ -15,6 +15,7 @@
     }
 
     .hero__wrapper {
+        margin-top: 2rem;
         flex-direction: column-reverse;
     }
 
@@ -51,6 +52,7 @@
     }
 
     .hero__wrapper {
+        margin-top: 2rem;
         flex-direction: column-reverse;
     }
 
@@ -79,6 +81,7 @@
     }
 
     .hero__wrapper {
+        margin-top: 2rem;
         flex-direction: column-reverse;
     }
 
@@ -102,6 +105,7 @@
 /* lg */
 @media (min-width: 768px) and (max-width: 1023px) {
     .hero__wrapper {
+        margin-top: 2rem;
         flex-direction: column-reverse;
     }
 
