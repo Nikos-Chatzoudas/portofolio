@@ -1,6 +1,11 @@
 /*new start here*/
 /* xs */
 @media (min-width: 0px) and (max-width: 474px) {
+
+    .form {
+        width: 22rem;
+    }
+
     .ball {
         margin: 5px;
     }
