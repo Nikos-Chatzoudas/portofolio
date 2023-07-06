@@ -24,15 +24,6 @@
     padding-right: 15rem;
 }
 
-.about__shine {
-    background: linear-gradient(to right, #1d4ed8, #4062bd, #1d4ed8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 200%;
-    animation: bgpan 3s linear infinite;
-
-}
-
 p {
     margin-top: 2rem;
 }
@@ -58,8 +49,12 @@ p {
     background-color: var(--clr-slate800);
     color: var(--clr-lightblue);
     border: 2px solid var(--clr-blue);
+    transition: 0.2s ease-in-out;
 }
-
+.ball:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px 5px rgba(0, 128, 255, 0.5);
+}
 .small-c {
     font-size: var(--size-3xl);
     font-weight: bold;
