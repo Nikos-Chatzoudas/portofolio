@@ -1,173 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <script
+      src="https://kit.fontawesome.com/f1d4922354.js"
+      crossorigin="anonymous"
+    ></script>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,400,700&display=swap"
+      rel="stylesheet"
+    />
+    <meta
+      name="description"
+      content="hey, I'm Nick Chatzoudas and this is my portfolio"
+    />
+    <meta name="keywords" content="web design, portfolio, html, css, js" />
+    <title>Portfolio | Chatzoudas</title>
+  </head>
 
-<head>
-  <script src="https://kit.fontawesome.com/f1d4922354.js" crossorigin="anonymous"></script>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="/image1.png" href="icon.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,400,700&display=swap" rel="stylesheet" />
-  <meta name="description" content="hey, I'm Nick Chatzoudas and this is my portofolio " />
-  <meta name="keywords" content="web design, portofolio, html, css, js" />
-  <title>Portofolio | Chatzoudas</title>
-</head>
+  <body>
+    <div id="particles">
+      <header class="header container">
+        <nav class="nav__container">
+          <div class="header__left">
+            <a class="header__logo" href="">
+              <h1>Nick.</h1>
+            </a>
+          </div>
+          <div class="header__right">
+            <ul class="header__menu">
+              <li>
+                <a
+                  class="header__link"
+                  href="https://github.com/Nikos-Chatzoudas"
+                  target="_blank"
+                >
+                  <i class="fab fa-github fa-2x"></i>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="header__link"
+                  href="https://www.linkedin.com/in/nick-chatzoudas-288566278/"
+                  target="_blank"
+                >
+                  <i class="fab fa-linkedin fa-2x"></i>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="header__link"
+                  href="https://twitter.com/chatzoudakos"
+                  target="_blank"
+                >
+                  <i class="fab fa-twitter fa-2x"></i>
+                </a>
+              </li>
+              <li>
+                <label class="switch">
+                  <input type="checkbox" id="toggleSwitch" />
+                  <span class="slider"></span>
+                </label>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <main>
+        <section class="hero container hero__wrapper">
+          <div>
+            <h1 class="hero__title">Hello there,<br />I'm Nick Chatzoudas</h1>
+            <h2 class="hero__subtitle">DIGITAL SYSTEMS STUDENT</h2>
+          </div>
+          <div class="hero__img-wrapper">
+            <img class="hero__img" src="/hero.png" alt="Profile picture" />
+          </div>
+        </section>
+        <section id="about" class="about container section">
+          <div class="about">
+            <div class="about__content">
+              <h1 class="about__title hidden">About Me</h1>
+              <p class="about__description hidden">
+                I am a passionate Digital Systems student at Thessaly University
+                in Greece, driven by a deep love for computer science. My
+                knowledge encompasses a wide range of programming languages.
+                Through engaging in numerous hands-on projects, I have honed my
+                skills in various domains such as web development, software
+                solutions, and problem-solving.
+              </p>
+            </div>
+            <div class="about__skills">
+              <h3 class="about__subtitle hidden">Skills</h3>
+              <div class="ball_container hidden">
+                <div class="ball html">
+                  <i class="fab fa-html5 fa-3x"></i>
+                </div>
+                <div class="ball css">
+                  <i class="fab fa-css3-alt fa-3x"></i>
+                </div>
+                <div class="ball javascript">
+                  <i class="fab fa-js-square fa-3x"></i>
+                </div>
+                <div class="ball python">
+                  <i class="fab fa-python fa-3x"></i>
+                </div>
+                <div class="ball c">
+                  <span class="small-c">C</span>
+                </div>
+                <div class="ball java">
+                  <i class="fab fa-java fa-3x"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="projects" class="projects container section">
+          <h1 class="project__title hidden">Projects</h1>
+          <div class="projects__wrapper">
+            <a
+              class="project hidden"
+              href="https://github.com/Nikos-Chatzoudas/Photorder"
+            >
+              <article class="article-wrapper">
+                <img
+                  class="rounded-lg project__img"
+                  src="/public/github.png"
+                  alt="project picture"
+                />
+                <div class="project-info">
+                  <div class="flex-pr">
+                    <div class="project-title text-nowrap">Photorder</div>
+                  </div>
+                  <div class="types"></div>
+                </div>
+              </article>
+            </a>
+            <a class="project hidden" href="http://resq.invest-alliance.eu/">
+              <article class="article-wrapper">
+                <img
+                  class="rounded-lg project__img"
+                  src="/public/resq_logo.png"
+                  alt="project picture"
+                />
+                <div class="project-info">
+                  <div class="flex-pr">
+                    <div class="project-title text-nowrap">Invest RES-Q</div>
+                  </div>
+                  <div class="types"></div>
+                </div>
+              </article>
+            </a>
+            <a
+              class="project hidden"
+              href="https://github.com/Nikos-Chatzoudas/electron-calculator-app"
+            >
+              <article class="article-wrapper">
+                <img
+                  class="rounded-lg project__img"
+                  src="/public/github.png"
+                  alt="project picture"
+                />
+                <div class="project-info">
+                  <div class="flex-pr">
+                    <div class="project-title text-nowrap">
+                      Electron.js<br />
+                      calculator
+                    </div>
+                  </div>
+                  <div class="types"></div>
+                </div>
+              </article>
+            </a>
+          </div>
+        </section>
 
-<body>
-
-  <div id="particles">
-    <header class="header container">
-      <nav class="nav__container">
-        <div class="header__left">
-          <a class="header__logo" href="">
-            <h1>Nick.</h1>
+        <section class="contact container section hidden">
+          <h1 style="font-size: 2.5rem">Get in Contact</h1>
+          <p class="contact__p">
+            Feel free to reach out to me if you have any questions or would like
+            to discuss a project. I'm always excited to connect with new people
+            and explore collaboration opportunities.
+          </p>
+          <a href="mailto:nikoschatzoudas@gmail.com" target="_blank">
+            <button className="btn">React Out</button>
           </a>
-        </div>
-        <div class=" header__right">
-          <ul class="header__menu">
-            <li>
-              <a class="header__link" href="https://github.com/Nikos-Chatzoudas" target="_blank">
-                <i class="fa-brands fa-github fa-2xl"></i>
-              </a>
-            </li>
-            <li>
-              <a class="header__link" href="https://www.linkedin.com/in/nick-chatzoudas-288566278/" target="_blank">
-                <i class="fa-brands fa-linkedin fa-2xl"></i>
-              </a>
-            </li>
-            <li>
-              <a class="header__link" href="https://twitter.com/chatzoudakos" target="_blank">
-                <i class="fa-brands fa-twitter fa-2xl"></i>
-              </a>
-            </li>
-            <li>
-              <label class="switch">
-                <input type="checkbox" id="toggleSwitch">
-                <span class="slider"></span>
-              </label>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </header>
-    <main>
-      <section class="hero container hero__wrapper">
-        <div>
-          <h1 class="hero__title">Hello there,<br />I'm Nick Chatzoudas</h1>
-          <h2 class="hero__subtitle">DIGITAL SYSTEMS STUDENT</h2>
-        </div>
-        <div class="hero__img-wrapper">
-          <img class="hero__img" src="/hero.png" alt="Profile picture" />
-        </div>
+        </section>
+      </main>
+      <footer class="footer">
+        <h3 class="footer__title">~ Nick Chatzoudas ~</h3>
+      </footer>
 
-      </section>
-      <section id="about" class="about container section">
-        <div class="about">
-          <div class="about__content">
-            <h1 class="about__title hidden">About Me</h1>
-            <p class="about__description hidden">
-              I am a passionate Digital Systems student at Thessaly University in Greece, driven by a deep
-              love for computer science. My knowledge encompasses a wide range of
-              programming languages.Through engaging in numerous hands-on projects, I have honed my skills
-              in various domains such as web development, software solutions, and
-              problem-solving.
-            </p>
-          </div>
-          <div class="about__skills">
-            <h3 class="about__subtitle hidden">Skills</h3>
-            <div class="ball_container hidden">
-              <div class="ball html">
-                <i class="fa-brands fa-html5 fa-3x"></i>
-              </div>
-              <div class="ball css">
-                <i class="fa-brands fa-css3-alt fa-3x"></i>
-              </div>
-              <div class="ball javascript">
-                <i class="fa-brands fa-square-js fa-3x"></i>
-              </div>
-              <div class="ball python">
-                <i class="fa-brands fa-python fa-3x"></i>
-              </div>
-              <div class="ball c">
-                <span class="small-c">C</span>
-              </div>
-              <div class="ball java">
-                <i class="fa-brands fa-java fa-3x"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
-  </div>
-  </div>
-  </section>
-  <section id="projects" class="projects container section">
-    <h1 class="project__title hidden">Projects</h1>
-    <div class="projects__wrapper">
-      <a class="project hidden" href="https://github.com/Nikos-Chatzoudas/Photorder">
-        <article class="article-wrapper">
-          <img class="rounded-lg project__img" src="/public/github.png" alt="project picture">
-          <div class="project-info">
-            <div class="flex-pr">
-              <div class="project-title text-nowrap">Photorder</div>
-            </div>
-            <div class="types">
-            </div>
-          </div>
-        </article>
-      </a>
-      <a class="project hidden" href="http://resq.invest-alliance.eu/">
-        <article class="article-wrapper">
-          <img class="rounded-lg project__img" src="/public/resq_logo.png" alt="project picture">
-          <div class="project-info">
-            <div class="flex-pr">
-              <div class="project-title text-nowrap">Invest RES-Q</div>
-            </div>
-            <div class="types">
-            </div>
-          </div>
-        </article>
-      </a>
-      <a class="project hidden" href="https://github.com/Nikos-Chatzoudas/electron-calculator-app">
-        <article class="article-wrapper">
-          <img class="rounded-lg project__img" src="/public/github.png" alt="project picture">
-          <div class="project-info">
-            <div class="flex-pr">
-              <div class="project-title text-nowrap">Electron.js<br> calculator</div>
-            </div>
-            <div class="types">
-            </div>
-          </div>
-        </article>
-      </a>
+      <script type="module" src="./src/main.js"></script>
+      <script
+        type="module"
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+      ></script>
+      <script
+        nomodule
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+      ></script>
+      <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.10.1/tsparticles.bundle.min.js"></script>
+      <script type="module" src="src/utils/particles.js"></script>
+      <script type="module" src="src/utils/lightmode.js"></script>
     </div>
-  </section>
-
-  <sectionid="contact" class="contact container section hidden">
-    <form id="contact__form" class="form" method="POST" action="https://formspree.io/f/mnqyebje">
-      <div class="title">Contact me</div>
-      <input type="text" placeholder="Name" name="name" class="input" autocomplete="off" required>
-      <input type="email" placeholder="Email" name="email" class="input" autocomplete="on" required>
-      <textarea class="contact__textarea" name="message" rows="4" placeholder="Message" autocomplete="off"
-        required></textarea>
-      <div id="recaptcha-container"></div>
-
-      <button type="submit" class="button-confirm">Send</button>
-    </form>
-    </section>
-    </main>
-    <footer class="footer">
-      <h3 class="footer__title">~ Nick Chatzoudas ~</h3>
-    </footer>
-    </div>
-
-    <script type="module" src="./src/main.js"></script>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.10.1/tsparticles.bundle.min.js"></script>
-    <script type="module" src="src/utils/particles.js"></script>
-    <script type="module" src="src/utils/lightmode.js"></script>
-</body>
-
+  </body>
 </html>
