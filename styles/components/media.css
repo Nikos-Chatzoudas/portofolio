@@ -9,7 +9,11 @@
     .ball {
         margin: 5px;
     }
-
+    .contact__p{
+        font-size: var(--size-xl);
+        padding-left: 0rem;
+        padding-right: 0rem;
+    }
     .ball i,
     .ball span {
         font-size: 2rem;
@@ -43,6 +47,12 @@
 
 /* sm */
 @media (min-width: 475px) and (max-width: 639px) {
+    
+    .contact__p{
+        font-size: var(--size-xl);
+        padding-left: 0rem;
+        padding-right: 0rem;
+    }
     .ball {
         margin: 5px;
     }
@@ -81,6 +91,12 @@
 
 /* md */
 @media (min-width: 640px) and (max-width: 767px) {
+    
+    .contact__p{
+        font-size: var(--size-xl);
+        padding-left: 0rem;
+        padding-right: 0rem;
+    }
     .ball_container {
         flex-wrap: wrap;
     }
@@ -109,6 +125,12 @@
 
 /* lg */
 @media (min-width: 768px) and (max-width: 1023px) {
+    
+    .contact__p{
+        font-size: var(--size-xl);
+        padding-left: 5rem;
+        padding-right: 5rem;
+    }
     .hero__wrapper {
         margin-top: 2rem;
         flex-direction: column-reverse;
