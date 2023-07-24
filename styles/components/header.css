@@ -102,3 +102,19 @@
   box-shadow: 0 0 20px var(--clr-lightblue);
   border: 2px solid var(--clr-blue);
 }
+.moon svg{
+  color: var(--clr-slate400);
+  position: absolute;
+  bottom:5px;
+  left: 35px;
+
+  height: 20px;
+}
+.sun svg{
+  color: var(--clr-slate400);
+  position: absolute;
+  bottom:5px;
+  left: 5px;
+
+  height: 20px;
+}
