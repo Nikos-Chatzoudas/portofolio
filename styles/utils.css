@@ -7,8 +7,8 @@ button {
   text-transform: uppercase;
   font-weight: 600;
   letter-spacing: 2px;
-  background: transparent;
-  color: var(--clr-light);
+  background: #09090b;
+  color: #f1f5f9;
   overflow: hidden;
   box-shadow: 0 0 0 0 transparent;
   -webkit-transition: all 0.2s ease-in;
