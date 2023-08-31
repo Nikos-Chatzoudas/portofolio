@@ -1,72 +1,95 @@
 .about {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5rem;
-    margin-top: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+  margin-top: 2rem;
 }
 
 .about__title {
-    margin-top: 10rem;
-    font-size: var(--size-5xl);
-
+  margin-top: 10rem;
+  font-size: var(--size-5xl);
 }
 
 .about__subtitle {
-    font-size: var(--size-3xl);
+  font-size: var(--size-3xl);
 }
 
 .about__description {
-    font-size: var(--size-2xl);
-    padding-left: 15rem;
-    padding-right: 15rem;
+  font-size: var(--size-2xl);
+  padding-left: 15rem;
+  padding-right: 15rem;
 }
 
 p {
-    margin-top: 2rem;
+  margin-top: 2rem;
 }
 
 .ball_container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .ball_container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .ball {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 75px;
-    height: 75px;
-    border-radius: 50%;
-    margin: 1rem;
-    background: var(--clr-slate900);
-    color: var(--clr-lightblue);
-    border: 2px solid var(--clr-blue);
-    transition: 0.2s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  margin: 1rem;
+  background: var(--clr-slate900);
+  color: var(--clr-lightblue);
+  border: 2px solid var(--clr-blue);
+  transition: 0.2s ease-in-out;
 }
 
 .small-c {
-    font-size: var(--size-3xl);
-    font-weight: bold;
+  font-size: var(--size-3xl);
+  font-weight: bold;
 }
 
 .ball i {
-    font-size: 30px;
+  font-size: 30px;
 }
 
 @keyframes bgpan {
-    from {
-        background-position: 0% center;
-    }
+  from {
+    background-position: 0% center;
+  }
 
-    to {
-        background-position: -200% center;
-    }
+  to {
+    background-position: -200% center;
+  }
+}
+.ball {
+  position: relative;
+}
+
+.ball-tooltip {
+  position: absolute;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 10px;
+  background-color: var(--clr-lightblue);
+  color: #fff;
+  font-size: 14px;
+  border-radius: 5px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+  z-index: 1;
+}
+
+.ball:hover .ball-tooltip {
+  visibility: visible;
+  opacity: 1;
 }
