@@ -1,4 +1,7 @@
-
+.contact_title{
+    font-family: "Ubuntu Mono";
+    color: var(--clr-slate400);
+}
 .contact {
     text-align: center;
     display: flex;
@@ -8,9 +11,11 @@
     gap: 1rem;
     margin: 0;
     margin-top: 10rem;
+    
 }
 .contact__p{
     font-size: var(--size-xl);
     padding-left: 15rem;
     padding-right: 15rem;
+    
 }

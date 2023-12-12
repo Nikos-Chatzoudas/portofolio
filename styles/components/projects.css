@@ -5,7 +5,7 @@
     justify-content: center;
     align-items: center;
     gap: 10rem;
-    margin-top: 18rem;
+    margin: 1rem;
 }
 
 
@@ -13,49 +13,35 @@
 .projects__wrapper {
     display: flex;
     flex-direction: row;
-    gap: 3rem;
-}
-
-.project:nth-child(2) {
-    transition-delay: 100ms;
-}
-
-.project:nth-of-type(3) {
-    transition-delay: 200ms;
+    gap: 1rem;
 }
 
 .project__title {
-    color: var(--clr-light);
-    font-size: var(--size-6xl);
+    font-family: "Ubuntu Mono";
+    color: var(--clr-slate400);
+    font-size: var(--size-5xl);
 
 }
 
-.article-wrapper {
-    width: 19rem;
+.card {
+    width: 20rem;
     height: 17rem;
-    -webkit-transition: 0.15s all ease-in-out;
-
     border-radius: 15px;
     padding: 0.7rem;
-    border: 4px solid transparent;
     cursor: pointer;
-    background-color: var(--clr-slate900);
-    border-radius: 15px;
-    border: 2px solid var(--clr-blue);
+    background-color: var(--clr-dark-blue);
+    border-radius: 10px;
     display: flex;
     align-items: center;
     flex-direction: column;
     transition: 0.3s all ease-in-out;
+    border:var(--clr-slate900) solid 1px;
+    position: relative;
 
 }
 
-
-
-
-
 .project-title {
     font-size: 2em;
-    margin: 0;
     font-weight: 600;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -64,8 +50,7 @@
 }
 
 .article-wrapper:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px 5px rgba(0, 128, 255, 0.5);
+    
 }
 
 .project__img {

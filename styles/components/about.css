@@ -9,12 +9,16 @@
 }
 
 .about__title {
+  font-family: "Ubuntu Mono";
   margin-top: 10rem;
   font-size: var(--size-5xl);
+  color: var(--clr-slate400);
 }
 
 .about__subtitle {
-  font-size: var(--size-3xl);
+  font-family: "Ubuntu Mono";
+  font-size: var(--size-5xl);
+  color: var(--clr-slate400);
 }
 
 .about__description {
@@ -27,12 +31,9 @@ p {
   margin-top: 2rem;
 }
 
-.ball_container {
-  display: flex;
-  justify-content: center;
-}
 
 .ball_container {
+  margin: 3rem;
   display: flex;
   justify-content: center;
 }
@@ -45,9 +46,9 @@ p {
   height: 75px;
   border-radius: 50%;
   margin: 1rem;
-  background: var(--clr-slate900);
-  color: var(--clr-lightblue);
-  border: 2px solid var(--clr-blue);
+  background: var(--clr-dark-blue);
+  color: var(--clr-slate600);
+  border:var(--clr-slate900) solid 1px;
   transition: 0.2s ease-in-out;
 }
 

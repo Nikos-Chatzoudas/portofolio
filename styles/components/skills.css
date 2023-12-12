@@ -1,0 +1,45 @@
+.skills {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  padding: 0 20px;
+}
+
+.skill {
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.skills_title {
+  font-family: "Ubuntu Mono";
+  color: var(--clr-slate400);
+  font-size: var(--size-5xl);
+}
+
+.skill_name {
+  font-weight: bold;
+  color: var(--clr-slate400);
+  font-size: var(--size-1xl);
+  text-transform: uppercase;
+}
+
+.skill_bar {
+  height: 15px;
+  width: 500px;
+  background: var(--clr-slate400);
+  border-radius: 5px;
+  display: flex;
+
+}
+
+.skill_per {
+  height: 100%;
+  background: var(--clr-blue);
+  border-radius: 3px;
+
+}
