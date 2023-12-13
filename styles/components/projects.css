@@ -24,9 +24,11 @@
 }
 
 .card {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     width: 20rem;
     height: 17rem;
     border-radius: 15px;
+    position: relative;
     padding: 0.7rem;
     cursor: pointer;
     background-color: var(--clr-dark-blue);
@@ -39,26 +41,23 @@
     position: relative;
 
 }
-
-.project-title {
-    font-size: 2em;
-    font-weight: 600;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: #f1f5f9;
+.card:hover::before{
+    opacity: 1;
 }
-
-.article-wrapper:hover {
-    
+.card:hover{
+    border:var(--clr-slate800) solid 1px;
 }
-
-.project__img {
+.card::before {
+    background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), #0f286b27, transparent 70%);
+    border-radius: inherit;
+    content: "";
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    transition: opacity 500ms;
+    position: absolute;
+    top: 0;
     width: 100%;
-    height: 70%;
-    background: var(--clr-slate800);
-    border-radius: 15px;
-    border: 2px solid var(--clr-blue);
-    object-fit: cover;
-
-}
+    z-index: 2;
+  }
+  
