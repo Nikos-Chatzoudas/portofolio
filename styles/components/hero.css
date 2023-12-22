@@ -5,14 +5,13 @@
   align-items: center;
   gap: 5rem;
   margin-top: 5rem;
-
 }
 
 .hero__wrapper {
   display: flex;
   flex-direction: row;
 }
-.logo{
+.logo {
   font-family: "Ubuntu Mono";
 }
 
@@ -20,14 +19,13 @@
   display: block;
   width: 20rem;
   height: 20rem;
-  border-radius: 20%;}
-
+  border-radius: 20%;
+}
 
 .hero__title {
   color: var(--clr-light);
   font-size: var(--size-6xl);
   line-height: 0.9;
-
 }
 
 .hero__subtitle {

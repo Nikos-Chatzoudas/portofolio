@@ -28,20 +28,3 @@
   font-size: var(--size-1xl);
   text-transform: uppercase;
 }
-
-.skill_bar {
-  height: 15px;
-  width: 500px;
-  max-width: 100%;
-  background: var(--clr-slate400);
-  border-radius: 5px;
-  display: flex;
-
-}
-
-.skill_per {
-  height: 100%;
-  background: var(--clr-blue);
-  border-radius: 3px;
-
-}
