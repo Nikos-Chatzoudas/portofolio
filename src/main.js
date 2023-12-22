@@ -78,28 +78,43 @@ elements.forEach((element) => {
 
 //skill bar
 document.addEventListener("DOMContentLoaded", function () {
-  const skillBars = document.querySelectorAll(".skill_per");
+  let maxLines = 70; // Initial maximum number of lines
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const skillBar = entry.target;
-        const percentage = skillBar.getAttribute("per");
-        const maxChars = 75;
-        const filledBlocks = Math.round((percentage / 100) * maxChars);
+  const updateBars = () => {
+    const skillBars = document.querySelectorAll(".skill_per");
+    skillBars.forEach((skillBar) => {
+      const percentage = skillBar.getAttribute("per");
+      const maxChars = maxLines;
+      const filledBlocks = Math.round((percentage / 100) * maxChars);
+      let currentFilled = 0;
+      const fillInterval = setInterval(() => {
+        if (currentFilled >= filledBlocks) {
+          clearInterval(fillInterval);
+          return;
+        }
         const filled =
           "<span style='color: var(--clr-blue);'>" +
-          "#".repeat(filledBlocks) +
+          "#".repeat(currentFilled) +
           "</span>";
-        const empty = ".".repeat(maxChars - filledBlocks);
-
+        const empty = ".".repeat(maxChars - currentFilled);
         skillBar.innerHTML = `[${filled}${empty}]`;
-        observer.unobserve(skillBar); // Stop observing once loaded
-      }
+        currentFilled++;
+      }, 50);
     });
-  });
+  };
 
-  skillBars.forEach((skillBar) => {
-    observer.observe(skillBar);
-  });
+  const updateMaxLines = () => {
+    if (window.matchMedia("(max-width: 639px)").matches) {
+      maxLines = 30; // Change the maxLines value within the specified range
+    } else {
+      maxLines = 70; // Reset the maxLines value for other screen sizes
+    }
+    updateBars();
+  };
+
+  // Initial call to set maxLines based on viewport size
+  updateMaxLines();
+
+  // Listen for changes in viewport size and update maxLines
+  window.addEventListener("resize", updateMaxLines);
 });

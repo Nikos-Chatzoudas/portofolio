@@ -21,4 +21,5 @@ button:hover {
   margin-right: auto;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+  border: red solid 1px;
 }
