@@ -80,28 +80,37 @@ elements.forEach((element) => {
 document.addEventListener("DOMContentLoaded", function () {
   let maxLines = 70; // Initial maximum number of lines
 
-  const updateBars = () => {
-    const skillBars = document.querySelectorAll(".skill_per");
-    skillBars.forEach((skillBar) => {
-      const percentage = skillBar.getAttribute("per");
-      const maxChars = maxLines;
-      const filledBlocks = Math.round((percentage / 100) * maxChars);
-      let currentFilled = 0;
-      const fillInterval = setInterval(() => {
-        if (currentFilled >= filledBlocks) {
-          clearInterval(fillInterval);
-          return;
-        }
-        const filled =
-          "<span style='color: var(--clr-blue);'>" +
-          "#".repeat(currentFilled) +
-          "</span>";
-        const empty = ".".repeat(maxChars - currentFilled);
-        skillBar.innerHTML = `[${filled}${empty}]`;
-        currentFilled++;
-      }, 50);
-    });
+  const updateBars = (skillBar) => {
+    const percentage = skillBar.getAttribute("per");
+    const maxChars = maxLines;
+    const filledBlocks = Math.round((percentage / 100) * maxChars);
+    let currentFilled = 0;
+    const fillInterval = setInterval(() => {
+      if (currentFilled >= filledBlocks) {
+        clearInterval(fillInterval);
+        return;
+      }
+      const filled =
+        "<span style='color: var(--clr-blue);'>" +
+        "#".repeat(currentFilled) +
+        "</span>";
+      const empty = ".".repeat(maxChars - currentFilled);
+      skillBar.innerHTML = `[${filled}${empty}]`;
+      currentFilled++;
+    }, 30);
   };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const skillBar = entry.target;
+        if (!skillBar.dataset.animated) {
+          updateBars(skillBar);
+          skillBar.dataset.animated = true;
+        }
+      }
+    });
+  });
 
   const updateMaxLines = () => {
     if (window.matchMedia("(max-width: 639px)").matches) {
@@ -109,7 +118,10 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       maxLines = 70; // Reset the maxLines value for other screen sizes
     }
-    updateBars();
+    const skillBars = document.querySelectorAll(".skill_per");
+    skillBars.forEach((skillBar) => {
+      observer.observe(skillBar);
+    });
   };
 
   // Initial call to set maxLines based on viewport size
