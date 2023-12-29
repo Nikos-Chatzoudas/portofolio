@@ -1,63 +1,68 @@
 .projects {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10rem;
-    margin: 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10rem;
+  margin: 1rem;
 }
 
-
-
 .projects__wrapper {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 }
 
 .project__title {
-    font-family: "Ubuntu Mono";
-    color: var(--clr-slate400);
-    font-size: var(--size-5xl);
-
+  font-family: "Ubuntu Mono";
+  color: var(--clr-slate400);
+  font-size: var(--size-5xl);
 }
 
 .card {
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    width: 20rem;
-    height: 17rem;
-    border-radius: 15px;
-    position: relative;
-    padding: 0.7rem;
-    cursor: pointer;
-    background-color: var(--clr-dark-blue);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    transition: 0.3s all ease-in-out;
-    border:var(--clr-slate900) solid 1px;
-    position: relative;
-
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  width: 20rem;
+  height: 17rem;
+  border-radius: 15px;
+  position: relative;
+  padding: 0.7rem;
+  cursor: pointer;
+  background-color: var(--clr-dark-blue);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  transition: 0.3s all ease-in-out;
+  border: var(--clr-slate900) solid 1px;
+  position: relative;
 }
-.card:hover::before{
-    opacity: 1;
+.card:hover::before {
+  opacity: 1;
 }
-.card:hover{
-    border:var(--clr-slate800) solid 1px;
+.card:hover {
+  border: var(--clr-slate800) solid 1px;
 }
 .card::before {
-    background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), #0f286b27, transparent 70%);
-    border-radius: inherit;
-    content: "";
-    height: 100%;
-    left: 0;
-    opacity: 0;
-    transition: opacity 500ms;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 2;
-  }
-  
+  background: radial-gradient(
+    circle at var(--mouse-x) var(--mouse-y),
+    #0f286b27,
+    transparent 70%
+  );
+  border-radius: inherit;
+  content: "";
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  transition: opacity 500ms;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+.card img {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}

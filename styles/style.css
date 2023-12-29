@@ -6,8 +6,8 @@
   --clr-slate800: #1e293b;
   --clr-slate900: #0f172a;
   --clr-lightblue: #2d8cf0;
-  --clr-blue: #0f286b;
-  --clr-dark-blue: #070f25;
+  --clr-blue: #1e40af;
+  --clr-dark-blue: #1e3a8a;
   --clr-toggle: #f1f5f9;
 
   /* sizes */
@@ -39,7 +39,7 @@ html {
 
 body {
   font-family: "Ubuntu Mono";
-  background: var(--clr-dark);
+  background: black;
   background-attachment: fixed;
   color: var(--clr-light);
 }
@@ -51,7 +51,7 @@ body::-webkit-scrollbar {
 
 /* Track */
 body::-webkit-scrollbar-track {
-  background-color: var(--clr-dark);
+  background-color: transparent;
 }
 
 /* Handle */
@@ -99,10 +99,4 @@ strong {
   opacity: 1;
   filter: blur(0);
   transform: translateX(0%);
-}
-
-#tsparticles {
-  position: absolute;
-  z-index: -1;
-  /* Set a negative z-index to place it behind other elements */
 }
