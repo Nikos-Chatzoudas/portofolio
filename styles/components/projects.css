@@ -19,16 +19,13 @@
   color: var(--clr-slate400);
   font-size: var(--size-5xl);
 }
-
 .card {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   width: 20rem;
   height: 17rem;
   border-radius: 15px;
   position: relative;
-  padding: 0.7rem;
   cursor: pointer;
-  background-color: var(--clr-dark-blue);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -36,33 +33,29 @@
   transition: 0.3s all ease-in-out;
   border: var(--clr-slate900) solid 1px;
   position: relative;
-}
-.card:hover::before {
-  opacity: 1;
-}
-.card:hover {
-  border: var(--clr-slate800) solid 1px;
+  background: rgba(30, 64, 175, 0.17);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5.4px);
+  -webkit-backdrop-filter: blur(5.4px);
+  border: 1px solid rgba(30, 64, 175, 0.53);
 }
 .card::before {
-  background: radial-gradient(
-    circle at var(--mouse-x) var(--mouse-y),
-    #0f286b27,
-    transparent 70%
-  );
-  border-radius: inherit;
   content: "";
-  height: 100%;
-  left: 0;
-  opacity: 0;
-  transition: opacity 500ms;
   position: absolute;
   top: 0;
-  width: 100%;
-  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 16px;
+  pointer-events: none;
+  z-index: -1;
+  transition: opacity 0.7s ease, border-color 0.3s ease; /* Added transitions */
+  border: 1px solid transparent;
+  opacity: 0;
 }
-.card img {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
+
+.card:hover::before {
+  border-color: var(--clr-lightblue);
+  opacity: 0.75; /* Reveal on hover */
 }

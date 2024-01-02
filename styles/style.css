@@ -40,8 +40,14 @@ html {
 body {
   font-family: "Ubuntu Mono";
   background: black;
-  background-attachment: fixed;
   color: var(--clr-light);
+  background-size: 20px 20px;
+  background-image: linear-gradient(
+      to right,
+      rgb(27, 27, 27) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgb(27, 27, 27) 1px, transparent 1px);
 }
 
 /* Scrollbar */
