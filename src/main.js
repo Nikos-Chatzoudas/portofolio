@@ -114,3 +114,4 @@ document.addEventListener("DOMContentLoaded", function () {
   // Listen for changes in viewport size and update maxLines
   window.addEventListener("resize", updateMaxLines);
 });
+
