@@ -44,9 +44,19 @@
         <h1 class="hero__title">Hi, I'm Nick Chatzoudas</h1>
         <h2 class="hero__subtitle">DIGITAL SYSTEMS STUDENT</h2>
       </div>
-      <div class="hero__img-wrapper">
-        <img class="hero__img" src="/hero.png" alt="Profile picture" />
+      <div class="flip-box" onclick="toggleFlip()">
+        <div class="flip-box-inner" id="flip-box-inner">
+          <div class="flip-box-front">
+            <img class="hero__img" src="/hero.png" alt="Profile picture" />
+          </div>
+          <div class="flip-box-back">
+            <img class="hero__img" src="/hero2.png" alt="Another image" />
+          </div>
+        </div>
       </div>
+
+
+
     </section>
     <section id="about" class="about container section">
       <div class="about__content">
@@ -114,7 +124,8 @@
         <div id="mySidenav1" class="sidenav">
           <a href="javascript:void(0)" class="closebtn" onclick="closeNav1()">&times;</a>
           <h1>iGem Competition</h1>
-          <p>Participated in the iGEM (International Genetically Engineered Machine) competition with the iGEM Thessaly,
+          <p>I participated in the iGEM (International Genetically Engineered Machine) competition with the iGEM
+            Thessaly,
             collaborating with a
             diverse team to tackle real-world challenges using synthetic biology. Demonstrated strong teamwork,
             problem-solving, and project management skills.I joined as the web developer of the team and i was asked to
@@ -177,6 +188,15 @@
       document.getElementById("mySidenav1").style.width = "0";
       document.getElementById("main").style.marginLeft = "0";
     }
+    function toggleFlip() {
+      var flipBoxInner = document.getElementById('flip-box-inner');
+      if (flipBoxInner.style.transform === 'rotateY(180deg)') {
+        flipBoxInner.style.transform = 'rotateY(0deg)';
+      } else {
+        flipBoxInner.style.transform = 'rotateY(180deg)';
+      }
+    }
+
 
   </script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
