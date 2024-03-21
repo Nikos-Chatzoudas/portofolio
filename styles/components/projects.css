@@ -91,7 +91,7 @@
   left: 0;
   background-color: var(--clr-dark);
   overflow-x: hidden;
-  transition: 0.5s;
+  transition: 0s;
   padding-top: 60px;
 }
 
@@ -105,6 +105,10 @@
 }
 
 .closebtn:hover {
+  color: var(--clr-blue)
+}
+
+.link {
   color: var(--clr-blue)
 }
 
