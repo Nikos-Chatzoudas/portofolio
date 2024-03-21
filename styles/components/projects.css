@@ -117,3 +117,8 @@
   margin-left: 50px;
   z-index: 100;
 }
+
+.sidenav p {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
