@@ -81,15 +81,23 @@
 
 .sidenav {
   height: 100%;
-  width: 0;
+  width: 30%;
+  /* Set the width of the sidebar */
   position: fixed;
   z-index: 100;
   top: 0;
-  left: 0;
+  left: -30%;
+  /* Initially hide the sidebar by positioning it out of view */
   background-color: var(--clr-dark);
   overflow-x: hidden;
-  transition: 0s;
+  transition: left 0.5s ease-in-out;
+  /* Smooth transition for left property */
   padding-top: 60px;
+  border-radius: 0px 15px 15px 0px;
+}
+
+.sidenav.active {
+  left: 0;
 }
 
 .closebtn {
