@@ -11,7 +11,6 @@
   <meta name="description" content="hey, I'm Nick Chatzoudas and this is my portfolio" />
   <meta name="keywords" content="web design, portfolio, html, css, js" />
   <title>Portfolio | Chatzoudas</title>
-
 </head>
 
 <body>
@@ -44,19 +43,11 @@
         <h1 class="hero__title">Hi, I'm Nick Chatzoudas</h1>
         <h2 class="hero__subtitle">DIGITAL SYSTEMS STUDENT</h2>
       </div>
-      <div class="flip-box" onclick="toggleFlip()">
-        <div class="flip-box-inner" id="flip-box-inner">
-          <div class="flip-box-front">
-            <img class="hero__img" src="/hero.png" alt="Profile picture" />
-          </div>
-          <div class="flip-box-back">
-            <img class="hero__img" src="/hero2.png" alt="Another image" />
-          </div>
-        </div>
+      <div class="hero_wrapper">
+        <div class="letters" onmouseover="generateRandomChars(this)"></div>
+        <div class="hero_img_backgound"></div>
+        <img class="hero__img" src="/hero.png" alt="Profile picture" />
       </div>
-
-
-
     </section>
     <section id="about" class="about container section">
       <div class="about__content">
@@ -71,24 +62,20 @@
         </p>
       </div>
     </section>
-
     <section class="skills container section">
       <h1 class="skills_title load">//skills</h1>
-
       <div class="skill">
         <div class="skill_name">python</div>
         <div class="skill_bar">
           <div class="skill_per" per="30"></div>
         </div>
       </div>
-
       <div class="skill">
         <div class="skill_name">c programming language</div>
         <div class="skill_bar">
           <div class="skill_per" per="60"></div>
         </div>
       </div>
-
       <div class="skill">
         <div class="skill_name">java</div>
         <div class="skill_bar">
@@ -101,7 +88,6 @@
           <div class="skill_per" per="50"></div>
         </div>
       </div>
-
       <div class="skill">
         <div class="skill_name">java script</div>
         <div class="skill_bar">
@@ -109,7 +95,6 @@
         </div>
       </div>
     </section>
-
     <section id="projects" class="projects container section">
       <h1 class="project__title load">//projects</h1>
       <div class="projects__wrapper">
@@ -133,8 +118,7 @@
           </p>
           <a class="link" href="https://igem-thessaly.uth.gr/">The main iGem Thessaly Website</a>
           <br>
-          <a class="link" href="">The Competition Website(Wiki)</a>
-
+          <a class="link" href="">The Competition Website(Wiki)NOT READY YET!!</a>
           <p>These experiences not only honed my technical abilities but also fostered effective communication and
             presentation skills, vital for conveying complex scientific concepts to diverse audiences."</p>
         </div>
@@ -143,7 +127,7 @@
             <img class=" card_img" src="public/bg.png" alt="">
           </div>
           <div class="card_footer">
-            <h1 class="card_title">Under Constructionn</h1>
+            <h1 class="card_title">Under Construction</h1>
           </div>
         </div>
         <div class="card">
@@ -151,10 +135,9 @@
             <img class=" card_img" src="public/bg.png" alt="">
           </div>
           <div class="card_footer">
-            <h1 class="card_title">Under Constructionn</h1>
+            <h1 class="card_title">Under Construction</h1>
           </div>
         </div>
-
       </div>
     </section>
     <section class="contact container section">
@@ -174,40 +157,12 @@
   <footer class="footer">
     <h3 class="footer__title load">~ © All rights reserved ~</h3>
   </footer>
-
-
   <script type="module" src="./src/main.js"></script>
-  <script src="./src/off-canvas.js"></script>
-  <script>
-    function openNavBar(navID) {
-      var sideNav = document.getElementById("mySidenav" + navID);
-      if (sideNav) {
-        sideNav.classList.add("active");
-      } else {
-        console.error("Navbar with ID " + navID + " not found.");
-      }
-    }
-
-    function closeAllNavs() {
-      var sideNavs = document.getElementsByClassName("sidenav");
-      for (var i = 0; i < sideNavs.length; i++) {
-        sideNavs[i].classList.remove("active");
-      }
-    }
-    function toggleFlip() {
-      var flipBoxInner = document.getElementById('flip-box-inner');
-      if (flipBoxInner.style.transform === 'rotateY(180deg)') {
-        flipBoxInner.style.transform = 'rotateY(0deg)';
-      } else {
-        flipBoxInner.style.transform = 'rotateY(180deg)';
-      }
-    }
-
-
-  </script>
+  <script src="./src/main_script.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  >
 </body>
+
+</html>
 
 </html>

@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   padding-top: 2rem;
-  padding-bottom: 2rem;  
+  padding-bottom: 2rem;
   position: relative;
   z-index: 9999;
 }
@@ -52,6 +52,11 @@
   color: var(--clr-slate400);
   text-decoration: none;
   font-size: large;
+  transition: 0.3s color ease-in-out;
+}
+
+.header__logo:hover {
+  color: var(--clr-blue);
 }
 
 /* The switch - the box around the slider */
@@ -102,18 +107,20 @@
   box-shadow: 0 0 20px var(--clr-lightblue);
   border: 2px solid var(--clr-blue);
 }
-.moon svg{
+
+.moon svg {
   color: var(--clr-slate400);
   position: absolute;
-  bottom:5px;
+  bottom: 5px;
   left: 35px;
 
   height: 20px;
 }
-.sun svg{
+
+.sun svg {
   color: var(--clr-slate400);
   position: absolute;
-  bottom:5px;
+  bottom: 5px;
   left: 5px;
 
   height: 20px;
