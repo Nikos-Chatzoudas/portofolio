@@ -12,3 +12,9 @@
   text-align: center;
   letter-spacing: 0.2em;
 }
+
+#canvas-container {
+  overflow: auto;
+  position: absolute;
+  z-index: -1;
+}
