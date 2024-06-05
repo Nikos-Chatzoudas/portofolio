@@ -161,7 +161,25 @@
   </main>
 
 
+  <script>
+    function openNavBar(navID) {
+      var sideNav = document.getElementById("mySidenav" + navID);
+      if (sideNav) {
+        sideNav.classList.add("active");
+      } else {
+        console.error("Navbar with ID " + navID + " not found.");
+      }
+    }
 
+    function closeAllNavs() {
+      var sideNavs = document.getElementsByClassName("sidenav");
+      for (var i = 0; i < sideNavs.length; i++) {
+        sideNavs[i].classList.remove("active");
+      }
+    }
+
+
+  </script>
   <script type="module" src="./src/main.js"></script>
   <script src="./src/main_script.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
