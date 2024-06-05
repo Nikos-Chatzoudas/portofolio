@@ -115,3 +115,8 @@ document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener("resize", updateMaxLines);
 });
 
+import { Application } from '@splinetool/runtime';
+
+const canvas = document.getElementById('canvas3d');
+const app = new Application(canvas);
+app.load('https://prod.spline.design/dwUZzcQa1GobHAQs/scene.splinecode');

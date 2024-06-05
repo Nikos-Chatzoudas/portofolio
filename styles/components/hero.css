@@ -28,6 +28,7 @@
   color: var(--clr-light);
   font-size: var(--size-6xl);
   line-height: 0.9;
+  left: 100px;
 }
 
 .hero__subtitle {
@@ -49,27 +50,8 @@
 }
 
 .hero_wrapper {
-  width: 20rem;
-  height: 20rem;
+  width: 27rem;
+  height: 27rem;
   position: relative;
   overflow: hidden;
-
-}
-
-
-.letters {
-  position: absolute;
-  font-size: 12px;
-  font-family: monospace;
-  color: white;
-  z-index: 1;
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s 0.3s, opacity 0.3s ease-in-out;
-}
-
-.hero_wrapper:hover .letters {
-  visibility: visible;
-  opacity: 1;
-  transition: visibility 0s, opacity 0.3s ease-in-out;
 }

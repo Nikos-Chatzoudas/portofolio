@@ -14,8 +14,3 @@ function closeAllNavs() {
     }
 }
 
-
-
-
-
-//retrowave
