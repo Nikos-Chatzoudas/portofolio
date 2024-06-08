@@ -3,26 +3,24 @@ button {
   font-family: "Courier New", monospace;
   font-size: 16px;
   color: var(--clr-light);
-  background-color: #000; /* black background */
+  background-color: #000;
+  /* black background */
   border: 2px solid var(--clr-blue);
   border-radius: 5px;
   cursor: pointer;
-  outline: none; /* remove default focus outline */
+  outline: none;
+  /* remove default focus outline */
   transition: background-color 0.3s, border-color 0.3s, color 0.3s,
-    box-shadow 0.3s; /* added transitions */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* added box shadow */
+    box-shadow 0.3s;
+  /* added transitions */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  /* added box shadow */
 }
 
 button:hover {
-  border-color: var(--clr-lightblue); /* changed border color on hover */
+  border-color: var(--clr-lightblue);
+  /* changed border color on hover */
   color: var(--clr-lightblue);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* changed box shadow on hover */
-}
-
-.container {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  /* changed box shadow on hover */
 }

@@ -5,8 +5,9 @@
   justify-content: center;
   align-items: center;
   gap: 10rem;
-  margin: 1rem;
   margin-bottom: 10rem;
+  left: 0;
+
 }
 
 .projects__wrapper {

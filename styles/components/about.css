@@ -6,6 +6,7 @@
   align-items: center;
   gap: 5rem;
   margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .about__title {
@@ -48,7 +49,7 @@ p {
   margin: 1rem;
   background: var(--clr-dark-blue);
   color: var(--clr-slate600);
-  border:var(--clr-slate900) solid 1px;
+  border: var(--clr-slate900) solid 1px;
   transition: 0.2s ease-in-out;
 }
 
@@ -70,6 +71,7 @@ p {
     background-position: -200% center;
   }
 }
+
 .ball {
   position: relative;
 }

@@ -5,6 +5,7 @@
   align-items: center;
   gap: 5rem;
   margin-top: 5rem;
+  width: 100%;
 }
 
 .logo {
@@ -54,4 +55,11 @@
   height: 27rem;
   position: relative;
   overflow: hidden;
+}
+
+#canvas3d {
+  width: 100%;
+  /* Make the canvas fill its parent's width */
+  height: 100vh;
+  /* Optional: Set the canvas height to full viewport height */
 }

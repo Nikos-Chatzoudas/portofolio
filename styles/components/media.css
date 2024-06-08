@@ -1,12 +1,5 @@
 /* xs */
 @media (min-width: 0px) and (max-width: 474px) {
-  .form {
-    width: 22rem;
-  }
-
-  .ball {
-    margin: 5px;
-  }
   .contact__p {
     font-size: var(--size-xl);
     padding-left: 0rem;
@@ -19,7 +12,7 @@
   }
 
   .about__description {
-    font-size: var(--size-2xl);
+    font-size: var(--size-1xl);
     padding-left: 0rem;
     padding-right: 0rem;
   }
@@ -31,8 +24,9 @@
   }
 
   .about {
-    margin-top: 9rem;
+    margin-top: 0rem;
   }
+
   .skill {
     width: 300px;
   }
@@ -66,6 +60,7 @@
   .about {
     margin-top: 9rem;
   }
+
   .skill {
     width: 400px;
   }
@@ -78,6 +73,7 @@
     padding-left: 0rem;
     padding-right: 0rem;
   }
+
   .ball_container {
     flex-wrap: wrap;
   }
@@ -111,6 +107,7 @@
     padding-left: 5rem;
     padding-right: 5rem;
   }
+
   .hero__wrapper {
     margin-top: 2rem;
     flex-direction: column-reverse;
@@ -132,7 +129,14 @@
     margin-top: 9rem;
   }
 }
+
 /*containers*/
+@media (min-width: 0px) and (max-width: 475px) {
+  .container {
+    max-width: 320px;
+  }
+}
+
 /* xs */
 @media (min-width: 475px) and (max-width: 639px) {
   .container {
@@ -159,6 +163,7 @@
   .container {
     max-width: 1024px;
   }
+
   .hero__wrapper {
     gap: 1rem;
   }
