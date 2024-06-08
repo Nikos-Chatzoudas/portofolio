@@ -133,7 +133,6 @@ window.onload = function () {
 
 function showContent() {
   var loader = document.getElementById('loader');
-  var content = document.getElementById('content');
 
   loader.style.display = 'none';
 }
