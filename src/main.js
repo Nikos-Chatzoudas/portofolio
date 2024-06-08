@@ -117,6 +117,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
 import { Application } from '@splinetool/runtime';
 
-const canvas = document.getElementById('canvas3d');
-const app = new Application(canvas);
-app.load('https://prod.spline.design/dwUZzcQa1GobHAQs/scene.splinecode');
+
+window.onload = function () {
+  const canvas = document.getElementById('canvas3d');
+  const app = new Application(canvas);
+
+  app.load('https://prod.spline.design/dwUZzcQa1GobHAQs/scene.splinecode').then(() => {
+    showContent();
+  }).catch((error) => {
+    console.error('An error occurred while loading the Spline scene:', error);
+  });
+};
+
+
+
+function showContent() {
+  var loader = document.getElementById('loader');
+  var content = document.getElementById('content');
+
+  loader.style.display = 'none';
+}

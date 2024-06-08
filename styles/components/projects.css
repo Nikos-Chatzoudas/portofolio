@@ -83,6 +83,7 @@
 .sidenav {
   height: 100%;
   width: 30%;
+  border: 1px solid var(--clr-dark-blue);
   /* Set the width of the sidebar */
   position: fixed;
   z-index: 100;
