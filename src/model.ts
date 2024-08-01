@@ -164,7 +164,9 @@ function createTextTexture(textLines: string[], showCursor: boolean, imageUrl: s
 
         const drawContent = () => {
             visibleLines.forEach((line, index) => {
-                context.fillText(line, padding, startY + index * lineHeight);
+                if (!line.startsWith('[IMAGE]')) {
+                    context.fillText(line, padding, startY + index * lineHeight);
+                }
             });
 
             if (showCursor) {
@@ -312,7 +314,7 @@ const terminalTextLines: string[] = [
     '',
     '',
     'type help for more or scroll',
-    'user:~$'
+    'user:~$ '
 ];
 let cursorVisible = false;
 let cursorBlinkInterval: number | null = null;
@@ -351,7 +353,7 @@ inputElement.addEventListener('input', function () {
     const userInput = inputElement.value;
     const lastLineIndex = terminalTextLines.length - 1;
     let name = updatePrompt();
-    terminalTextLines[lastLineIndex] = `${name}${userInput}`;
+    terminalTextLines[lastLineIndex] = `${name} ${userInput}`;
     updateTerminalText(terminalTextLines, cursorVisible);
 });
 
