@@ -11,7 +11,7 @@ scene.background = new THREE.Color(0x000000); // Set background color to black
 
 // Create the camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 0.2; // Position the camera
+camera.position.z = 0.15; // Position the camera
 
 // Create the renderer and attach it to the canvas
 const canvas = document.querySelector('.three') as HTMLCanvasElement;
@@ -26,8 +26,8 @@ renderer.toneMappingExposure = 2.3;
 // Add orbit controls
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableZoom = true; // Enable zoom
-controls.minDistance = 0.2;
-controls.maxDistance = 0.7;
+controls.minDistance = 0.15;
+controls.maxDistance = 0.6;
 controls.zoomSpeed = 2; // Adjust zoom speed
 controls.mouseButtons.RIGHT = null; // Disable right-click panning
 
@@ -66,8 +66,8 @@ const uniforms = {
     LINE_SIZE: { value: 130.0 },
     LINE_STRENGTH: { value: 0.05 },
     NOISE_STRENGTH: { value: 0.2 },
-    BRIGHTNESS: { value: 1 }, // Brightness adjustment
-    CONTRAST: { value: 1.5 }    // Contrast adjustment
+    BRIGHTNESS: { value: 1.2 }, // Brightness adjustment
+    CONTRAST: { value: 1.6 }    // Contrast adjustment
 };
 
 // Define custom shaders
@@ -287,7 +287,7 @@ loader.load('/model/pc.glb', (gltf) => {
         }
     });
 
-    gltf.scene.position.y -= 0.30;
+    gltf.scene.position.y -= 0.32;
     scene.add(gltf.scene);
 }, undefined, (error) => {
     console.error('Error loading model:', error);
@@ -350,7 +350,8 @@ inputElement.addEventListener('blur', () => {
 inputElement.addEventListener('input', function () {
     const userInput = inputElement.value;
     const lastLineIndex = terminalTextLines.length - 1;
-    terminalTextLines[lastLineIndex] = `user:~$ ${userInput}`;
+    let name = updatePrompt();
+    terminalTextLines[lastLineIndex] = `${name}${userInput}`;
     updateTerminalText(terminalTextLines, cursorVisible);
 });
 
@@ -358,59 +359,155 @@ inputElement.addEventListener('keydown', function (event) {
     if (event.key === 'Enter') {
         event.preventDefault();
 
-        const userInput = inputElement.value.trim().toLowerCase();
+        const userInput = inputElement.value.trim();
+        const [command, ...args] = userInput.split(' ');
 
-        if (userInput === 'clear') {
-            terminalTextLines.length = 0;
-            terminalTextLines.push('user:~$ ');
-        } else if (userInput === 'dedli') {
-            terminalTextLines.push('how do you know that name?');
-            terminalTextLines.push('user:~$ ');
-        } else if (userInput === 'help') {
-            terminalTextLines.push('type "clear" to clear the terminal');
-            terminalTextLines.push('type "neofetch" for pc info');
-            terminalTextLines.push('type "whoami" to see who you are');
-            terminalTextLines.push('type "meow" to get catted');
-            terminalTextLines.push('user:~$ ');
-        } else if (userInput === 'meow') {
-            terminalTextLines.push('  ／l、 ');
-            terminalTextLines.push('（ﾟ､ ｡ ７  ')
-            terminalTextLines.push(' l  ~ヽ    ')
-            terminalTextLines.push(' じしf_,)ノ')
-            terminalTextLines.push('user:~$ ');
-        } else if (userInput === 'whoami') {
-            terminalTextLines.push('user');
-            terminalTextLines.push('user:~$ ');
-        } else if (userInput === 'yorukosu') {
-            terminalTextLines.push('The blender GOD!');
-            terminalTextLines.push('user:~$ ');
-        } else if (userInput === 'neofetch') {
-            const imageUrl = 'hero.png';
-            terminalTextLines.push(`[IMAGE] ${imageUrl}`);
-            terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tName: Nikos Chatzoudas');
-            terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tStudying: Digital Systems');
-            terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAge: 20');
-            terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLocation: Greece');
-            terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLang: C,Html,Css,Js,');
-            terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tPython,Java');
-            terminalTextLines.push('');
-            terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tcontact information');
-            terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t-------------------');
-            terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tEmail:nikoschatzoudas@gmail.com');
-            terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tWebsite:chatzoudas.dev');
-            terminalTextLines.push('');
-            terminalTextLines.push('');
-            terminalTextLines.push('');
-            terminalTextLines.push('user:~$ ');
-        } else {
-            terminalTextLines.push('command not found');
-            terminalTextLines.push('user:~$ ');
+        // Remove this line to avoid double printing
+        // terminalTextLines.push(`${updatePrompt()}${userInput}`);
+
+        switch (command.toLowerCase()) {
+            case 'cd':
+                changeDirectory(args[0]);
+                break;
+            case 'ls':
+                listDirectory();
+                break;
+            case 'pwd':
+                printWorkingDirectory();
+                break;
+            case 'cat':
+                catFile(args[0]);
+                break;
+            case 'clear':
+                terminalTextLines.length = 0;
+                break;
+            case 'help':
+                showHelp();
+                break;
+            case 'neofetch':
+                showNeofetch();
+                break;
+            case 'whoami':
+                terminalTextLines.push('user');
+                break;
+            case 'meow':
+                showCat();
+                break;
+            case 'dedli':
+                terminalTextLines.push('how do you know that name?');
+                break;
+            case 'yorukosu':
+                terminalTextLines.push('The blender GOD!');
+                break;
+            default:
+                terminalTextLines.push('command not found');
         }
 
+        // Update the prompt after command execution
+        terminalTextLines.push(updatePrompt());
         updateTerminalText(terminalTextLines, cursorVisible);
         inputElement.value = '';
     }
 });
+
+function changeDirectory(dirName: string) {
+    if (!dirName) {
+        terminalTextLines.push('cd: missing operand');
+        return;
+    }
+
+    let newPath: string;
+    let newDir: FileSystemNode;
+
+    if (dirName.startsWith('/')) {
+        // Absolute path
+        newPath = dirName;
+        newDir = navigateToPath(fileSystem, newPath);
+    } else if (dirName === '..') {
+        // Parent directory
+        if (currentPath !== '/') {
+            const pathParts = currentPath.split('/').filter(Boolean);
+            pathParts.pop();
+            newPath = '/' + pathParts.join('/');
+            newDir = navigateToPath(fileSystem, newPath);
+        } else {
+            return; // Already at root
+        }
+    } else {
+        // Relative path
+        newPath = currentPath === '/' ? `/${dirName}` : `${currentPath}/${dirName}`;
+        newDir = navigateToPath(fileSystem, newPath);
+    }
+
+    if (newDir.type === 'directory') {
+        currentPath = newPath;
+        currentDirectory = newDir;
+    } else {
+        terminalTextLines.push(`cd: ${dirName}: Not a directory`);
+    }
+}
+
+function listDirectory() {
+    if (currentDirectory.children) {
+        const items = Object.values(currentDirectory.children);
+        const output = items.map(item => `${item.name}${item.type === 'directory' ? '/' : ''}`).join('  ');
+        terminalTextLines.push(output);
+    }
+}
+
+function printWorkingDirectory() {
+    terminalTextLines.push(currentPath);
+}
+
+function catFile(fileName: string) {
+    if (!fileName) {
+        terminalTextLines.push('cat: missing operand');
+        return;
+    }
+    if (currentDirectory.children && currentDirectory.children[fileName] && currentDirectory.children[fileName].type === 'file') {
+        terminalTextLines.push(currentDirectory.children[fileName].content || '');
+    } else {
+        terminalTextLines.push(`cat: ${fileName}: No such file`);
+    }
+}
+
+function showHelp() {
+    terminalTextLines.push('Available commands:');
+    terminalTextLines.push('  cd <directory> - Change directory');
+    terminalTextLines.push('  ls - List contents of current directory');
+    terminalTextLines.push('  pwd - Print working directory');
+    terminalTextLines.push('  cat <file> - Display contents of a file');
+    terminalTextLines.push('  clear - Clear the terminal');
+    terminalTextLines.push('  neofetch - Display system info');
+    terminalTextLines.push('  whoami - Display current user');
+    terminalTextLines.push('  meow - Get catted');
+    terminalTextLines.push('  help - Show this help message');
+}
+
+function showNeofetch() {
+    const imageUrl = 'hero.png';
+    terminalTextLines.push(`[IMAGE] ${imageUrl}`);
+    terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tName: Nikos Chatzoudas');
+    terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tStudying: Digital Systems');
+    terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAge: 20');
+    terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLocation: Greece');
+    terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLang: C,Html,Css,Js,');
+    terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tPython,Java');
+    terminalTextLines.push('');
+    terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tcontact information');
+    terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t-------------------');
+    terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tEmail:nikoschatzoudas@gmail.com');
+    terminalTextLines.push('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tWebsite:chatzoudas.dev');
+    terminalTextLines.push('');
+    terminalTextLines.push('');
+}
+
+function showCat() {
+    terminalTextLines.push('  ／l、 ');
+    terminalTextLines.push('（ﾟ､ ｡ ７  ')
+    terminalTextLines.push(' l  ~ヽ    ')
+    terminalTextLines.push(' じしf_,)ノ')
+}
 
 // Raycasting setup
 const raycaster = new THREE.Raycaster();
@@ -440,9 +537,82 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
+interface FileSystemNode {
+    name: string;
+    type: 'file' | 'directory';
+    content?: string;
+    children?: { [key: string]: FileSystemNode };
+}
 
+const fileSystem: FileSystemNode = {
+    name: '/',
+    type: 'directory',
+    children: {
+        home: {
+            name: 'home',
+            type: 'directory',
+            children: {
+                user: {
+                    name: 'user',
+                    type: 'directory',
+                    children: {
+                        'documents': {
+                            name: 'documents',
+                            type: 'directory',
+                            children: {
+                                'readme.txt': {
+                                    name: 'readme.txt',
+                                    type: 'file',
+                                    content: 'Welcome to my portfolio!'
+                                }
+                            }
+                        },
+                        'projects': {
+                            name: 'projects',
+                            type: 'directory',
+                            children: {}
+                        }
+                    }
+                }
+            }
+        },
+        etc: {
+            name: 'etc',
+            type: 'directory',
+            children: {}
+        },
+        var: {
+            name: 'var',
+            type: 'directory',
+            children: {}
+        }
+    }
+};
 
+let currentDirectory: FileSystemNode = fileSystem.children.home.children.user;
+let currentPath: string = '/home/user';
 
+function updatePrompt() {
+    let displayPath = currentPath;
+    if (currentPath === '/home/user') {
+        displayPath = '~';
+    } else if (currentPath.startsWith('/home/user/')) {
+        displayPath = '~' + currentPath.slice(10); // Replace '/home/user' with '~'
+    }
+    return `user:${displayPath}$`;
+}
+function navigateToPath(root: FileSystemNode, path: string): FileSystemNode {
+    const pathParts = path.split('/').filter(Boolean);
+    let current = root;
+    for (const part of pathParts) {
+        if (current.children && current.children[part]) {
+            current = current.children[part];
+        } else {
+            return root; // If path is invalid, return to root
+        }
+    }
+    return current;
+}
 function animate() {
     requestAnimationFrame(animate);
 
