@@ -1,8 +1,11 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import vertexShader from './screenshaders/vertex.glsl';
-import fragmentShader from './screenshaders/fragment.glsl';
+import screenvert from './screenshaders/vertex.glsl';
+import screenfrag from './screenshaders/fragment.glsl';
+import blackholevert from './blackholeshaders/vertex.glsl';
+import blackholefrag from './blackholeshaders/fragment.glsl';
+
 
 // Define terminal text color
 const textcolor = '#1e40af'; // Bright cyan color
@@ -231,8 +234,8 @@ loader.load('/model/pc.glb', (gltf) => {
 
             if (child instanceof THREE.Mesh) {
                 child.material = new THREE.ShaderMaterial({
-                    vertexShader: vertexShader,
-                    fragmentShader: fragmentShader,
+                    vertexShader: screenvert,
+                    fragmentShader: screenfrag,
                     uniforms: uniforms,
                     transparent: true
                 });
