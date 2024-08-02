@@ -1,13 +1,17 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import vertexShader from './screenshaders/vertex.glsl';
+import fragmentShader from './screenshaders/fragment.glsl';
+import vertexShaderBlackHole from './blackholeshaders/vertexShaderBlackHole.glsl';
+import fragmentShaderBlackHole from './blackholeshaders/fragmentShaderBlackHole.glsl';
 
 // Define terminal text color
 const textcolor = '#1e40af'; // Bright cyan color
 
 // Create the scene
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x000000); // Set background color to black
+scene.background = null; // Set background color to black
 
 // Create the camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -27,7 +31,7 @@ renderer.toneMappingExposure = 2.3;
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableZoom = true; // Enable zoom
 controls.minDistance = 0.15;
-controls.maxDistance = 0.6;
+controls.maxDistance = 1;
 controls.zoomSpeed = 2; // Adjust zoom speed
 controls.mouseButtons.RIGHT = null; // Disable right-click panning
 
@@ -70,66 +74,6 @@ const uniforms = {
     CONTRAST: { value: 1.6 }    // Contrast adjustment
 };
 
-// Define custom shaders
-const vertexShader = `
-    varying vec2 vUv;
-    void main() {
-        vUv = uv;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    }
-`;
-
-const fragmentShader = `
-    #define PI 3.1415926538
-
-    uniform sampler2D uDiffuse;
-    uniform float uTime;
-    uniform float LINE_SIZE;
-    uniform float LINE_STRENGTH;
-    uniform float NOISE_STRENGTH;
-    uniform float BRIGHTNESS;
-    uniform float CONTRAST;
-    varying vec2 vUv;
-
-    float rand(vec2 co){
-        return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);
-    }
-
-    float squareWave(float x){
-        return (
-            (4.0/PI * sin(PI*LINE_SIZE*x))
-            +(4.0/PI * 1.0/3.0 * sin(3.0*PI*LINE_SIZE*x))
-            +(4.0/PI * 1.0/5.0 * sin(5.0*PI*LINE_SIZE*x))
-        )*LINE_STRENGTH;
-    }
-
-    void main() {
-        vec4 color = texture2D(uDiffuse, vUv);
-        float r = rand(vUv*uTime);
-        float scanline = squareWave(vUv.y);
-        
-        // Apply noise and scanline effects uniformly
-        vec3 finalColor = color.rgb + (vec3(r) * NOISE_STRENGTH) + vec3(scanline);
-        
-        // Apply brightness and contrast adjustments
-        finalColor = (finalColor - 0.5) * CONTRAST + 0.5;
-        finalColor *= BRIGHTNESS;
-        
-        // Selectively brighten the text
-        float luminance = dot(finalColor, vec3(0.299, 0.587, 0.114));
-        float textThreshold = 0.5; // Adjust this value to fine-tune text detection
-        float textBrightness = 1.5; // Adjust this value to control text brightness
-        
-        if (luminance > textThreshold) {
-            finalColor *= textBrightness;
-        }
-        
-        // Apply color boost
-        finalColor = pow(finalColor, vec3(0.8)); // Increase color intensity
-        
-        gl_FragColor = vec4(finalColor, color.a);
-    }
-`;
 
 // Function to create a texture with terminal-like appearance
 function createTextTexture(textLines: string[], showCursor: boolean, imageUrl: string | null = null): Promise<THREE.Texture> {
@@ -191,11 +135,15 @@ function createTextTexture(textLines: string[], showCursor: boolean, imageUrl: s
                     if (imgIndex !== -1) {
                         const imgY = startY + (imgIndex - (textLines.length - visibleLines.length)) * lineHeight;
                         const imgHeight = lineHeight * 13;
+
+                        // Calculate width to maintain aspect ratio
                         const imgWidth = (img.width / img.height) * imgHeight;
+
                         if (imgY + imgHeight > 0) {
                             context.drawImage(img, padding, imgY, imgWidth, imgHeight);
                         }
                     }
+
                     resolve();
                 };
                 img.onerror = () => reject(new Error('Error loading image: ' + url));
@@ -239,6 +187,8 @@ function updateTerminalText(textLines: string[], showCursor: boolean) {
         console.error('Error updating terminal text:', error);
     });
 }
+// Function to create a Milky Way background
+
 
 // Load the model with surface geometry
 const loader = new GLTFLoader();
@@ -533,11 +483,11 @@ function onMouseClick(event: MouseEvent) {
 
 window.addEventListener('click', onMouseClick);
 
-// Resize handler
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
+
 });
 interface FileSystemNode {
     name: string;
@@ -618,7 +568,7 @@ function navigateToPath(root: FileSystemNode, path: string): FileSystemNode {
 function animate() {
     requestAnimationFrame(animate);
 
-    // Update time uniform
+    // Update time uniform for both shaders
     if (uniforms.uTime) {
         uniforms.uTime.value += 0.05;
     }
@@ -626,6 +576,4 @@ function animate() {
 
     renderer.render(scene, camera);
 }
-
-
 animate();
