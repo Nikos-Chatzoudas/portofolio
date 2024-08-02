@@ -3,8 +3,6 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import vertexShader from './screenshaders/vertex.glsl';
 import fragmentShader from './screenshaders/fragment.glsl';
-import vertexShaderBlackHole from './blackholeshaders/vertexShaderBlackHole.glsl';
-import fragmentShaderBlackHole from './blackholeshaders/fragmentShaderBlackHole.glsl';
 
 // Define terminal text color
 const textcolor = '#1e40af'; // Bright cyan color
@@ -200,6 +198,12 @@ loader.load('/model/pc.glb', (gltf) => {
             (child.material as THREE.Material).needsUpdate = true;
             child.castShadow = true;
             child.receiveShadow = true;
+        }
+        if (child.name === 'StickyNote1' || child.name === 'StickyNote2' || child.name === 'StickyNote3') {
+            if (child instanceof THREE.Mesh) {
+
+                (child.material as THREE.Material).roughness = 1;
+            }
         }
         if (child.name === 'Object006') {
             // Initialize with neofetch command
@@ -478,8 +482,39 @@ function onMouseClick(event: MouseEvent) {
         if (object.name === 'Object006') {
             inputElement.focus();
         }
+        if (object.name === 'StickyNote1') {
+            window.open('mailto:nikoschatzoudas@gmail.com', '_blank');
+        }
+        if (object.name === 'StickyNote2') {
+            window.open('https://github.com/Nikos-Chatzoudas', '_blank');
+        }
+        if (object.name === 'StickyNote3') {
+            window.open('https://www.linkedin.com/in/nick-chatzoudas/', '_blank');
+        }
     }
 }
+function onMouseMove(event: MouseEvent) {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+
+    const intersects = raycaster.intersectObjects(scene.children, true);
+
+    const isStickerHovered = intersects.some(intersect =>
+        intersect.object.name === 'StickyNote1' ||
+        intersect.object.name === 'StickyNote2' ||
+        intersect.object.name === 'StickyNote3'
+    );
+
+    if (isStickerHovered) {
+        document.body.style.cursor = 'pointer';
+    } else {
+        document.body.style.cursor = 'auto';
+    }
+}
+
+window.addEventListener('mousemove', onMouseMove);
 
 window.addEventListener('click', onMouseClick);
 
