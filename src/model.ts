@@ -3,8 +3,6 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import screenvert from './screenshaders/vertex.glsl';
 import screenfrag from './screenshaders/fragment.glsl';
-import blackholevert from './blackholeshaders/vertex.glsl';
-import blackholefrag from './blackholeshaders/fragment.glsl';
 
 
 // Define terminal text color
@@ -193,7 +191,7 @@ function updateTerminalText(textLines: string[], showCursor: boolean) {
 
 // Load the model with surface geometry
 const loader = new GLTFLoader();
-loader.load('/model/pc.glb', (gltf) => {
+loader.load('pc.glb', (gltf) => {
     gltf.scene.traverse((child) => {
         if (child instanceof THREE.Mesh) {
             (child.material as THREE.Material).metalness = 0.5;
@@ -376,9 +374,13 @@ function changeDirectory(dirName: string) {
     }
 
     let newPath: string;
-    let newDir: FileSystemNode;
+    let newDir: FileSystemNode | null = null;
 
-    if (dirName.startsWith('/')) {
+    if (dirName === '/') {
+        // Change to root directory
+        newPath = '/';
+        newDir = fileSystem;
+    } else if (dirName.startsWith('/')) {
         // Absolute path
         newPath = dirName;
         newDir = navigateToPath(fileSystem, newPath);
@@ -390,7 +392,8 @@ function changeDirectory(dirName: string) {
             newPath = '/' + pathParts.join('/');
             newDir = navigateToPath(fileSystem, newPath);
         } else {
-            return; // Already at root
+            terminalTextLines.push('cd: already at root directory');
+            return;
         }
     } else {
         // Relative path
@@ -398,11 +401,12 @@ function changeDirectory(dirName: string) {
         newDir = navigateToPath(fileSystem, newPath);
     }
 
-    if (newDir.type === 'directory') {
+    if (newDir && newDir.type === 'directory') {
         currentPath = newPath;
         currentDirectory = newDir;
+        terminalTextLines.push(`Changed to directory: ${currentPath}`);
     } else {
-        terminalTextLines.push(`cd: ${dirName}: Not a directory`);
+        terminalTextLines.push(`cd: ${dirName}: No such directory`);
     }
 }
 
@@ -591,18 +595,45 @@ function updatePrompt() {
     }
     return `user:${displayPath}$`;
 }
-function navigateToPath(root: FileSystemNode, path: string): FileSystemNode {
+function navigateToPath(root: FileSystemNode, path: string): FileSystemNode | null {
     const pathParts = path.split('/').filter(Boolean);
     let current = root;
     for (const part of pathParts) {
         if (current.children && current.children[part]) {
             current = current.children[part];
         } else {
-            return root; // If path is invalid, return to root
+            return null; // Return null if path is invalid
         }
     }
     return current;
 }
+
+function createStarfield() {
+    const geometry = new THREE.BufferGeometry();
+    const vertices = [];
+
+    for (let i = 0; i < 2000; i++) {
+        const x = (Math.random() - 0.5) * 2000;
+        const y = (Math.random() - 0.5) * 2000;
+        const z = (Math.random() - 0.5) * 2000;
+        vertices.push(x, y, z);
+    }
+
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+
+    const material = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 0.4,
+        sizeAttenuation: true
+    });
+
+    const stars = new THREE.Points(geometry, material);
+    scene.add(stars);
+
+    return stars;
+}
+const starfield = createStarfield();
+
 function animate() {
     requestAnimationFrame(animate);
 
@@ -610,7 +641,7 @@ function animate() {
     if (uniforms.uTime) {
         uniforms.uTime.value += 0.05;
     }
-
+    starfield.rotation.y += 0.0001;
 
     renderer.render(scene, camera);
 }
