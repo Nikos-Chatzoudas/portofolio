@@ -18,7 +18,11 @@
   <input type="text" id="terminal-input" autofocus>
   <canvas class="three"></canvas>
   <div id="notepad">
-    <h1>About me</h1>
+    <div class="buttons">
+      <div onclick="theme()" class="themebutton"><i class="fa-solid fa-sun"></i></i></div>
+      <div onclick="closenotepad()" class="xbutton"><i class="fa-solid fa-x"></i></div>
+    </div>
+    <h1>~About me~</h1>
     <p>
       I am a passionate student at the University of Thessaly in the
       department of Digital Systems in Greece, driven by a deep love for
@@ -27,15 +31,78 @@
       projects, I have honed my skills in various domains such as web
       development, software solutions, and problem-solving.
     </p>
-    <div onclick="closenotepad()" class="xbutton"><i class="fa-solid fa-x"></i></div>
+    <h1>~Projects~</h1>
+    <section>
+      <h1>iGem Competition (2024)</h1>
+      <p>I participated in the iGEM (International Genetically Engineered Machine) competition with the iGEM Thessaly
+        team, collaborating with a diverse group to tackle real-world challenges using synthetic biology. This
+        experience demonstrated my strong teamwork, problem-solving, and project management skills.
+      </p>
+      <p>As the team's web developer, I created two websites:</p>
+      <ul>
+        <li>
+          The main <a target="_blank" class="link" href="https://igem-thessaly.uth.gr/index.html">iGEM Thessaly
+            Website</a>, which
+          serves as an archive of all past Thessaly teams and their contributions.
+        </li>
+        <li>
+          The <a target="_blank" class="link" href="">Thaelia website(wiki)[under construction]</a>, which was used for
+          the
+          competition to present our experiment ideas and
+          achievements.
+        </li>
+      </ul>
+      <p>These experiences not only honed my technical abilities but also fostered effective communication and
+        presentation skills, vital for conveying complex scientific concepts to diverse audiences."</p>
+    </section>
+    <h1>~Contact me~</h1>
+    <p>
+      Feel free to reach out to me if you have any questions or would like
+      to discuss a project. I'm always excited to connect with new people
+      and explore collaboration opportunities.
+    <div class="icons">
+      <a class="icon" href="https://github.com/Nikos-Chatzoudas">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <a class="icon" href="mailto:nikoschatzoudas">
+        <i class="fa-solid fa-envelope"></i>
+      </a>
+      <a class="icon" href="https://www.linkedin.com/in/nick-chatzoudas/">
+        <i class="fa-brands fa-linkedin"></i></a>
+    </div>
+    <h5>~COPYRIGHT © 2024~</h5>
+  </div>
+
   </div>
   <script>
     function closenotepad() {
       let notepad = document.getElementById('notepad');
       if (notepad) {
         notepad.classList.remove('visible');
+        document.body.classList.add('no-scroll')
       }
     }
+    function theme() {
+      const notepad = document.getElementById("notepad");
+      notepad.classList.toggle("darktheme");
+
+      if (notepad.classList.contains("darktheme")) {
+        localStorage.setItem("theme", "dark");
+      } else {
+        localStorage.setItem("theme", "light");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem("theme");
+      const notepad = document.getElementById("notepad");
+
+      if (savedTheme === "dark") {
+        notepad.classList.add("darktheme");
+      } else {
+        notepad.classList.remove("darktheme");
+      }
+    });
   </script>
   <script type="module" src="/src/main.ts"></script>
 </body>

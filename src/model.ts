@@ -232,7 +232,7 @@ loader.load('pc.glb', (gltf) => {
                 '',
                 '',
                 '',
-                'type help for more or scroll',
+                'TYPE help OR SCOLL AND CLICK THE NOTEPAD',
                 'user:~$'
             ];
             updateTerminalText(initialTextLines, false);
@@ -275,7 +275,7 @@ const terminalTextLines: string[] = [
     '',
     '',
     '',
-    'type help for more or scroll',
+    'TYPE help OR SCOLL AND CLICK THE NOTEPAD',
     'user:~$ '
 ];
 let cursorVisible = false;
@@ -349,6 +349,7 @@ inputElement.addEventListener('keydown', function (event) {
                 showHelp();
                 break;
             case 'neofetch':
+                terminalTextLines.length = 0;
                 showNeofetch();
                 break;
             case 'whoami':
@@ -508,9 +509,16 @@ function onMouseClick(event: MouseEvent) {
         if (object.name === 'frontpage') {
             let notepad = document.getElementById('notepad');
             if (notepad) {
-                notepad.classList.add('visible');
+                document.body.classList.add('no-scroll');
+                notepad.style.display = 'flex';
+                setTimeout(() => {
+                    notepad.classList.add('visible');
+                    document.body.classList.remove('no-scroll');
+                }, 10);
             }
         }
+
+
     }
 }
 function onMouseMove(event: MouseEvent) {
