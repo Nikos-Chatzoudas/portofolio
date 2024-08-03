@@ -178,3 +178,23 @@ p {
   text-align: center;
   width: 60vw;
 }
+
+#loader {
+  height: 100vh;
+  width: 100%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  background: black;
+  z-index: 999;
+  opacity: 1;
+  /* Initial opacity */
+  transition: opacity 0.5s ease-out;
+  /* Transition for fading out */
+
+}
+
+#loader img {
+  width: 20rem;
+  height: auto;
+}
