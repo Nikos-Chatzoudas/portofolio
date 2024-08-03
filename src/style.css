@@ -105,12 +105,13 @@ p {
   width: 100%;
   background: whitesmoke;
   transition: opacity 0.5s ease-in-out;
-  z-index: 9;
+  z-index: -1;
 }
 
 #notepad.visible {
   display: flex;
   opacity: 1;
+  z-index: 3;
 }
 
 body.no-scroll {
