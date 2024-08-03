@@ -207,7 +207,7 @@ loader.load('pc.glb', (gltf) => {
             child.castShadow = true;
             child.receiveShadow = true;
         }
-        if (child.name === 'StickyNote1' || child.name === 'StickyNote2' || child.name === 'StickyNote3') {
+        if (child.name === 'StickyNote1' || child.name === 'StickyNote2' || child.name === 'StickyNote3' || child.name === 'frontpage') {
             if (child instanceof THREE.Mesh) {
 
                 (child.material as THREE.Material).roughness = 1;
@@ -505,6 +505,12 @@ function onMouseClick(event: MouseEvent) {
         if (object.name === 'StickyNote3') {
             window.open('https://www.linkedin.com/in/nick-chatzoudas/', '_blank');
         }
+        if (object.name === 'frontpage') {
+            let notepad = document.getElementById('notepad');
+            if (notepad) {
+                notepad.classList.add('visible');
+            }
+        }
     }
 }
 function onMouseMove(event: MouseEvent) {
@@ -518,7 +524,8 @@ function onMouseMove(event: MouseEvent) {
     const isStickerHovered = intersects.some(intersect =>
         intersect.object.name === 'StickyNote1' ||
         intersect.object.name === 'StickyNote2' ||
-        intersect.object.name === 'StickyNote3'
+        intersect.object.name === 'StickyNote3' ||
+        intersect.object.name === 'frontpage'
     );
 
     if (isStickerHovered) {

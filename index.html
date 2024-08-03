@@ -6,6 +6,10 @@
   <link rel="icon" type="image/svg+xml" href="icon.png" /> <!-- Added favicon -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chatzoudas - Portofolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/f1d4922354.js" crossorigin="anonymous"></script>
 
 </head>
 
@@ -13,6 +17,26 @@
   <div id="loader"><img src="load.gif" alt=""></div>
   <input type="text" id="terminal-input" autofocus>
   <canvas class="three"></canvas>
+  <div id="notepad">
+    <h1>About me</h1>
+    <p>
+      I am a passionate student at the University of Thessaly in the
+      department of Digital Systems in Greece, driven by a deep love for
+      computer science. My knowledge encompasses a wide range of
+      programming languages. Through engaging in numerous hands-on
+      projects, I have honed my skills in various domains such as web
+      development, software solutions, and problem-solving.
+    </p>
+    <div onclick="closenotepad()" class="xbutton"><i class="fa-solid fa-x"></i></div>
+  </div>
+  <script>
+    function closenotepad() {
+      let notepad = document.getElementById('notepad');
+      if (notepad) {
+        notepad.classList.remove('visible');
+      }
+    }
+  </script>
   <script type="module" src="/src/main.ts"></script>
 </body>
 
