@@ -3,9 +3,9 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="icon.png" /> <!-- Added favicon -->
+  <link rel="icon" type="image/svg+xml" href="icon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chatzoudas - Portofolio</title>
+  <title>Chatzoudas - Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
@@ -14,12 +14,14 @@
 </head>
 
 <body>
-  <div id="loader"><img src="load.gif" alt=""></div>
+  <div id="loader"><img src="load.gif" alt="">
+    <h1 id="loadingText">Loading</h1>
+  </div>
   <input type="text" id="terminal-input" autofocus>
   <canvas class="three"></canvas>
   <div id="notepad">
     <div class="buttons">
-      <div onclick="theme()" class="themebutton"><i class="fa-solid fa-sun"></i></i></div>
+      <div onclick="theme()" class="themebutton"><i class="fa-solid fa-sun" id="theme-icon"></i></div>
       <div onclick="closenotepad()" class="xbutton"><i class="fa-solid fa-x"></i></div>
     </div>
     <h1>~About me~</h1>
@@ -82,25 +84,40 @@
         document.body.classList.add('no-scroll')
       }
     }
+
     function theme() {
       const notepad = document.getElementById("notepad");
+      const themeIcon = document.getElementById("theme-icon");
       notepad.classList.toggle("darktheme");
 
       if (notepad.classList.contains("darktheme")) {
         localStorage.setItem("theme", "dark");
+        themeIcon.classList.remove("fa-sun");
+        themeIcon.classList.add("fa-moon");
+        localStorage.setItem("themeIcon", "fa-moon");
       } else {
         localStorage.setItem("theme", "light");
+        themeIcon.classList.remove("fa-moon");
+        themeIcon.classList.add("fa-sun");
+        localStorage.setItem("themeIcon", "fa-sun");
       }
     }
 
     document.addEventListener("DOMContentLoaded", () => {
       const savedTheme = localStorage.getItem("theme");
+      const savedIcon = localStorage.getItem("themeIcon");
       const notepad = document.getElementById("notepad");
+      const themeIcon = document.getElementById("theme-icon");
 
       if (savedTheme === "dark") {
         notepad.classList.add("darktheme");
       } else {
         notepad.classList.remove("darktheme");
+      }
+
+      if (savedIcon) {
+        themeIcon.classList.add(savedIcon === "fa-moon" ? "fa-moon" : "fa-sun");
+        themeIcon.classList.remove(savedIcon === "fa-moon" ? "fa-sun" : "fa-moon");
       }
     });
   </script>

@@ -199,6 +199,7 @@ loader.load('pc.glb', (gltf) => {
     setTimeout(() => {
         loaderElement.style.display = 'none';
     }, 500); // Match the duration of the CSS transition
+
     gltf.scene.traverse((child) => {
         if (child instanceof THREE.Mesh) {
             (child.material as THREE.Material).metalness = 0.5;
