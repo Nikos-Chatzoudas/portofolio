@@ -232,4 +232,17 @@ li {
 .icon {
   font-size: 2rem;
   color: rgb(196, 196, 196);
+  transition: transform 0.3s;
+}
+
+.icon:hover {
+  transform: scale(1.1);
+}
+
+@media only screen and (max-width: 600px) {
+  .buttons {
+    flex-direction: column-reverse;
+    top: 1rem;
+    right: 1rem;
+  }
 }
