@@ -81,7 +81,7 @@ p {
   opacity: 1;
   flex-direction: column;
   transition: opacity 0.5s ease-out;
-  color: red;
+  color: green;
   text-align: center;
 
 }

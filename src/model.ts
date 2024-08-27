@@ -680,7 +680,6 @@ function createStarfield() {
     return stars;
 }
 const starfield = createStarfield();
-// After setting up your scene, camera, and renderer
 function checkAllLoaded() {
     if (hdriLoaded && modelLoaded) {
         const loaderElement = document.getElementById('loader');
@@ -689,7 +688,7 @@ function checkAllLoaded() {
         // Remove loader element from DOM after transition
         setTimeout(() => {
             loaderElement.style.display = 'none';
-        }, 500); // Match the duration of the CSS transition
+        }, 1000); // Match the duration of the CSS transition
     }
 }
 
