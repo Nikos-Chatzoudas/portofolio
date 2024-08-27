@@ -5,6 +5,11 @@ import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import screenvert from './screenshaders/vertex.glsl';
 import screenfrag from './screenshaders/fragment.glsl';
 
+
+// Define terminal text color
+const textcolor = '#1e40af'; // Bright cyan color
+let hdriLoaded = false;
+let modelLoaded = false;
 function loadHDREnvironment() {
     const loader = new RGBELoader();
     loader.load('bg.hdr', (texture) => {
@@ -19,11 +24,11 @@ function loadHDREnvironment() {
                 child.material.needsUpdate = true;
             }
         });
+
+        hdriLoaded = true;
+        checkAllLoaded();
     });
 }
-// Define terminal text color
-const textcolor = '#1e40af'; // Bright cyan color
-
 // Create the scene
 const scene = new THREE.Scene();
 scene.background = null; // Set background color to black
@@ -179,6 +184,7 @@ function createTextTexture(textLines: string[], showCursor: boolean, imageUrl: s
         }
     });
 }
+loadHDREnvironment();
 
 // Function to update terminal text on the canvas
 function updateTerminalText(textLines: string[], showCursor: boolean) {
@@ -270,6 +276,8 @@ loader.load('pc.glb', (gltf) => {
 
     gltf.scene.position.y -= 0.32;
     scene.add(gltf.scene);
+    modelLoaded = true;
+    checkAllLoaded();
 }, undefined, (error) => {
     console.error('Error loading model:', error);
 });
@@ -673,7 +681,17 @@ function createStarfield() {
 }
 const starfield = createStarfield();
 // After setting up your scene, camera, and renderer
-loadHDREnvironment();
+function checkAllLoaded() {
+    if (hdriLoaded && modelLoaded) {
+        const loaderElement = document.getElementById('loader');
+        loaderElement.style.opacity = '0'; // Start fading out
+
+        // Remove loader element from DOM after transition
+        setTimeout(() => {
+            loaderElement.style.display = 'none';
+        }, 500); // Match the duration of the CSS transition
+    }
+}
 
 function animate() {
     requestAnimationFrame(animate);
