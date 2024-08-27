@@ -1,10 +1,26 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import screenvert from './screenshaders/vertex.glsl';
 import screenfrag from './screenshaders/fragment.glsl';
 
+function loadHDREnvironment() {
+    const loader = new RGBELoader();
+    loader.load('bg.hdr', (texture) => {
+        texture.mapping = THREE.EquirectangularReflectionMapping;
+        scene.background = texture;
+        scene.environment = texture;
 
+        // Update materials to use the environment map
+        scene.traverse((child) => {
+            if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
+                child.material.envMap = texture;
+                child.material.needsUpdate = true;
+            }
+        });
+    });
+}
 // Define terminal text color
 const textcolor = '#1e40af'; // Bright cyan color
 
@@ -656,6 +672,8 @@ function createStarfield() {
     return stars;
 }
 const starfield = createStarfield();
+// After setting up your scene, camera, and renderer
+loadHDREnvironment();
 
 function animate() {
     requestAnimationFrame(animate);
