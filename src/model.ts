@@ -214,14 +214,6 @@ function updateTerminalText(textLines: string[], showCursor: boolean) {
 // Load the model with surface geometry
 const loader = new GLTFLoader();
 loader.load('pc.glb', (gltf) => {
-    const loaderElement = document.getElementById('loader');
-    loaderElement.style.opacity = 0; // Start fading out
-
-    // Remove loader element from DOM after transition
-    setTimeout(() => {
-        loaderElement.style.display = 'none';
-    }, 500); // Match the duration of the CSS transition
-
     gltf.scene.traverse((child) => {
         if (child instanceof THREE.Mesh) {
             (child.material as THREE.Material).metalness = 0.5;
@@ -680,6 +672,7 @@ function createStarfield() {
     return stars;
 }
 const starfield = createStarfield();
+
 function checkAllLoaded() {
     if (hdriLoaded && modelLoaded) {
         const loaderElement = document.getElementById('loader');
@@ -688,7 +681,7 @@ function checkAllLoaded() {
         // Remove loader element from DOM after transition
         setTimeout(() => {
             loaderElement.style.display = 'none';
-        }, 1000); // Match the duration of the CSS transition
+        }, 500); // Match the duration of the CSS transition
     }
 }
 
