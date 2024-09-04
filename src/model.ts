@@ -1,3 +1,4 @@
+const startTime = performance.now();
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -675,6 +676,9 @@ const starfield = createStarfield();
 
 function checkAllLoaded() {
     if (hdriLoaded && modelLoaded) {
+        const endTime = performance.now();
+        const loadTime = (endTime - startTime) / 1000;
+        console.log(`Time taken to load everything: ${loadTime.toFixed(2)} sec`);
         const loaderElement = document.getElementById('loader');
         loaderElement.style.opacity = '0'; // Start fading out
 
