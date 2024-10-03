@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let dotCount = 0;
 
     setInterval(() => {
-        dotCount = (dotCount + 1) % 4; // Cycles through 0, 1, 2, 3
+        dotCount = (dotCount + 1) % 3; // Cycles through 0, 1, 2, 3
         dots = '.'.repeat(dotCount);
         loadingText.textContent = 'Loading' + dots;
-    }, 500); // Adjust the speed of the dots here
+    }, 200); // Adjust the speed of the dots here
 });
