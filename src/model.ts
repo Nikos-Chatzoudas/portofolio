@@ -5,7 +5,6 @@ import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 import screenvert from "./screenshaders/vertex.glsl";
 import screenfrag from "./screenshaders/fragment.glsl";
 
-// Scene setup
 export const scene = new THREE.Scene();
 scene.background = null;
 
@@ -42,7 +41,6 @@ controls.minPolarAngle = Math.PI / 2 - angleLimit;
 controls.maxPolarAngle = Math.PI / 2 + angleLimit;
 controls.update();
 
-// Lighting
 const spotLight = new THREE.SpotLight(0xa7bef6, 20);
 spotLight.position.set(10, 10, 10);
 spotLight.angle = Math.PI / 4;
@@ -56,7 +54,6 @@ scene.add(spotLight);
 const ambientLight = new THREE.AmbientLight(0xa7bef6, 0.25);
 scene.add(ambientLight);
 
-// Shader uniforms
 export const uniforms = {
   uDiffuse: { value: null },
   uTime: { value: 0 },
@@ -67,12 +64,10 @@ export const uniforms = {
   CONTRAST: { value: 1.6 },
 };
 
-// Loading state
 export let hdriLoaded = false;
 export let modelLoaded = false;
 
-// Progress tracking
-const maxProgress = 20; // Length of the progress bar
+const maxProgress = 20;
 export const loadingProgress = {
   hdri: 0,
   model: 0,
@@ -85,7 +80,6 @@ export const loadingProgress = {
   },
 };
 
-// Load HDR Environment
 export function loadHDREnvironment(
   onProgress: (progressBar: string) => void,
   onComplete: () => void
@@ -122,7 +116,6 @@ export function loadHDREnvironment(
   );
 }
 
-// Load 3D Model
 export function loadModel(
   onProgress: (progressBar: string) => void,
   onComplete: () => void
@@ -185,7 +178,6 @@ export function loadModel(
   );
 }
 
-// Create starfield background
 function createStarfield() {
   const geometry = new THREE.BufferGeometry();
   const vertices = [];
@@ -215,7 +207,6 @@ function createStarfield() {
 
 export const starfield = createStarfield();
 
-// Animation
 export function animate() {
   requestAnimationFrame(animate);
   if (uniforms.uTime) {
@@ -225,7 +216,6 @@ export function animate() {
   renderer.render(scene, camera);
 }
 
-// Handle window resize
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();

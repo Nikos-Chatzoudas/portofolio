@@ -14,7 +14,6 @@ import * as THREE from "three";
 
 const startTime = performance.now();
 
-// Terminal text creation
 function createTextTexture(
   textLines: string[],
   showCursor: boolean,
@@ -110,7 +109,6 @@ function createTextTexture(
   });
 }
 
-// Terminal text update
 function updateTerminalText(textLines: string[], showCursor: boolean) {
   const imageLines = textLines.filter((line) => line.startsWith("[IMAGE]"));
   const imageUrls = imageLines.map((line) => line.split(" ")[1]);
@@ -128,7 +126,6 @@ function updateTerminalText(textLines: string[], showCursor: boolean) {
     });
 }
 
-// Terminal state
 const terminalTextLines: string[] = [
   "user:~$ neofetch",
   "[IMAGE] hero.png",
@@ -157,7 +154,6 @@ const inputElement = document.getElementById(
   "terminal-input"
 ) as HTMLInputElement;
 
-// Cursor blinking
 function startCursorBlinking() {
   if (cursorBlinkInterval) return;
   cursorVisible = true;
@@ -177,7 +173,6 @@ function stopCursorBlinking() {
   updateTerminalText(terminalTextLines, cursorVisible);
 }
 
-// Terminal commands
 function showHelp() {
   terminalTextLines.push("Available commands:");
   terminalTextLines.push("  clear - Clear the terminal");
@@ -234,7 +229,6 @@ function updatePrompt() {
   return "user:~$";
 }
 
-// Event listeners
 inputElement.addEventListener("focus", () => {
   startCursorBlinking();
 });
@@ -284,7 +278,6 @@ inputElement.addEventListener("keydown", function (event) {
   }
 });
 
-// Mouse interaction
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
@@ -350,7 +343,6 @@ function onMouseMove(event: MouseEvent) {
 window.addEventListener("mousemove", onMouseMove);
 window.addEventListener("click", onMouseClick);
 
-// Loading and initialization
 function updateLoadingText(progressBar: string) {
   const loadingText = document.getElementById("loadingText");
   if (loadingText) {
