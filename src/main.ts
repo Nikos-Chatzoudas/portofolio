@@ -1,92 +1,18 @@
 import "./style.css";
+import {
+  scene,
+  camera,
+  loadHDREnvironment,
+  loadModel,
+  animate,
+  hdriLoaded,
+  modelLoaded,
+} from "./model";
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
-import screenvert from "./screenshaders/vertex.glsl";
-import screenfrag from "./screenshaders/fragment.glsl";
 
 const startTime = performance.now();
-let hdriLoaded = false;
-let modelLoaded = false;
 
-const scene = new THREE.Scene();
-scene.background = null;
-
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
-camera.position.z = 0.15;
-
-const canvas = document.querySelector(".three") as HTMLCanvasElement;
-if (!canvas) {
-  throw new Error("Canvas element not found");
-}
-const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.toneMapping = THREE.ReinhardToneMapping;
-renderer.toneMappingExposure = 2.3;
-
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableZoom = true;
-controls.minDistance = 0.15;
-controls.maxDistance = 1;
-controls.zoomSpeed = 2;
-controls.mouseButtons.RIGHT = null;
-
-const angleLimit = (Math.PI / 180) * 50;
-controls.minAzimuthAngle = -angleLimit;
-controls.maxAzimuthAngle = angleLimit;
-controls.minPolarAngle = Math.PI / 2 - angleLimit;
-controls.maxPolarAngle = Math.PI / 2 + angleLimit;
-controls.update();
-
-const spotLight = new THREE.SpotLight(0xa7bef6, 20);
-spotLight.position.set(10, 10, 10);
-spotLight.angle = Math.PI / 4;
-spotLight.penumbra = 0.5;
-spotLight.decay = 0.5;
-spotLight.castShadow = true;
-spotLight.shadow.mapSize.width = 1024;
-spotLight.shadow.mapSize.height = 1024;
-scene.add(spotLight);
-
-const ambientLight = new THREE.AmbientLight(0xa7bef6, 0.25);
-scene.add(ambientLight);
-
-const inputElement = document.getElementById(
-  "terminal-input"
-) as HTMLInputElement;
-
-const uniforms = {
-  uDiffuse: { value: null },
-  uTime: { value: 0 },
-  LINE_SIZE: { value: 130.0 },
-  LINE_STRENGTH: { value: 0.05 },
-  NOISE_STRENGTH: { value: 0.2 },
-  BRIGHTNESS: { value: 1.2 },
-  CONTRAST: { value: 1.6 },
-};
-
-let hdriProgress = 0;
-let modelProgress = 0;
-const maxProgress = 20;
-
-function updateLoadingProgress() {
-  const loadingText = document.getElementById("loadingText");
-  if (!loadingText) return;
-
-  const totalProgress = Math.floor((hdriProgress + modelProgress) / 2);
-  const progressBar =
-    "#".repeat(totalProgress) + ".".repeat(maxProgress - totalProgress);
-  loadingText.textContent = `Loading [${progressBar}] ${Math.floor(
-    (totalProgress / maxProgress) * 100
-  )}%`;
-}
-
+// Terminal text creation
 function createTextTexture(
   textLines: string[],
   showCursor: boolean,
@@ -182,6 +108,7 @@ function createTextTexture(
   });
 }
 
+// Terminal text update
 function updateTerminalText(textLines: string[], showCursor: boolean) {
   const imageLines = textLines.filter((line) => line.startsWith("[IMAGE]"));
   const imageUrls = imageLines.map((line) => line.split(" ")[1]);
@@ -199,6 +126,7 @@ function updateTerminalText(textLines: string[], showCursor: boolean) {
     });
 }
 
+// Terminal state
 const terminalTextLines: string[] = [
   "user:~$ neofetch",
   "[IMAGE] hero.png",
@@ -223,6 +151,11 @@ const terminalTextLines: string[] = [
 let cursorVisible = false;
 let cursorBlinkInterval: number | null = null;
 
+const inputElement = document.getElementById(
+  "terminal-input"
+) as HTMLInputElement;
+
+// Cursor blinking
 function startCursorBlinking() {
   if (cursorBlinkInterval) return;
   cursorVisible = true;
@@ -242,55 +175,7 @@ function stopCursorBlinking() {
   updateTerminalText(terminalTextLines, cursorVisible);
 }
 
-inputElement.addEventListener("focus", () => {
-  startCursorBlinking();
-});
-
-inputElement.addEventListener("blur", () => {
-  stopCursorBlinking();
-});
-
-inputElement.addEventListener("input", function () {
-  const userInput = inputElement.value;
-  const lastLineIndex = terminalTextLines.length - 1;
-  let name = updatePrompt();
-  terminalTextLines[lastLineIndex] = `${name} ${userInput}`;
-  updateTerminalText(terminalTextLines, cursorVisible);
-});
-
-inputElement.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    const userInput = inputElement.value.trim();
-    const [command] = userInput.split(" ");
-
-    switch (command.toLowerCase()) {
-      case "help":
-        showHelp();
-        break;
-      case "neofetch":
-        terminalTextLines.length = 0;
-        showNeofetch();
-        break;
-      case "whoami":
-        terminalTextLines.push("user");
-        break;
-      case "meow":
-        showCat();
-        break;
-      case "clear":
-        terminalTextLines.length = 0;
-        break;
-      default:
-        terminalTextLines.push("command not found");
-    }
-
-    terminalTextLines.push(updatePrompt());
-    updateTerminalText(terminalTextLines, cursorVisible);
-    inputElement.value = "";
-  }
-});
-
+// Terminal commands
 function showHelp() {
   terminalTextLines.push("Available commands:");
   terminalTextLines.push("  clear - Clear the terminal");
@@ -347,39 +232,63 @@ function updatePrompt() {
   return "user:~$";
 }
 
-function loadHDREnvironment() {
-  const loader = new RGBELoader();
-  loader.load(
-    "bg.hdr",
-    (texture: THREE.Texture) => {
-      texture.mapping = THREE.EquirectangularReflectionMapping;
-      scene.background = texture;
-      scene.environment = texture;
+// Event listeners
+inputElement.addEventListener("focus", () => {
+  startCursorBlinking();
+});
 
-      scene.traverse((child: THREE.Object3D) => {
-        if (
-          child instanceof THREE.Mesh &&
-          child.material instanceof THREE.MeshStandardMaterial
-        ) {
-          child.material.envMap = texture;
-          child.material.needsUpdate = true;
-        }
-      });
+inputElement.addEventListener("blur", () => {
+  stopCursorBlinking();
+});
 
-      hdriProgress = maxProgress;
-      updateLoadingProgress();
-      hdriLoaded = true;
-      checkAllLoaded();
-    },
-    (xhr: ProgressEvent) => {
-      if (xhr.lengthComputable) {
-        hdriProgress = Math.floor((xhr.loaded / xhr.total) * maxProgress);
-        updateLoadingProgress();
-      }
+inputElement.addEventListener("input", function () {
+  const userInput = inputElement.value;
+  const lastLineIndex = terminalTextLines.length - 1;
+  let name = updatePrompt();
+  terminalTextLines[lastLineIndex] = `${name} ${userInput}`;
+  updateTerminalText(terminalTextLines, cursorVisible);
+});
+
+inputElement.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    const userInput = inputElement.value.trim();
+    const [command] = userInput.split(" ");
+
+    switch (command.toLowerCase()) {
+      case "help":
+        showHelp();
+        break;
+      case "neofetch":
+        terminalTextLines.length = 0;
+        showNeofetch();
+        break;
+      case "whoami":
+        terminalTextLines.push("user");
+        break;
+      case "meow":
+        showCat();
+        break;
+      case "clear":
+        terminalTextLines.length = 0;
+        break;
+      case "hello":
+        terminalTextLines.push("hello to you too!");
+        break;
+      case "hi":
+        terminalTextLines.push("hello to you too!");
+        break;
+      default:
+        terminalTextLines.push("command not found");
     }
-  );
-}
 
+    terminalTextLines.push(updatePrompt());
+    updateTerminalText(terminalTextLines, cursorVisible);
+    inputElement.value = "";
+  }
+});
+
+// Mouse interaction
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
@@ -445,89 +354,7 @@ function onMouseMove(event: MouseEvent) {
 window.addEventListener("mousemove", onMouseMove);
 window.addEventListener("click", onMouseClick);
 
-const modelLoader = new GLTFLoader();
-modelLoader.load(
-  "pc.glb",
-  (gltf) => {
-    gltf.scene.traverse((child: THREE.Object3D) => {
-      if (child instanceof THREE.Mesh) {
-        if (child.material instanceof THREE.MeshStandardMaterial) {
-          child.material.metalness = 0.5;
-          child.material.roughness = 0.1;
-          child.material.needsUpdate = true;
-        }
-        child.castShadow = true;
-        child.receiveShadow = true;
-      }
-      if (
-        child.name === "StickyNote1" ||
-        child.name === "StickyNote2" ||
-        child.name === "StickyNote3" ||
-        child.name === "frontpage"
-      ) {
-        if (
-          child instanceof THREE.Mesh &&
-          child.material instanceof THREE.MeshStandardMaterial
-        ) {
-          child.material.roughness = 1;
-        }
-      }
-      if (child.name === "Object006") {
-        const initialTextLines = [
-          "user:~$ neofetch",
-          "[IMAGE] hero.png",
-          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tName: Nikos Chatzoudas",
-          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tStudying: Digital Systems",
-          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAge: 20",
-          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLocation: Greece",
-          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLang: C,Html,Css,Js,",
-          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tPython,Java",
-          "",
-          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tcontact information",
-          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t-------------------",
-          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tEmail:nikoschatzoudas@gmail.com",
-          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tWebsite:chatzoudas.dev",
-          "",
-          "",
-          "",
-          "TYPE help OR SCOLL AND CLICK THE NOTEPAD",
-          "user:~$",
-        ];
-        updateTerminalText(initialTextLines, false);
-
-        if (child instanceof THREE.Mesh) {
-          child.material = new THREE.ShaderMaterial({
-            vertexShader: screenvert,
-            fragmentShader: screenfrag,
-            uniforms: uniforms,
-            transparent: true,
-          });
-          child.position.z -= 0;
-          child.castShadow = false;
-          child.receiveShadow = false;
-        }
-      }
-    });
-
-    gltf.scene.position.y -= 0.32;
-    scene.add(gltf.scene);
-
-    modelProgress = maxProgress;
-    updateLoadingProgress();
-    modelLoaded = true;
-    checkAllLoaded();
-  },
-  (xhr: ProgressEvent) => {
-    if (xhr.lengthComputable) {
-      modelProgress = Math.floor((xhr.loaded / xhr.total) * maxProgress);
-      updateLoadingProgress();
-    }
-  },
-  (error: unknown) => {
-    console.error("Error loading model:", error);
-  }
-);
-
+// Loading and initialization
 function checkAllLoaded() {
   if (hdriLoaded && modelLoaded) {
     const endTime = performance.now();
@@ -547,16 +374,8 @@ function checkAllLoaded() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  updateLoadingProgress();
-  loadHDREnvironment();
+  loadHDREnvironment(checkAllLoaded);
+  loadModel(checkAllLoaded);
 });
-
-function animate() {
-  requestAnimationFrame(animate);
-  if (uniforms.uTime) {
-    uniforms.uTime.value += 0.05;
-  }
-  renderer.render(scene, camera);
-}
 
 animate();
