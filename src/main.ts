@@ -268,6 +268,12 @@ inputElement.addEventListener("keydown", function (event) {
       case "yorukosu":
         terminalTextLines.push("THE BLENDER GOD!!!");
         break;
+      case "hi":
+        terminalTextLines.push("hello to you too!");
+        break;
+      case "hello":
+        terminalTextLines.push("hello to you too!");
+        break;
       case "meow":
         showCat();
         break;
