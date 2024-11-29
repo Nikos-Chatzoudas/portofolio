@@ -679,7 +679,7 @@ function updatePrompt() {
   if (currentPath === "/home/user") {
     displayPath = "~";
   } else if (currentPath.startsWith("/home/user/")) {
-    displayPath = "~" + currentPath.slice(10); // Replace '/home/user' with '~'
+    displayPath = "~" + currentPath.slice(10);
   }
   return `user:${displayPath}$`;
 }
@@ -693,7 +693,7 @@ function navigateToPath(
     if (current.children && current.children[part]) {
       current = current.children[part];
     } else {
-      return null; // Return null if path is invalid
+      return null;
     }
   }
   return current;
@@ -734,12 +734,11 @@ function checkAllLoaded() {
     const loadTime = (endTime - startTime) / 1000;
     console.log(`Time taken to load everything: ${loadTime.toFixed(2)} sec`);
     const loaderElement = document.getElementById("loader");
-    loaderElement.style.opacity = "0"; // Start fading out
+    loaderElement.style.opacity = "0";
 
-    // Remove loader element from DOM after transition
     setTimeout(() => {
       loaderElement.style.display = "none";
-    }, 500); // Match the duration of the CSS transition
+    }, 500);
   }
 }
 

@@ -1,14 +1,562 @@
 import "./style.css";
-import "./model.ts";
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
+import screenvert from "./screenshaders/vertex.glsl";
+import screenfrag from "./screenshaders/fragment.glsl";
+
+const startTime = performance.now();
+let hdriLoaded = false;
+let modelLoaded = false;
+
+const scene = new THREE.Scene();
+scene.background = null;
+
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
+camera.position.z = 0.15;
+
+const canvas = document.querySelector(".three") as HTMLCanvasElement;
+if (!canvas) {
+  throw new Error("Canvas element not found");
+}
+const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.toneMapping = THREE.ReinhardToneMapping;
+renderer.toneMappingExposure = 2.3;
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableZoom = true;
+controls.minDistance = 0.15;
+controls.maxDistance = 1;
+controls.zoomSpeed = 2;
+controls.mouseButtons.RIGHT = null;
+
+const angleLimit = (Math.PI / 180) * 50;
+controls.minAzimuthAngle = -angleLimit;
+controls.maxAzimuthAngle = angleLimit;
+controls.minPolarAngle = Math.PI / 2 - angleLimit;
+controls.maxPolarAngle = Math.PI / 2 + angleLimit;
+controls.update();
+
+const spotLight = new THREE.SpotLight(0xa7bef6, 20);
+spotLight.position.set(10, 10, 10);
+spotLight.angle = Math.PI / 4;
+spotLight.penumbra = 0.5;
+spotLight.decay = 0.5;
+spotLight.castShadow = true;
+spotLight.shadow.mapSize.width = 1024;
+spotLight.shadow.mapSize.height = 1024;
+scene.add(spotLight);
+
+const ambientLight = new THREE.AmbientLight(0xa7bef6, 0.25);
+scene.add(ambientLight);
+
+const inputElement = document.getElementById(
+  "terminal-input"
+) as HTMLInputElement;
+
+const uniforms = {
+  uDiffuse: { value: null },
+  uTime: { value: 0 },
+  LINE_SIZE: { value: 130.0 },
+  LINE_STRENGTH: { value: 0.05 },
+  NOISE_STRENGTH: { value: 0.2 },
+  BRIGHTNESS: { value: 1.2 },
+  CONTRAST: { value: 1.6 },
+};
+
+let hdriProgress = 0;
+let modelProgress = 0;
+const maxProgress = 20;
+
+function updateLoadingProgress() {
+  const loadingText = document.getElementById("loadingText");
+  if (!loadingText) return;
+
+  const totalProgress = Math.floor((hdriProgress + modelProgress) / 2);
+  const progressBar =
+    "#".repeat(totalProgress) + ".".repeat(maxProgress - totalProgress);
+  loadingText.textContent = `Loading [${progressBar}] ${Math.floor(
+    (totalProgress / maxProgress) * 100
+  )}%`;
+}
+
+function createTextTexture(
+  textLines: string[],
+  showCursor: boolean,
+  imageUrl: string | null = null
+): Promise<THREE.Texture> {
+  return new Promise((resolve, reject) => {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    const padding = 40;
+    const maxLines = 20;
+    const lineHeight = 20;
+    const textHeight = maxLines * lineHeight;
+    canvas.width = 512;
+    canvas.height = textHeight + padding * 2;
+
+    if (!context) {
+      return reject(new Error("Failed to get 2D context from canvas"));
+    }
+
+    context.fillStyle = "black";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    context.font = "16px monospace";
+    context.fillStyle = "#1e40af";
+    context.textAlign = "left";
+    context.textBaseline = "top";
+    context.shadowColor = "#1e40af";
+    context.shadowOffsetX = 0;
+    context.shadowOffsetY = 0;
+    context.shadowBlur = 3;
+
+    const startY = padding;
+    let visibleLines = textLines.slice(-maxLines);
+
+    const drawContent = () => {
+      visibleLines.forEach((line, index) => {
+        if (!line.startsWith("[IMAGE]")) {
+          context.fillText(line, padding, startY + index * lineHeight);
+        }
+      });
+
+      if (showCursor) {
+        const cursorLineIndex = visibleLines.length - 1;
+        const lastLine = visibleLines[cursorLineIndex] || "";
+        const cursorX = padding + context.measureText(lastLine).width;
+        const cursorY = startY + cursorLineIndex * lineHeight;
+        const cursorWidth = 6;
+        const cursorHeight = lineHeight / 1.5;
+        context.fillStyle = "#1e40af";
+        context.fillRect(cursorX, cursorY, cursorWidth, cursorHeight);
+      }
+    };
+
+    drawContent();
+
+    const loadAndDrawImage = (url: string) => {
+      return new Promise<void>((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          const imgIndex = textLines.findIndex((line) =>
+            line.startsWith("[IMAGE]")
+          );
+          if (imgIndex !== -1) {
+            const imgY =
+              startY +
+              (imgIndex - (textLines.length - visibleLines.length)) *
+                lineHeight;
+            const imgHeight = lineHeight * 13;
+            const imgWidth = (img.width / img.height) * imgHeight;
+
+            if (imgY + imgHeight > 0) {
+              context.drawImage(img, padding, imgY, imgWidth, imgHeight);
+            }
+          }
+          resolve();
+        };
+        img.onerror = () => reject(new Error("Error loading image: " + url));
+        img.src = url;
+      });
+    };
+
+    const finalizeTexture = () => {
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.needsUpdate = true;
+      resolve(texture);
+    };
+
+    if (imageUrl) {
+      loadAndDrawImage(imageUrl).then(finalizeTexture).catch(reject);
+    } else {
+      finalizeTexture();
+    }
+  });
+}
+
+function updateTerminalText(textLines: string[], showCursor: boolean) {
+  const imageLines = textLines.filter((line) => line.startsWith("[IMAGE]"));
+  const imageUrls = imageLines.map((line) => line.split(" ")[1]);
+
+  return createTextTexture(textLines, showCursor, imageUrls[0])
+    .then((texture) => {
+      const mesh = scene.getObjectByName("Object006") as THREE.Mesh | undefined;
+      if (mesh && mesh.material instanceof THREE.ShaderMaterial) {
+        mesh.material.uniforms.uDiffuse.value = texture;
+        mesh.material.needsUpdate = true;
+      }
+    })
+    .catch((error) => {
+      console.error("Error updating terminal text:", error);
+    });
+}
+
+const terminalTextLines: string[] = [
+  "user:~$ neofetch",
+  "[IMAGE] hero.png",
+  "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tName: Nikos Chatzoudas",
+  "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tStudying: Digital Systems",
+  "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAge: 20",
+  "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLocation: Greece",
+  "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLang: C,Html,Css,Js,",
+  "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tPython,Java",
+  "",
+  "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tcontact information",
+  "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t-------------------",
+  "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tEmail:nikoschatzoudas@gmail.com",
+  "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tWebsite:chatzoudas.dev",
+  "",
+  "",
+  "",
+  "TYPE help OR SCOLL AND CLICK THE NOTEPAD",
+  "user:~$ ",
+];
+
+let cursorVisible = false;
+let cursorBlinkInterval: number | null = null;
+
+function startCursorBlinking() {
+  if (cursorBlinkInterval) return;
+  cursorVisible = true;
+  updateTerminalText(terminalTextLines, cursorVisible);
+  cursorBlinkInterval = window.setInterval(() => {
+    cursorVisible = !cursorVisible;
+    updateTerminalText(terminalTextLines, cursorVisible);
+  }, 500);
+}
+
+function stopCursorBlinking() {
+  if (cursorBlinkInterval) {
+    clearInterval(cursorBlinkInterval);
+    cursorBlinkInterval = null;
+  }
+  cursorVisible = false;
+  updateTerminalText(terminalTextLines, cursorVisible);
+}
+
+inputElement.addEventListener("focus", () => {
+  startCursorBlinking();
+});
+
+inputElement.addEventListener("blur", () => {
+  stopCursorBlinking();
+});
+
+inputElement.addEventListener("input", function () {
+  const userInput = inputElement.value;
+  const lastLineIndex = terminalTextLines.length - 1;
+  let name = updatePrompt();
+  terminalTextLines[lastLineIndex] = `${name} ${userInput}`;
+  updateTerminalText(terminalTextLines, cursorVisible);
+});
+
+inputElement.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    const userInput = inputElement.value.trim();
+    const [command] = userInput.split(" ");
+
+    switch (command.toLowerCase()) {
+      case "help":
+        showHelp();
+        break;
+      case "neofetch":
+        terminalTextLines.length = 0;
+        showNeofetch();
+        break;
+      case "whoami":
+        terminalTextLines.push("user");
+        break;
+      case "meow":
+        showCat();
+        break;
+      case "clear":
+        terminalTextLines.length = 0;
+        break;
+      default:
+        terminalTextLines.push("command not found");
+    }
+
+    terminalTextLines.push(updatePrompt());
+    updateTerminalText(terminalTextLines, cursorVisible);
+    inputElement.value = "";
+  }
+});
+
+function showHelp() {
+  terminalTextLines.push("Available commands:");
+  terminalTextLines.push("  clear - Clear the terminal");
+  terminalTextLines.push("  neofetch - Display system info");
+  terminalTextLines.push("  whoami - Display current user");
+  terminalTextLines.push("  meow - Get catted");
+  terminalTextLines.push("  help - Show this help message");
+}
+
+function showNeofetch() {
+  terminalTextLines.push("user:~$ neofetch");
+  terminalTextLines.push("[IMAGE] hero.png");
+  terminalTextLines.push(
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tName: Nikos Chatzoudas"
+  );
+  terminalTextLines.push(
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tStudying: Digital Systems"
+  );
+  terminalTextLines.push("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAge: 20");
+  terminalTextLines.push(
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLocation: Greece"
+  );
+  terminalTextLines.push(
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLang: C,Html,Css,Js,"
+  );
+  terminalTextLines.push(
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tPython,Java"
+  );
+  terminalTextLines.push("");
+  terminalTextLines.push(
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tcontact information"
+  );
+  terminalTextLines.push(
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t-------------------"
+  );
+  terminalTextLines.push(
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tEmail:nikoschatzoudas@gmail.com"
+  );
+  terminalTextLines.push(
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tWebsite:chatzoudas.dev"
+  );
+  terminalTextLines.push("");
+  terminalTextLines.push("");
+}
+
+function showCat() {
+  terminalTextLines.push("  ／l、");
+  terminalTextLines.push("（ﾟ､ ｡ ７");
+  terminalTextLines.push(" l  ~ヽ");
+  terminalTextLines.push(" じしf_,)ノ");
+}
+
+function updatePrompt() {
+  return "user:~$";
+}
+
+function loadHDREnvironment() {
+  const loader = new RGBELoader();
+  loader.load(
+    "bg.hdr",
+    (texture: THREE.Texture) => {
+      texture.mapping = THREE.EquirectangularReflectionMapping;
+      scene.background = texture;
+      scene.environment = texture;
+
+      scene.traverse((child: THREE.Object3D) => {
+        if (
+          child instanceof THREE.Mesh &&
+          child.material instanceof THREE.MeshStandardMaterial
+        ) {
+          child.material.envMap = texture;
+          child.material.needsUpdate = true;
+        }
+      });
+
+      hdriProgress = maxProgress;
+      updateLoadingProgress();
+      hdriLoaded = true;
+      checkAllLoaded();
+    },
+    (xhr: ProgressEvent) => {
+      if (xhr.lengthComputable) {
+        hdriProgress = Math.floor((xhr.loaded / xhr.total) * maxProgress);
+        updateLoadingProgress();
+      }
+    }
+  );
+}
+
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+function onMouseClick(event: MouseEvent) {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+
+  const intersects = raycaster.intersectObjects(scene.children, true);
+
+  if (intersects.length > 0) {
+    const object = intersects[0].object;
+    if (object.name === "Object006") {
+      inputElement.focus();
+    }
+    if (object.name === "StickyNote1") {
+      window.open("mailto:nikoschatzoudas@gmail.com", "_blank");
+    }
+    if (object.name === "StickyNote2") {
+      window.open("https://github.com/Nikos-Chatzoudas", "_blank");
+    }
+    if (object.name === "StickyNote3") {
+      window.open("https://www.linkedin.com/in/nick-chatzoudas/", "_blank");
+    }
+    if (object.name === "frontpage") {
+      let notepad = document.getElementById("notepad");
+      if (notepad) {
+        document.body.classList.add("no-scroll");
+        notepad.style.display = "flex";
+        setTimeout(() => {
+          notepad.classList.add("visible");
+          document.body.classList.remove("no-scroll");
+        }, 10);
+      }
+    }
+  }
+}
+
+function onMouseMove(event: MouseEvent) {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+
+  const intersects = raycaster.intersectObjects(scene.children, true);
+
+  const isStickerHovered = intersects.some(
+    (intersect) =>
+      intersect.object.name === "StickyNote1" ||
+      intersect.object.name === "StickyNote2" ||
+      intersect.object.name === "StickyNote3" ||
+      intersect.object.name === "frontpage"
+  );
+
+  if (isStickerHovered) {
+    document.body.style.cursor = "pointer";
+  } else {
+    document.body.style.cursor = "auto";
+  }
+}
+
+window.addEventListener("mousemove", onMouseMove);
+window.addEventListener("click", onMouseClick);
+
+const modelLoader = new GLTFLoader();
+modelLoader.load(
+  "pc.glb",
+  (gltf) => {
+    gltf.scene.traverse((child: THREE.Object3D) => {
+      if (child instanceof THREE.Mesh) {
+        if (child.material instanceof THREE.MeshStandardMaterial) {
+          child.material.metalness = 0.5;
+          child.material.roughness = 0.1;
+          child.material.needsUpdate = true;
+        }
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+      if (
+        child.name === "StickyNote1" ||
+        child.name === "StickyNote2" ||
+        child.name === "StickyNote3" ||
+        child.name === "frontpage"
+      ) {
+        if (
+          child instanceof THREE.Mesh &&
+          child.material instanceof THREE.MeshStandardMaterial
+        ) {
+          child.material.roughness = 1;
+        }
+      }
+      if (child.name === "Object006") {
+        const initialTextLines = [
+          "user:~$ neofetch",
+          "[IMAGE] hero.png",
+          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tName: Nikos Chatzoudas",
+          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tStudying: Digital Systems",
+          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAge: 20",
+          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLocation: Greece",
+          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLang: C,Html,Css,Js,",
+          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tPython,Java",
+          "",
+          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tcontact information",
+          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t-------------------",
+          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tEmail:nikoschatzoudas@gmail.com",
+          "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tWebsite:chatzoudas.dev",
+          "",
+          "",
+          "",
+          "TYPE help OR SCOLL AND CLICK THE NOTEPAD",
+          "user:~$",
+        ];
+        updateTerminalText(initialTextLines, false);
+
+        if (child instanceof THREE.Mesh) {
+          child.material = new THREE.ShaderMaterial({
+            vertexShader: screenvert,
+            fragmentShader: screenfrag,
+            uniforms: uniforms,
+            transparent: true,
+          });
+          child.position.z -= 0;
+          child.castShadow = false;
+          child.receiveShadow = false;
+        }
+      }
+    });
+
+    gltf.scene.position.y -= 0.32;
+    scene.add(gltf.scene);
+
+    modelProgress = maxProgress;
+    updateLoadingProgress();
+    modelLoaded = true;
+    checkAllLoaded();
+  },
+  (xhr: ProgressEvent) => {
+    if (xhr.lengthComputable) {
+      modelProgress = Math.floor((xhr.loaded / xhr.total) * maxProgress);
+      updateLoadingProgress();
+    }
+  },
+  (error: unknown) => {
+    console.error("Error loading model:", error);
+  }
+);
+
+function checkAllLoaded() {
+  if (hdriLoaded && modelLoaded) {
+    const endTime = performance.now();
+    const loadTime = (endTime - startTime) / 1000;
+    console.log(`Time taken to load everything: ${loadTime.toFixed(2)} sec`);
+    const loaderElement = document.getElementById("loader");
+    if (!loaderElement) return;
+    loaderElement.style.opacity = "0";
+    setTimeout(() => {
+      loaderElement.style.display = "none";
+      if (inputElement) {
+        inputElement.focus();
+        startCursorBlinking();
+      }
+    }, 500);
+  }
+}
 
 document.addEventListener("DOMContentLoaded", function () {
-  let loadingText = document.getElementById("loadingText");
-  let dots = "";
-  let dotCount = 0;
-
-  setInterval(() => {
-    dotCount = (dotCount + 1) % 2;
-    dots = ".".repeat(dotCount);
-    loadingText.textContent = "Loading" + dots;
-  }, 200); // Adjust the speed of the dots here
+  updateLoadingProgress();
+  loadHDREnvironment();
 });
+
+function animate() {
+  requestAnimationFrame(animate);
+  if (uniforms.uTime) {
+    uniforms.uTime.value += 0.05;
+  }
+  renderer.render(scene, camera);
+}
+
+animate();
