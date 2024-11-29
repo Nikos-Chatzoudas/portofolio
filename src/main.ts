@@ -262,6 +262,12 @@ inputElement.addEventListener("keydown", function (event) {
       case "whoami":
         terminalTextLines.push("user");
         break;
+      case "dedli":
+        terminalTextLines.push("How do you know that name!");
+        break;
+      case "yorukosu":
+        terminalTextLines.push("THE BLENDER GOD!!!");
+        break;
       case "meow":
         showCat();
         break;
