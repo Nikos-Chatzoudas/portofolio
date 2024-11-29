@@ -71,31 +71,62 @@ export const uniforms = {
 export let hdriLoaded = false;
 export let modelLoaded = false;
 
+// Progress tracking
+const maxProgress = 20; // Length of the progress bar
+export const loadingProgress = {
+  hdri: 0,
+  model: 0,
+  getProgressBar() {
+    const totalProgress = Math.floor((this.hdri + this.model) / 2);
+    const progressChars = Math.floor((totalProgress / 100) * maxProgress);
+    return `[${"#"
+      .repeat(progressChars)
+      .padEnd(maxProgress, ".")}] ${totalProgress}%`;
+  },
+};
+
 // Load HDR Environment
-export function loadHDREnvironment(onLoadComplete: () => void) {
+export function loadHDREnvironment(
+  onProgress: (progressBar: string) => void,
+  onComplete: () => void
+) {
   const loader = new RGBELoader();
-  loader.load("bg.hdr", (texture: THREE.Texture) => {
-    texture.mapping = THREE.EquirectangularReflectionMapping;
-    scene.background = texture;
-    scene.environment = texture;
+  loader.load(
+    "bg.hdr",
+    (texture: THREE.Texture) => {
+      texture.mapping = THREE.EquirectangularReflectionMapping;
+      scene.background = texture;
+      scene.environment = texture;
 
-    scene.traverse((child: THREE.Object3D) => {
-      if (
-        child instanceof THREE.Mesh &&
-        child.material instanceof THREE.MeshStandardMaterial
-      ) {
-        child.material.envMap = texture;
-        child.material.needsUpdate = true;
+      scene.traverse((child: THREE.Object3D) => {
+        if (
+          child instanceof THREE.Mesh &&
+          child.material instanceof THREE.MeshStandardMaterial
+        ) {
+          child.material.envMap = texture;
+          child.material.needsUpdate = true;
+        }
+      });
+
+      hdriLoaded = true;
+      loadingProgress.hdri = 100;
+      onProgress(loadingProgress.getProgressBar());
+      onComplete();
+    },
+    (xhr) => {
+      if (xhr.lengthComputable) {
+        loadingProgress.hdri = Math.floor((xhr.loaded / xhr.total) * 100);
+        onProgress(loadingProgress.getProgressBar());
       }
-    });
-
-    hdriLoaded = true;
-    onLoadComplete();
-  });
+    }
+  );
 }
 
 // Load 3D Model
-export function loadModel(onLoadComplete: () => void) {
+export function loadModel(
+  onProgress: (progressBar: string) => void,
+  onComplete: () => void
+) {
   const loader = new GLTFLoader();
   loader.load(
     "pc.glb",
@@ -138,9 +169,16 @@ export function loadModel(onLoadComplete: () => void) {
       gltf.scene.position.y -= 0.32;
       scene.add(gltf.scene);
       modelLoaded = true;
-      onLoadComplete();
+      loadingProgress.model = 100;
+      onProgress(loadingProgress.getProgressBar());
+      onComplete();
     },
-    undefined,
+    (xhr) => {
+      if (xhr.lengthComputable) {
+        loadingProgress.model = Math.floor((xhr.loaded / xhr.total) * 100);
+        onProgress(loadingProgress.getProgressBar());
+      }
+    },
     (error) => {
       console.error("Error loading model:", error);
     }

@@ -2,6 +2,8 @@ import "./style.css";
 import {
   scene,
   camera,
+  renderer,
+  uniforms,
   loadHDREnvironment,
   loadModel,
   animate,
@@ -272,12 +274,6 @@ inputElement.addEventListener("keydown", function (event) {
       case "clear":
         terminalTextLines.length = 0;
         break;
-      case "hello":
-        terminalTextLines.push("hello to you too!");
-        break;
-      case "hi":
-        terminalTextLines.push("hello to you too!");
-        break;
       default:
         terminalTextLines.push("command not found");
     }
@@ -355,6 +351,13 @@ window.addEventListener("mousemove", onMouseMove);
 window.addEventListener("click", onMouseClick);
 
 // Loading and initialization
+function updateLoadingText(progressBar: string) {
+  const loadingText = document.getElementById("loadingText");
+  if (loadingText) {
+    loadingText.textContent = `Loading ${progressBar}`;
+  }
+}
+
 function checkAllLoaded() {
   if (hdriLoaded && modelLoaded) {
     const endTime = performance.now();
@@ -374,8 +377,8 @@ function checkAllLoaded() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  loadHDREnvironment(checkAllLoaded);
-  loadModel(checkAllLoaded);
+  loadHDREnvironment(updateLoadingText, checkAllLoaded);
+  loadModel(updateLoadingText, checkAllLoaded);
 });
 
 animate();
