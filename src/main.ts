@@ -358,7 +358,7 @@ window.addEventListener("click", onMouseClick);
 function updateLoadingText(progressBar: string) {
   const loadingText = document.getElementById("loadingText");
   if (loadingText) {
-    loadingText.textContent = `Loading ${progressBar}`;
+    loadingText.textContent = `${progressBar}`;
   }
 }
 

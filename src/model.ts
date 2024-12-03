@@ -116,14 +116,44 @@ export function loadHDREnvironment(
   );
 }
 
+function createInitialTexture(): Promise<THREE.Texture> {
+  return new Promise((resolve) => {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    canvas.width = 512;
+    canvas.height = 512;
+
+    if (context) {
+      context.fillStyle = "black";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
+      context.font = "16px monospace";
+      context.fillStyle = "#1e40af";
+      context.textAlign = "left";
+      context.textBaseline = "top";
+      context.shadowColor = "#1e40af";
+      context.shadowOffsetX = 0;
+      context.shadowOffsetY = 0;
+      context.shadowBlur = 3;
+
+      context.fillText("Loading...", 40, 40);
+    }
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.needsUpdate = true;
+    resolve(texture);
+  });
+}
+
 export function loadModel(
   onProgress: (progressBar: string) => void,
   onComplete: () => void
 ) {
   const loader = new GLTFLoader();
+
   loader.load(
     "pc.glb",
-    (gltf) => {
+    async (gltf) => {
       gltf.scene.traverse((child) => {
         if (child instanceof THREE.Mesh) {
           if (child.material instanceof THREE.MeshStandardMaterial) {
@@ -146,15 +176,20 @@ export function loadModel(
           }
 
           if (child.name === "Object006") {
-            child.material = new THREE.ShaderMaterial({
-              vertexShader: screenvert,
-              fragmentShader: screenfrag,
-              uniforms: uniforms,
-              transparent: true,
+            createInitialTexture().then((texture) => {
+              child.material = new THREE.ShaderMaterial({
+                vertexShader: screenvert,
+                fragmentShader: screenfrag,
+                uniforms: {
+                  ...uniforms,
+                  uDiffuse: { value: texture },
+                },
+                transparent: true,
+              });
+              child.position.z -= 0;
+              child.castShadow = false;
+              child.receiveShadow = false;
             });
-            child.position.z -= 0;
-            child.castShadow = false;
-            child.receiveShadow = false;
           }
         }
       });
