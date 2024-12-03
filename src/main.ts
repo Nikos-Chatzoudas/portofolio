@@ -14,6 +14,215 @@ import * as THREE from "three";
 
 const startTime = performance.now();
 
+// Virtual File System
+interface VirtualFile {
+  name: string;
+  type: "file" | "directory";
+  content?: string;
+  children?: { [key: string]: VirtualFile };
+}
+
+const fileSystem: VirtualFile = {
+  name: "/",
+  type: "directory",
+  children: {
+    home: {
+      name: "home",
+      type: "directory",
+      children: {
+        user: {
+          name: "user",
+          type: "directory",
+          children: {
+            documents: {
+              name: "documents",
+              type: "directory",
+              children: {
+                "readme.txt": {
+                  name: "readme.txt",
+                  type: "file",
+                  content: "Welcome to my portfolio!",
+                },
+              },
+            },
+            projects: {
+              name: "projects",
+              type: "directory",
+              children: {
+                portfolio: {
+                  name: "portfolio",
+                  type: "directory",
+                  children: {},
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+let currentDirectory: VirtualFile =
+  fileSystem.children!["home"].children!["user"];
+let currentPath: string[] = ["/home/user"];
+
+function resolvePath(path: string): VirtualFile | null {
+  if (path === "/") return fileSystem;
+  if (path.startsWith("/")) {
+    // Absolute path
+    const parts = path.split("/").filter((p) => p);
+    let current = fileSystem;
+    for (const part of parts) {
+      if (!current.children || !current.children[part]) return null;
+      current = current.children[part];
+    }
+    return current;
+  } else {
+    // Relative path
+    const parts = path.split("/").filter((p) => p);
+    let current = currentDirectory;
+    for (const part of parts) {
+      if (part === "..") {
+        // Go up one directory
+        const parentPath = currentPath.slice(0, -1).join("/") || "/";
+        current = resolvePath(parentPath)!;
+      } else if (part === ".") {
+        // Stay in current directory
+        continue;
+      } else {
+        if (!current.children || !current.children[part]) return null;
+        current = current.children[part];
+      }
+    }
+    return current;
+  }
+}
+
+function getFullPath(): string {
+  return currentPath[currentPath.length - 1];
+}
+
+function executeCommand(command: string): string[] {
+  const [cmd, ...args] = command.trim().split(" ");
+  const output: string[] = [];
+
+  switch (cmd.toLowerCase()) {
+    case "ls":
+      if (currentDirectory.children) {
+        const entries = Object.values(currentDirectory.children);
+        entries.forEach((entry) => {
+          output.push(
+            entry.type === "directory" ? `${entry.name}/` : entry.name
+          );
+        });
+      }
+      break;
+
+    case "pwd":
+      output.push(getFullPath());
+      break;
+
+    case "cd":
+      const target = args[0] || "/home/user";
+      let newDir: VirtualFile | null;
+      let newPath: string;
+
+      if (target === "/") {
+        newDir = fileSystem;
+        newPath = "/";
+      } else if (target.startsWith("/")) {
+        newDir = resolvePath(target);
+        newPath = target;
+      } else {
+        const relativePath = target.split("/").filter((p) => p);
+        let tempPath = [...currentPath];
+
+        for (const part of relativePath) {
+          if (part === "..") {
+            if (tempPath.length > 1) {
+              tempPath.pop();
+            }
+          } else if (part !== ".") {
+            tempPath.push(part);
+          }
+        }
+
+        newPath = tempPath.join("/");
+        newDir = resolvePath(newPath);
+      }
+
+      if (newDir && newDir.type === "directory") {
+        currentDirectory = newDir;
+        currentPath = newPath === "/" ? ["/"] : newPath.split("/");
+      } else {
+        output.push(`cd: no such directory: ${target}`);
+      }
+      break;
+
+    case "help":
+      output.push("Available commands:");
+      output.push("  clear - Clear the terminal");
+      output.push("  ls - List directory contents");
+      output.push("  pwd - Print working directory");
+      output.push("  cd [dir] - Change directory");
+      output.push("  neofetch - Display system info");
+      output.push("  whoami - Display current user");
+      output.push("  meow - Get catted");
+      break;
+
+    case "neofetch":
+      terminalTextLines.length = 0;
+      output.push("user:~$ neofetch");
+      output.push("[IMAGE] hero.png");
+      output.push(
+        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tName: Nikos Chatzoudas"
+      );
+      output.push(
+        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tStudying: Digital Systems"
+      );
+      output.push("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAge: 20");
+      output.push("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLocation: Greece");
+
+      output.push("");
+      output.push(
+        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tcontact information"
+      );
+      output.push(
+        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t-------------------"
+      );
+      output.push(
+        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tEmail:nikoschatzoudas@gmail.com"
+      );
+      output.push(
+        "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tWebsite:chatzoudas.dev"
+      );
+      output.push("");
+      output.push("");
+      break;
+
+    case "whoami":
+      output.push("user");
+      break;
+
+    case "meow":
+      output.push("  ／l、");
+      output.push("（ﾟ､ ｡ ７");
+      output.push(" l  ~ヽ");
+      output.push(" じしf_,)ノ");
+      break;
+
+    case "clear":
+      terminalTextLines.length = 0;
+      break;
+
+    default:
+      output.push("command not found");
+  }
+
+  return output;
+}
+
 function createTextTexture(
   textLines: string[],
   showCursor: boolean,
@@ -133,7 +342,7 @@ const terminalTextLines: string[] = [
   "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tStudying: Digital Systems",
   "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAge: 20",
   "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLocation: Greece",
-  "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLang: C,Html,Css,Js,",
+
   "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tPython,Java",
   "",
   "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tcontact information",
@@ -173,60 +382,9 @@ function stopCursorBlinking() {
   updateTerminalText(terminalTextLines, cursorVisible);
 }
 
-function showHelp() {
-  terminalTextLines.push("Available commands:");
-  terminalTextLines.push("  clear - Clear the terminal");
-  terminalTextLines.push("  neofetch - Display system info");
-  terminalTextLines.push("  whoami - Display current user");
-  terminalTextLines.push("  meow - Get catted");
-  terminalTextLines.push("  help - Show this help message");
-}
-
-function showNeofetch() {
-  terminalTextLines.push("user:~$ neofetch");
-  terminalTextLines.push("[IMAGE] hero.png");
-  terminalTextLines.push(
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tName: Nikos Chatzoudas"
-  );
-  terminalTextLines.push(
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tStudying: Digital Systems"
-  );
-  terminalTextLines.push("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAge: 20");
-  terminalTextLines.push(
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLocation: Greece"
-  );
-  terminalTextLines.push(
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLang: C,Html,Css,Js,"
-  );
-  terminalTextLines.push(
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tPython,Java"
-  );
-  terminalTextLines.push("");
-  terminalTextLines.push(
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tcontact information"
-  );
-  terminalTextLines.push(
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t-------------------"
-  );
-  terminalTextLines.push(
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tEmail:nikoschatzoudas@gmail.com"
-  );
-  terminalTextLines.push(
-    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tWebsite:chatzoudas.dev"
-  );
-  terminalTextLines.push("");
-  terminalTextLines.push("");
-}
-
-function showCat() {
-  terminalTextLines.push("  ／l、");
-  terminalTextLines.push("（ﾟ､ ｡ ７");
-  terminalTextLines.push(" l  ~ヽ");
-  terminalTextLines.push(" じしf_,)ノ");
-}
-
 function updatePrompt() {
-  return "user:~$";
+  const shortPath = getFullPath().replace("/home/user", "~");
+  return `user:${shortPath}$`;
 }
 
 inputElement.addEventListener("focus", () => {
@@ -240,8 +398,8 @@ inputElement.addEventListener("blur", () => {
 inputElement.addEventListener("input", function () {
   const userInput = inputElement.value;
   const lastLineIndex = terminalTextLines.length - 1;
-  let name = updatePrompt();
-  terminalTextLines[lastLineIndex] = `${name} ${userInput}`;
+  let prompt = updatePrompt();
+  terminalTextLines[lastLineIndex] = `${prompt} ${userInput}`;
   updateTerminalText(terminalTextLines, cursorVisible);
 });
 
@@ -249,42 +407,15 @@ inputElement.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
     event.preventDefault();
     const userInput = inputElement.value.trim();
-    const [command] = userInput.split(" ");
+    const output = executeCommand(userInput);
 
-    switch (command.toLowerCase()) {
-      case "help":
-        showHelp();
-        break;
-      case "neofetch":
-        terminalTextLines.length = 0;
-        showNeofetch();
-        break;
-      case "whoami":
-        terminalTextLines.push("user");
-        break;
-      case "dedli":
-        terminalTextLines.push("How do you know that name!");
-        break;
-      case "yorukosu":
-        terminalTextLines.push("THE BLENDER GOD!!!");
-        break;
-      case "hi":
-        terminalTextLines.push("hello to you too!");
-        break;
-      case "hello":
-        terminalTextLines.push("hello to you too!");
-        break;
-      case "meow":
-        showCat();
-        break;
-      case "clear":
-        terminalTextLines.length = 0;
-        break;
-      default:
-        terminalTextLines.push("command not found");
+    if (userInput.toLowerCase() !== "clear") {
+      output.forEach((line) => terminalTextLines.push(line));
+    } else {
+      terminalTextLines.length = 0;
     }
 
-    terminalTextLines.push(updatePrompt());
+    terminalTextLines.push(`${updatePrompt()} `);
     updateTerminalText(terminalTextLines, cursorVisible);
     inputElement.value = "";
   }
