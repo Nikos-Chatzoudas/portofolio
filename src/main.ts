@@ -14,7 +14,7 @@ import * as THREE from "three";
 
 const startTime = performance.now();
 
-// Virtual File System
+
 interface VirtualFile {
   name: string;
   type: "file" | "directory";
@@ -70,7 +70,7 @@ let currentPath: string[] = ["/home/user"];
 function resolvePath(path: string): VirtualFile | null {
   if (path === "/") return fileSystem;
   if (path.startsWith("/")) {
-    // Absolute path
+   
     const parts = path.split("/").filter((p) => p);
     let current = fileSystem;
     for (const part of parts) {
@@ -79,16 +79,16 @@ function resolvePath(path: string): VirtualFile | null {
     }
     return current;
   } else {
-    // Relative path
+   
     const parts = path.split("/").filter((p) => p);
     let current = currentDirectory;
     for (const part of parts) {
       if (part === "..") {
-        // Go up one directory
+     
         const parentPath = currentPath.slice(0, -1).join("/") || "/";
         current = resolvePath(parentPath)!;
       } else if (part === ".") {
-        // Stay in current directory
+      
         continue;
       } else {
         if (!current.children || !current.children[part]) return null;
@@ -160,12 +160,32 @@ function executeCommand(command: string): string[] {
       }
       break;
 
+    case "cat":
+      if (args.length === 0) {
+        output.push("cat: missing file operand");
+        break;
+      }
+      const filePath = args[0];
+      const file = resolvePath(filePath);
+
+      if (!file) {
+        output.push(`cat: ${filePath}: No such file or directory`);
+      } else if (file.type === "directory") {
+        output.push(`cat: ${filePath}: Is a directory`);
+      } else if (file.content !== undefined) {
+        output.push(file.content);
+      } else {
+        output.push(`cat: ${filePath}: Unable to read file`);
+      }
+      break;
+
     case "help":
       output.push("Available commands:");
       output.push("  clear - Clear the terminal");
       output.push("  ls - List directory contents");
       output.push("  pwd - Print working directory");
       output.push("  cd [dir] - Change directory");
+      output.push("  cat [file] - Display file contents");
       output.push("  neofetch - Display system info");
       output.push("  whoami - Display current user");
       output.push("  meow - Get catted");
@@ -383,8 +403,14 @@ function stopCursorBlinking() {
 }
 
 function updatePrompt() {
-  const shortPath = getFullPath().replace("/home/user", "~");
-  return `user:${shortPath}$`;
+  const path = getFullPath();
+  if (path === "/home/user") {
+    return "user:~$";
+  } else if (path.startsWith("/home/user/")) {
+    return `user:~/${path.slice("/home/user/".length)}$`;
+  } else {
+    return `user:${path}$`;
+  }
 }
 
 inputElement.addEventListener("focus", () => {
