@@ -223,6 +223,7 @@ function executeCommand(command: string): string[] {
       );
       output.push("");
       output.push("");
+      output.push("");
       break;
 
     case "whoami":

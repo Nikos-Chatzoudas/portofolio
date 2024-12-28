@@ -255,6 +255,7 @@ li {
 }
 .startbox p {
   width: 100%;
+  font-size: 2rem;
 }
 #helppanel {
   z-index: 9;
@@ -266,4 +267,5 @@ li {
   background: black;
   border: 1px solid #03103a;
   padding: 0.4rem;
+  border-radius: 8px;
 }
