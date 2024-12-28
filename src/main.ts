@@ -14,6 +14,14 @@ import * as THREE from "three";
 
 const startTime = performance.now();
 
+const audio = new Audio("music.mp3");
+audio.loop = true;
+audio.volume = 0.5;
+let audioLoaded = false;
+audio.addEventListener("canplaythrough", () => {
+  audioLoaded = true;
+  checkAllLoaded();
+});
 
 interface VirtualFile {
   name: string;
@@ -70,7 +78,6 @@ let currentPath: string[] = ["/home/user"];
 function resolvePath(path: string): VirtualFile | null {
   if (path === "/") return fileSystem;
   if (path.startsWith("/")) {
-   
     const parts = path.split("/").filter((p) => p);
     let current = fileSystem;
     for (const part of parts) {
@@ -79,16 +86,13 @@ function resolvePath(path: string): VirtualFile | null {
     }
     return current;
   } else {
-   
     const parts = path.split("/").filter((p) => p);
     let current = currentDirectory;
     for (const part of parts) {
       if (part === "..") {
-     
         const parentPath = currentPath.slice(0, -1).join("/") || "/";
         current = resolvePath(parentPath)!;
       } else if (part === ".") {
-      
         continue;
       } else {
         if (!current.children || !current.children[part]) return null;
@@ -520,23 +524,55 @@ function updateLoadingText(progressBar: string) {
 }
 
 function checkAllLoaded() {
-  if (hdriLoaded && modelLoaded) {
+  if (hdriLoaded && modelLoaded && audioLoaded) {
     const endTime = performance.now();
     const loadTime = (endTime - startTime) / 1000;
     console.log(`Time taken to load everything: ${loadTime.toFixed(2)} sec`);
-    const loaderElement = document.getElementById("loader");
-    if (!loaderElement) return;
-    loaderElement.style.opacity = "0";
-    setTimeout(() => {
-      loaderElement.style.display = "none";
-      if (inputElement) {
-        inputElement.focus();
-        startCursorBlinking();
-      }
-    }, 500);
+    const startBox = document.getElementById("startbox");
+    const loadingimg = document.getElementById("loadingimg");
+    const loadingText = document.getElementById("loadingText");
+    if (startBox) {
+      startBox.style.display = "flex";
+    }
+    if (loadingimg) {
+      loadingimg.style.display = "none";
+    }
+    if (loadingText) {
+      loadingText.style.display = "none";
+    }
+  }
+}
+function start() {
+  const loaderElement = document.getElementById("loader");
+  if (!loaderElement) return;
+  loaderElement.style.opacity = "0";
+
+  setTimeout(() => {
+    loaderElement.style.display = "none";
+
+    audio.play();
+    if (inputElement) {
+      inputElement.focus();
+      startCursorBlinking();
+    }
+  }, 500);
+}
+function volume(): void {
+  const icon = document.getElementById("volume") as HTMLImageElement | null;
+
+  if (icon) {
+    if (icon.src.includes("volume-2.svg")) {
+      icon.src = "volume-off.svg";
+      audio.volume = 0;
+    } else {
+      icon.src = "volume-2.svg";
+      audio.volume = 0.5;
+    }
   }
 }
 
+document.getElementById("startButton")?.addEventListener("click", start);
+document.getElementById("volume")?.addEventListener("click", volume);
 document.addEventListener("DOMContentLoaded", function () {
   loadHDREnvironment(updateLoadingText, checkAllLoaded);
   loadModel(updateLoadingText, checkAllLoaded);

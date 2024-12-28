@@ -220,3 +220,50 @@ li {
     right: 1rem;
   }
 }
+
+#startButton {
+  position: relative;
+  display: flex;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  font-size: 36px;
+  background: transparent;
+  border: 5px solid #1e40af;
+  color: #1e40af;
+  line-height: 88px;
+  outline: transparent;
+}
+#startButton:hover {
+  position: relative;
+  display: flex;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  font-size: 36px;
+  background: #1e40af;
+  border: 5px solid #1e40af;
+  color: black;
+  line-height: 88px;
+  outline: transparent;
+}
+.startbox {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 5px solid #1e40af;
+  padding: 3rem;
+}
+.startbox p {
+  width: 100%;
+}
+#helppanel {
+  z-index: 9;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+}
+#volume {
+  background: black;
+  border: 1px solid #03103a;
+  padding: 0.4rem;
+}
