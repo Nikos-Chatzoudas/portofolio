@@ -72,7 +72,7 @@ export const loadingProgress = {
   hdri: 0,
   model: 0,
   getProgressBar() {
-    const totalProgress = Math.floor((this.hdri + this.model) / 2);
+    const totalProgress = Math.min(100, Math.floor((this.hdri + this.model) / 2));
     const progressChars = Math.floor((totalProgress / 100) * maxProgress);
     return `[${"#"
       .repeat(progressChars)
