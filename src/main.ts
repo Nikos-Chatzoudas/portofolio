@@ -1,3 +1,4 @@
+//starting camera position  {x: 0, y: 9.184850993605149e-18, z: 0.15}
 import "./style.css";
 import {
   scene,
@@ -207,6 +208,7 @@ function executeCommand(command: string): string[] {
       );
       output.push("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAge: 20");
       output.push("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLocation: Greece");
+      output.push("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tOS: Chatz OS");
 
       output.push("");
       output.push(
@@ -368,7 +370,7 @@ const terminalTextLines: string[] = [
   "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAge: 20",
   "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLocation: Greece",
 
-  "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tPython,Java",
+  "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tOS: Chatz OS",
   "",
   "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tcontact information",
   "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t-------------------",
@@ -377,7 +379,6 @@ const terminalTextLines: string[] = [
   "",
   "",
   "",
-  "TYPE help OR SCOLL AND CLICK THE NOTEPAD",
   "user:~$ ",
 ];
 
@@ -432,6 +433,11 @@ inputElement.addEventListener("input", function () {
   let prompt = updatePrompt();
   terminalTextLines[lastLineIndex] = `${prompt} ${userInput}`;
   updateTerminalText(terminalTextLines, cursorVisible);
+  
+  // Hide typing message when user starts typing
+  const typingMessage = document.querySelector(".typing-message");
+  typingMessage?.classList.remove("visible");
+  messageShown = true; // Prevent it from showing again
 });
 
 inputElement.addEventListener("keydown", function (event) {
@@ -543,6 +549,29 @@ function checkAllLoaded() {
     }
   }
 }
+export let initialCameraPosition: THREE.Vector3 | null = null;
+export let initialCameraZoom: number | null = null;
+let messageShown = false;
+
+export function checkCameraMovement() {
+  if (!initialCameraPosition || !initialCameraZoom) return;
+
+  const currentPosition = camera.position.clone();
+  const currentZoom = camera.zoom;
+
+  const hasMoved =
+    !currentPosition.equals(initialCameraPosition) ||
+    currentZoom !== initialCameraZoom;
+  const typingMessage = document.querySelector(".typing-message");
+
+  if (hasMoved) {
+    typingMessage?.classList.remove("visible");
+  } else if (!messageShown) {
+    typingMessage?.classList.add("visible");
+    messageShown = true;
+  }
+}
+
 function start() {
   const loaderElement = document.getElementById("loader");
   if (!loaderElement) return;
@@ -556,6 +585,12 @@ function start() {
       inputElement.focus();
       startCursorBlinking();
     }
+
+    // Store initial camera position and zoom after a delay
+    setTimeout(() => {
+      initialCameraPosition = camera.position.clone();
+      initialCameraZoom = camera.zoom;
+    }, 3000); // 3 second delay
   }, 500);
 }
 function volume(): void {
@@ -571,7 +606,12 @@ function volume(): void {
     }
   }
 }
-
+document.getElementById("volume")?.addEventListener("click", () => {
+  document.getElementById("volume")?.classList.add("pop");
+  setTimeout(() => {
+    document.getElementById("volume")?.classList.remove("pop");
+  }, 200);
+});
 document.getElementById("startButton")?.addEventListener("click", start);
 document.getElementById("volume")?.addEventListener("click", volume);
 document.addEventListener("DOMContentLoaded", function () {

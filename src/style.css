@@ -250,7 +250,6 @@ li {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 5px solid #1e40af;
   padding: 3rem;
 }
 .startbox p {
@@ -265,7 +264,67 @@ li {
 }
 #volume {
   background: black;
-  border: 1px solid #03103a;
+
   padding: 0.4rem;
-  border-radius: 8px;
+  border-radius: 1px;
+}
+#volume.pop {
+  animation: pop 0.2s ease-in-out;
+}
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.typing-message {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-family: monospace;
+  font-size: 18px;
+  z-index: 9;
+  opacity: 0;
+  border-radius: 1px;
+  transition: opacity 0.3s ease;
+  display: inline-block;
+}
+
+.typing-message.visible {
+  opacity: 1;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+    padding: 0.4rem;
+  }
+  to {
+    width: 100%;
+    padding: 0.4rem;
+  }
+}
+
+.typing-message .text {
+  white-space: nowrap;
+  margin: 0 auto;
+  letter-spacing: 0.15em;
+  overflow: hidden;
+  width: 0;
+  background-color: black;
+  color: #1e40af;
+  font-weight: 600;
+  padding: 0.4rem;
+}
+
+.typing-message.visible .text {
+  animation: typing 2s steps(40, end) forwards;
 }

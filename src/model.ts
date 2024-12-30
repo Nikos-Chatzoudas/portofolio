@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { checkCameraMovement } from "./main";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
@@ -72,7 +73,10 @@ export const loadingProgress = {
   hdri: 0,
   model: 0,
   getProgressBar() {
-    const totalProgress = Math.min(100, Math.floor((this.hdri + this.model) / 2));
+    const totalProgress = Math.min(
+      100,
+      Math.floor((this.hdri + this.model) / 2)
+    );
     const progressChars = Math.floor((totalProgress / 100) * maxProgress);
     return `[${"#"
       .repeat(progressChars)
@@ -248,6 +252,7 @@ export function animate() {
     uniforms.uTime.value += 0.05;
   }
   starfield.rotation.y += 0.0001;
+  checkCameraMovement();
   renderer.render(scene, camera);
 }
 
