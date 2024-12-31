@@ -194,6 +194,7 @@ function executeCommand(command: string): string[] {
       output.push("  neofetch - Display system info");
       output.push("  whoami - Display current user");
       output.push("  meow - Get catted");
+      output.push("  volume - Mutes or Unmutes the music");
       break;
 
     case "neofetch":
@@ -208,7 +209,7 @@ function executeCommand(command: string): string[] {
       );
       output.push("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAge: 20");
       output.push("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLocation: Greece");
-      output.push("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tOS: Chatz OS");
+      output.push("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tOS: chatzOS");
 
       output.push("");
       output.push(
@@ -230,6 +231,9 @@ function executeCommand(command: string): string[] {
 
     case "whoami":
       output.push("user");
+      break;
+    case "volume":
+      volume();
       break;
 
     case "meow":
@@ -370,7 +374,7 @@ const terminalTextLines: string[] = [
   "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAge: 20",
   "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLocation: Greece",
 
-  "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tOS: Chatz OS",
+  "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tOS: chatzOS",
   "",
   "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tcontact information",
   "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t-------------------",
@@ -433,11 +437,10 @@ inputElement.addEventListener("input", function () {
   let prompt = updatePrompt();
   terminalTextLines[lastLineIndex] = `${prompt} ${userInput}`;
   updateTerminalText(terminalTextLines, cursorVisible);
-  
-  // Hide typing message when user starts typing
+
   const typingMessage = document.querySelector(".typing-message");
   typingMessage?.classList.remove("visible");
-  messageShown = true; // Prevent it from showing again
+  messageShown = true;
 });
 
 inputElement.addEventListener("keydown", function (event) {
@@ -586,11 +589,10 @@ function start() {
       startCursorBlinking();
     }
 
-    // Store initial camera position and zoom after a delay
     setTimeout(() => {
       initialCameraPosition = camera.position.clone();
       initialCameraZoom = camera.zoom;
-    }, 3000); // 3 second delay
+    }, 3000);
   }, 500);
 }
 function volume(): void {

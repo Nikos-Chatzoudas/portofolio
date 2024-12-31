@@ -264,7 +264,7 @@ li {
 }
 #volume {
   background: black;
-
+  border: 2px solid #1e40af;
   padding: 0.4rem;
   border-radius: 5px;
 }
