@@ -411,18 +411,17 @@ async function startDigger() {
     return;
   }
 
-  // Create background canvas for red fill
+  
   const bgCanvas = document.createElement("canvas");
   bgCanvas.width = canvas.width;
   bgCanvas.height = canvas.height;
   const bgCtx = bgCanvas.getContext("2d");
 
   if (bgCtx) {
-    bgCtx.fillStyle = "#ff0000";
+    bgCtx.fillStyle = "#000000";
     bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
   }
 
-  // Create a combined texture
   const texture = new THREE.CanvasTexture(bgCanvas);
   const mesh = scene.getObjectByName("Object006") as THREE.Mesh;
   if (mesh && mesh.material instanceof THREE.ShaderMaterial) {
