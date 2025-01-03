@@ -278,13 +278,20 @@ function executeCommand(command: string): string[] {
   return output;
 }
 
+let terminalCanvas: HTMLCanvasElement | null = null;
+let diggerCanvas: HTMLCanvasElement | null = null;
+
 function createTextTexture(
   textLines: string[],
   showCursor: boolean,
   imageUrl: string | null = null
 ): Promise<THREE.Texture> {
   return new Promise((resolve, reject) => {
-    const canvas = document.createElement("canvas");
+    // Create or reuse terminal canvas
+    if (!terminalCanvas) {
+      terminalCanvas = document.createElement("canvas");
+    }
+    const canvas = terminalCanvas;
     const context = canvas.getContext("2d");
     const padding = 40;
     const maxLines = 20;
@@ -387,9 +394,14 @@ async function startDigger() {
 
   isDiggerRunning = true;
 
-  const canvas = document.createElement("canvas");
+  // Create or reuse digger canvas
+  if (!diggerCanvas) {
+    diggerCanvas = document.createElement("canvas");
+  }
+  const canvas = diggerCanvas;
   canvas.width = 350;
   canvas.height = 218;
+
   const ctx = canvas.getContext("2d");
   if (!ctx) {
     isDiggerRunning = false;
@@ -399,7 +411,19 @@ async function startDigger() {
     return;
   }
 
-  const texture = new THREE.CanvasTexture(canvas);
+  // Create background canvas for red fill
+  const bgCanvas = document.createElement("canvas");
+  bgCanvas.width = canvas.width;
+  bgCanvas.height = canvas.height;
+  const bgCtx = bgCanvas.getContext("2d");
+
+  if (bgCtx) {
+    bgCtx.fillStyle = "#ff0000";
+    bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
+  }
+
+  // Create a combined texture
+  const texture = new THREE.CanvasTexture(bgCanvas);
   const mesh = scene.getObjectByName("Object006") as THREE.Mesh;
   if (mesh && mesh.material instanceof THREE.ShaderMaterial) {
     mesh.material.uniforms.uDiffuse.value = texture;
@@ -430,8 +454,16 @@ async function startDigger() {
         rgba[next * 4 + 3] = 255;
       }
 
-      ctx.putImageData(new ImageData(rgba, 320, 200), xOffset, yOffset);
-      texture.needsUpdate = true;
+      if (bgCtx) {
+        bgCtx.fillStyle = "#000000";
+        bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
+
+        ctx.putImageData(new ImageData(rgba, 320, 200), xOffset, yOffset);
+
+        bgCtx.drawImage(canvas, 0, 0);
+
+        texture.needsUpdate = true;
+      }
     });
   } catch (error) {
     console.error("Error starting Digger:", error);
