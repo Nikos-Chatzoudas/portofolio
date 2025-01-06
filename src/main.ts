@@ -256,6 +256,9 @@ function executeCommand(command: string): string[] {
     case "whoami":
       output.push("user");
       break;
+    case "exit":
+      output.push("and go where?");
+      break;
     case "volume":
       volume();
       break;
@@ -411,7 +414,6 @@ async function startDigger() {
     return;
   }
 
-  
   const bgCanvas = document.createElement("canvas");
   bgCanvas.width = canvas.width;
   bgCanvas.height = canvas.height;
@@ -613,7 +615,13 @@ inputElement.addEventListener("keydown", function (event) {
 
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
-
+const BLUE_DISK_TYPES = [
+  "floppy_volume_blue",
+  "floppy_logo_DOS_blue",
+  "floppy_plate_blue",
+  "floppy_volume_blue_1",
+  "floppy_paper_blue",
+];
 function onMouseClick(event: MouseEvent) {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -636,7 +644,8 @@ function onMouseClick(event: MouseEvent) {
     if (object.name === "StickyNote3") {
       window.open("https://www.linkedin.com/in/nick-chatzoudas/", "_blank");
     }
-    if (object.name === "frontpage") {
+
+    if (BLUE_DISK_TYPES.includes(object.name)) {
       let notepad = document.getElementById("notepad");
       if (notepad) {
         document.body.classList.add("no-scroll");
@@ -649,29 +658,52 @@ function onMouseClick(event: MouseEvent) {
     }
   }
 }
-
 function onMouseMove(event: MouseEvent) {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
   raycaster.setFromCamera(mouse, camera);
-
   const intersects = raycaster.intersectObjects(scene.children, true);
+
+  /* Debug hover information
+  const debugElement = document.getElementById('hover-debug') || createDebugElement();
+  if (intersects.length > 0) {
+    const object = intersects[0].object;
+    debugElement.textContent = `Hovering: ${object.name}`;
+    debugElement.style.display = 'block';
+    debugElement.style.left = `${event.clientX + 10}px`;
+    debugElement.style.top = `${event.clientY + 10}px`;
+  } else {
+    debugElement.style.display = 'none';
+  }
+  */
 
   const isStickerHovered = intersects.some(
     (intersect) =>
       intersect.object.name === "StickyNote1" ||
       intersect.object.name === "StickyNote2" ||
       intersect.object.name === "StickyNote3" ||
-      intersect.object.name === "frontpage"
+      BLUE_DISK_TYPES.includes(intersect.object.name)
   );
 
-  if (isStickerHovered) {
-    document.body.style.cursor = "pointer";
-  } else {
-    document.body.style.cursor = "auto";
-  }
+  document.body.style.cursor = isStickerHovered ? "pointer" : "auto";
 }
+
+/* Debug element creation function
+function createDebugElement(): HTMLElement {
+  const element = document.createElement('div');
+  element.id = 'hover-debug';
+  element.style.position = 'fixed';
+  element.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+  element.style.color = 'white';
+  element.style.padding = '5px';
+  element.style.borderRadius = '3px';
+  element.style.fontSize = '12px';
+  element.style.zIndex = '1000';
+  document.body.appendChild(element);
+  return element;
+}
+*/
 
 window.addEventListener("mousemove", onMouseMove);
 window.addEventListener("click", onMouseClick);

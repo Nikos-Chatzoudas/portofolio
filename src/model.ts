@@ -126,7 +126,6 @@ function createInitialTexture(): Promise<THREE.Texture> {
     const context = canvas.getContext("2d");
     canvas.width = 512;
     canvas.height = 512;
-    
 
     if (context) {
       context.fillStyle = "black";

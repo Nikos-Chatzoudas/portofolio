@@ -103,10 +103,11 @@ p {
   display: none;
   flex-direction: column;
   align-items: center;
-  font-family: "Kalam", cursive;
+  font-family: monospace;
   min-height: 100vh;
   width: 100%;
-  background: whitesmoke;
+  background: #121212;
+  color: white;
   transition: opacity 0.5s ease-in-out;
   z-index: -1;
 }
@@ -136,46 +137,27 @@ body.no-scroll {
   gap: 1rem;
 }
 
-.themebutton {
-  background: rgb(196, 196, 196);
-  padding: 2rem;
-  border-radius: 50%;
-  width: 0.1rem;
-  height: 0.1rem;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
 .xbutton {
-  background: rgb(196, 196, 196);
-  padding: 2rem;
-  border-radius: 50%;
+  background: black;
+  padding: 1.5rem;
+  border-radius: 5px;
   width: 0.1rem;
   height: 0.1rem;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-  transition: transform 0.3s ease;
+  border: 3px solid #1e40af;
 }
-
-.themebutton:hover {
-  transform: scale(1.1);
-}
-
-.xbutton:hover {
-  transform: scale(1.1);
+.xbutton i {
+  color: #1e40af;
 }
 
 section {
   align-items: left;
   text-align: left;
   padding: 1rem;
+  width: 60vw;
 }
 
 p {
