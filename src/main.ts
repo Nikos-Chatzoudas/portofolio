@@ -650,6 +650,9 @@ function onMouseClick(event: MouseEvent) {
       if (notepad) {
         document.body.classList.add("no-scroll");
         notepad.style.display = "flex";
+        const typingMessage = document.querySelector(".typing-message");
+        typingMessage?.classList.remove("visible");
+        messageShown = true;
         setTimeout(() => {
           notepad.classList.add("visible");
           document.body.classList.remove("no-scroll");
@@ -751,6 +754,7 @@ export function checkCameraMovement() {
 
   if (hasMoved) {
     typingMessage?.classList.remove("visible");
+    messageShown = true;
   } else if (!messageShown) {
     typingMessage?.classList.add("visible");
     messageShown = true;
