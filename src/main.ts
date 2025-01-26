@@ -396,12 +396,18 @@ async function startDigger() {
   }
 
   isDiggerRunning = true;
+  inputElement.blur();
 
-  // Create or reuse digger canvas
+  window.addEventListener("keydown", handleGameKey);
   if (!diggerCanvas) {
     diggerCanvas = document.createElement("canvas");
+    diggerCanvas.tabIndex = 1;
+    document.body.appendChild(diggerCanvas);
   }
+  diggerCanvas.tabIndex = 1;
+  diggerCanvas.focus();
   const canvas = diggerCanvas;
+
   canvas.width = 350;
   canvas.height = 218;
 
@@ -571,12 +577,14 @@ inputElement.addEventListener("keydown", function (event) {
   if (isDiggerRunning) {
     event.preventDefault();
     if (event.key === "Escape") {
-      // Stop Digger and return to terminal
+      window.removeEventListener("keydown", handleGameKey);
       isDiggerRunning = false;
       if (diggerInstance) {
         diggerInstance.exit();
         diggerInstance = null;
       }
+      window.removeEventListener("keydown", handleGameKey);
+      inputElement.focus();
       updateTerminalText(terminalTextLines, cursorVisible);
       return;
     }
@@ -612,7 +620,34 @@ inputElement.addEventListener("keydown", function (event) {
     inputElement.value = "";
   }
 });
+function handleGameKey(event: KeyboardEvent) {
+  if (!isDiggerRunning || !diggerInstance) return;
 
+  event.preventDefault();
+  const key = event.key.toLowerCase();
+
+  switch (key) {
+    case "arrowup":
+    case "w":
+      diggerInstance.simulateKeyPress(72);
+      break;
+    case "arrowdown":
+    case "s":
+      diggerInstance.simulateKeyPress(80);
+      break;
+    case "arrowleft":
+    case "a":
+      diggerInstance.simulateKeyPress(75);
+      break;
+    case "arrowright":
+    case "d":
+      diggerInstance.simulateKeyPress(77);
+      break;
+    case " ":
+      diggerInstance.simulateKeyPress(57);
+      break;
+  }
+}
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 const BLUE_DISK_TYPES = [
@@ -668,19 +703,6 @@ function onMouseMove(event: MouseEvent) {
   raycaster.setFromCamera(mouse, camera);
   const intersects = raycaster.intersectObjects(scene.children, true);
 
-  /* Debug hover information
-  const debugElement = document.getElementById('hover-debug') || createDebugElement();
-  if (intersects.length > 0) {
-    const object = intersects[0].object;
-    debugElement.textContent = `Hovering: ${object.name}`;
-    debugElement.style.display = 'block';
-    debugElement.style.left = `${event.clientX + 10}px`;
-    debugElement.style.top = `${event.clientY + 10}px`;
-  } else {
-    debugElement.style.display = 'none';
-  }
-  */
-
   const isStickerHovered = intersects.some(
     (intersect) =>
       intersect.object.name === "StickyNote1" ||
@@ -691,22 +713,6 @@ function onMouseMove(event: MouseEvent) {
 
   document.body.style.cursor = isStickerHovered ? "pointer" : "auto";
 }
-
-/* Debug element creation function
-function createDebugElement(): HTMLElement {
-  const element = document.createElement('div');
-  element.id = 'hover-debug';
-  element.style.position = 'fixed';
-  element.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-  element.style.color = 'white';
-  element.style.padding = '5px';
-  element.style.borderRadius = '3px';
-  element.style.fontSize = '12px';
-  element.style.zIndex = '1000';
-  document.body.appendChild(element);
-  return element;
-}
-*/
 
 window.addEventListener("mousemove", onMouseMove);
 window.addEventListener("click", onMouseClick);
@@ -808,3 +814,21 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 animate();
+
+function debugFocus() {
+  const focusElement = document.activeElement;
+  console.log("Current Focus:", focusElement);
+
+  if (focusElement === diggerCanvas) {
+    console.log("Digger Canvas has focus ✅");
+  } else if (focusElement === inputElement) {
+    console.log("Terminal Input has focus ❌");
+  } else if (focusElement === document.body) {
+    console.log("Body has focus (no specific element) ❌");
+  } else {
+    console.log("Unknown element has focus:", focusElement);
+  }
+}
+
+// Call this periodically to monitor focus
+setInterval(debugFocus, 1000);
