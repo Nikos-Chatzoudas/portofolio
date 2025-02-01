@@ -165,6 +165,9 @@ export function loadModel(
             child.material.roughness = 0.1;
             child.material.needsUpdate = true;
           }
+          if (child.name == "splatter") {
+            child.material.roughness = 0.5;
+          }
           child.castShadow = true;
           child.receiveShadow = true;
 

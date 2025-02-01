@@ -813,9 +813,64 @@ document.addEventListener("DOMContentLoaded", function () {
   loadModel(updateLoadingText, checkAllLoaded);
 });
 
+const keyAnimations: { [key: string]: boolean } = {};
+
+function keypressanimation(keyName: string) {
+  if (keyAnimations[keyName]) return;
+
+  let keyObject: THREE.Object3D | null = null;
+  scene.traverse((object) => {
+    if (object.name === keyName) {
+      keyObject = object;
+    }
+  });
+
+  if (!keyObject) {
+    console.warn(`Object named '${keyName}' not found in the scene.`);
+    return;
+  }
+
+  keyAnimations[keyName] = true;
+
+  const initialYPosition = keyObject.position.y;
+
+  const pressDistance = 7.0;
+  const animationSpeed = 0.7;
+
+  const targetY = initialYPosition - pressDistance;
+  const animateDown = () => {
+    keyObject!.position.y -= animationSpeed;
+    if (keyObject!.position.y <= targetY) {
+      const animateUp = () => {
+        keyObject!.position.y += animationSpeed;
+        if (keyObject!.position.y >= initialYPosition) {
+          keyObject!.position.y = initialYPosition;
+          keyAnimations[keyName] = false;
+          return;
+        }
+        requestAnimationFrame(animateUp);
+      };
+      requestAnimationFrame(animateUp);
+      return;
+    }
+    requestAnimationFrame(animateDown);
+  };
+
+  requestAnimationFrame(animateDown);
+}
+
+window.addEventListener("keydown", (event) => {
+  const key = event.key.toLowerCase();
+  let keyName = `key${key}`;
+  if (keyName === "key ") {
+    keyName = "keyspace";
+  }
+
+  keypressanimation(keyName);
+});
 animate();
 
-function debugFocus() {
+/*function debugFocus() {
   const focusElement = document.activeElement;
   console.log("Current Focus:", focusElement);
 
@@ -832,3 +887,4 @@ function debugFocus() {
 
 // Call this periodically to monitor focus
 setInterval(debugFocus, 1000);
+*/
