@@ -815,6 +815,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 const keyAnimations: { [key: string]: boolean } = {};
 
+function keyPressAudio() {
+  const keypressaudio = new Audio("keypress.mp3");
+  keypressaudio.volume = 0.1;
+  keypressaudio.play();
+}
+
 function keypressanimation(keyName: string) {
   if (keyAnimations[keyName]) return;
 
@@ -824,7 +830,7 @@ function keypressanimation(keyName: string) {
       keyObject = object;
     }
   });
-
+  keyPressAudio();
   if (!keyObject) {
     console.warn(`Object named '${keyName}' not found in the scene.`);
     return;
@@ -869,22 +875,3 @@ window.addEventListener("keydown", (event) => {
   keypressanimation(keyName);
 });
 animate();
-
-/*function debugFocus() {
-  const focusElement = document.activeElement;
-  console.log("Current Focus:", focusElement);
-
-  if (focusElement === diggerCanvas) {
-    console.log("Digger Canvas has focus ✅");
-  } else if (focusElement === inputElement) {
-    console.log("Terminal Input has focus ❌");
-  } else if (focusElement === document.body) {
-    console.log("Body has focus (no specific element) ❌");
-  } else {
-    console.log("Unknown element has focus:", focusElement);
-  }
-}
-
-// Call this periodically to monitor focus
-setInterval(debugFocus, 1000);
-*/
