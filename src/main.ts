@@ -13,19 +13,20 @@ import {
 } from "./model";
 import * as THREE from "three";
 
-// Add emulators.js script
-let emulatorsLoaded = false;
-let diggerInstance: any = null;
-let isDiggerRunning = false;
+// Add emulatorjs script
+let emulatorjsLoaded = false;
+let emulatorInstance: any = null;
+let isEmulatorRunning = false;
 
-const emulatorsScript = document.createElement("script");
-emulatorsScript.src = "https://v8.js-dos.com/latest/emulators/emulators.js";
-emulatorsScript.onload = () => {
-  emulatorsLoaded = true;
-  (window as any).emulators.pathPrefix =
-    "https://v8.js-dos.com/latest/emulators/";
+const emulatorjsScript = document.createElement("script");
+emulatorjsScript.src =
+  "https://cdn.jsdelivr.net/npm/emulatorjs@latest/dist/emulator.js";
+emulatorjsScript.onload = () => {
+  emulatorjsLoaded = true;
+  (window as any).emulatorjs.pathPrefix =
+    "https://cdn.jsdelivr.net/npm/emulatorjs@latest/dist/";
 };
-document.head.appendChild(emulatorsScript);
+document.head.appendChild(emulatorjsScript);
 
 const startTime = performance.now();
 
@@ -209,16 +210,7 @@ function executeCommand(command: string): string[] {
       output.push("  whoami - Display current user");
       output.push("  meow - Get catted");
       output.push("  volume - Mutes or Unmutes the music");
-      output.push("  digger - Play Digger game");
-      break;
 
-    case "digger":
-      if (isDiggerRunning) {
-        output.push("Digger is already running!");
-        break;
-      }
-      output.push("Starting Digger...");
-      startDigger();
       break;
 
     case "neofetch":
@@ -282,7 +274,6 @@ function executeCommand(command: string): string[] {
 }
 
 let terminalCanvas: HTMLCanvasElement | null = null;
-let diggerCanvas: HTMLCanvasElement | null = null;
 
 function createTextTexture(
   textLines: string[],
@@ -290,7 +281,6 @@ function createTextTexture(
   imageUrl: string | null = null
 ): Promise<THREE.Texture> {
   return new Promise((resolve, reject) => {
-    // Create or reuse terminal canvas
     if (!terminalCanvas) {
       terminalCanvas = document.createElement("canvas");
     }
@@ -383,103 +373,8 @@ function createTextTexture(
   });
 }
 
-async function startDigger() {
-  if (isDiggerRunning) return;
-
-  if (!emulatorsLoaded) {
-    terminalTextLines.push(
-      "Error: Emulator not ready. Please try again in a moment."
-    );
-    terminalTextLines.push(`${updatePrompt()} `);
-    updateTerminalText(terminalTextLines, cursorVisible);
-    return;
-  }
-
-  isDiggerRunning = true;
-  inputElement.blur();
-
-  window.addEventListener("keydown", handleGameKey);
-  if (!diggerCanvas) {
-    diggerCanvas = document.createElement("canvas");
-    diggerCanvas.tabIndex = 1;
-    document.body.appendChild(diggerCanvas);
-  }
-  diggerCanvas.tabIndex = 1;
-  diggerCanvas.focus();
-  const canvas = diggerCanvas;
-
-  canvas.width = 350;
-  canvas.height = 218;
-
-  const ctx = canvas.getContext("2d");
-  if (!ctx) {
-    isDiggerRunning = false;
-    terminalTextLines.push("Error: Could not initialize game graphics");
-    terminalTextLines.push(`${updatePrompt()} `);
-    updateTerminalText(terminalTextLines, cursorVisible);
-    return;
-  }
-
-  const bgCanvas = document.createElement("canvas");
-  bgCanvas.width = canvas.width;
-  bgCanvas.height = canvas.height;
-  const bgCtx = bgCanvas.getContext("2d");
-
-  if (bgCtx) {
-    bgCtx.fillStyle = "#000000";
-    bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
-  }
-
-  const texture = new THREE.CanvasTexture(bgCanvas);
-  const mesh = scene.getObjectByName("Object006") as THREE.Mesh;
-  if (mesh && mesh.material instanceof THREE.ShaderMaterial) {
-    mesh.material.uniforms.uDiffuse.value = texture;
-  }
-
-  try {
-    terminalTextLines.push("Loading game...");
-    updateTerminalText(terminalTextLines, cursorVisible);
-
-    const bundle = await fetch(
-      "https://cdn.dos.zone/original/2X/9/9ed7eb9c2c441f56656692ed4dc7ab28f58503ce.jsdos"
-    );
-    const ci = await (window as any).emulators.dosWorker(
-      new Uint8Array(await bundle.arrayBuffer())
-    );
-    diggerInstance = ci;
-    const gameWidth = 320;
-    const gameHeight = 200;
-    const xOffset = Math.floor((canvas.width - gameWidth) / 2);
-    const yOffset = Math.floor((canvas.height - gameHeight) / 2);
-
-    const rgba = new Uint8ClampedArray(gameWidth * gameHeight * 4);
-    ci.events().onFrame((rgb: Uint8Array) => {
-      for (let next = 0; next < 320 * 200; ++next) {
-        rgba[next * 4 + 0] = rgb[next * 3 + 0];
-        rgba[next * 4 + 1] = rgb[next * 3 + 1];
-        rgba[next * 4 + 2] = rgb[next * 3 + 2];
-        rgba[next * 4 + 3] = 255;
-      }
-
-      if (bgCtx) {
-        bgCtx.fillStyle = "#000000";
-        bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
-
-        ctx.putImageData(new ImageData(rgba, 320, 200), xOffset, yOffset);
-
-        bgCtx.drawImage(canvas, 0, 0);
-
-        texture.needsUpdate = true;
-      }
-    });
-  } catch (error) {
-    console.error("Error starting Digger:", error);
-    isDiggerRunning = false;
-  }
-}
-
 function updateTerminalText(textLines: string[], showCursor: boolean) {
-  if (isDiggerRunning) return;
+  if (isEmulatorRunning) return;
   const imageLines = textLines.filter((line) => line.startsWith("[IMAGE]"));
   const imageUrls = imageLines.map((line) => line.split(" ")[1]);
 
@@ -574,36 +469,6 @@ inputElement.addEventListener("input", function () {
 });
 
 inputElement.addEventListener("keydown", function (event) {
-  if (isDiggerRunning) {
-    event.preventDefault();
-    if (event.key === "Escape") {
-      window.removeEventListener("keydown", handleGameKey);
-      isDiggerRunning = false;
-      if (diggerInstance) {
-        diggerInstance.exit();
-        diggerInstance = null;
-      }
-      window.removeEventListener("keydown", handleGameKey);
-      inputElement.focus();
-      updateTerminalText(terminalTextLines, cursorVisible);
-      return;
-    }
-    // Route keyboard events to Digger
-    if (diggerInstance) {
-      const key = event.key.toLowerCase();
-      // Map arrow keys and common game controls
-      if (key === "arrowup" || key === "w") diggerInstance.simulateKeyPress(38);
-      if (key === "arrowdown" || key === "s")
-        diggerInstance.simulateKeyPress(40);
-      if (key === "arrowleft" || key === "a")
-        diggerInstance.simulateKeyPress(37);
-      if (key === "arrowright" || key === "d")
-        diggerInstance.simulateKeyPress(39);
-      if (key === " " || key === "enter") diggerInstance.simulateKeyPress(32);
-    }
-    return;
-  }
-
   if (event.key === "Enter") {
     event.preventDefault();
     const userInput = inputElement.value.trim();
@@ -620,34 +485,7 @@ inputElement.addEventListener("keydown", function (event) {
     inputElement.value = "";
   }
 });
-function handleGameKey(event: KeyboardEvent) {
-  if (!isDiggerRunning || !diggerInstance) return;
 
-  event.preventDefault();
-  const key = event.key.toLowerCase();
-
-  switch (key) {
-    case "arrowup":
-    case "w":
-      diggerInstance.simulateKeyPress(72);
-      break;
-    case "arrowdown":
-    case "s":
-      diggerInstance.simulateKeyPress(80);
-      break;
-    case "arrowleft":
-    case "a":
-      diggerInstance.simulateKeyPress(75);
-      break;
-    case "arrowright":
-    case "d":
-      diggerInstance.simulateKeyPress(77);
-      break;
-    case " ":
-      diggerInstance.simulateKeyPress(57);
-      break;
-  }
-}
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 const BLUE_DISK_TYPES = [
