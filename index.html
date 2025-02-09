@@ -84,7 +84,7 @@
       <a class="icon" href="https://www.linkedin.com/in/nick-chatzoudas/">
         <i class="fa-brands fa-linkedin"></i></a>
     </div>
-    <h5>~COPYRIGHT © 2024~</h5>
+    <h5>~COPYRIGHT © <span id="currentYear"></span>~</h5>
   </div>
 
   </div>
@@ -131,6 +131,10 @@
         themeIcon.classList.add(savedIcon === "fa-moon" ? "fa-moon" : "fa-sun");
         themeIcon.classList.remove(savedIcon === "fa-moon" ? "fa-sun" : "fa-moon");
       }
+
+      // Set the current year dynamically
+      const currentYear = new Date().getFullYear();
+      document.getElementById("currentYear").textContent = currentYear;
     });
   </script>
   <script type="module" src="/src/main.ts"></script>
